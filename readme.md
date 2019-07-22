@@ -35,4 +35,4 @@
 
 ## 讨论交流群
 
-![微信群二维码](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/20190722154545.jpg)
+![微信群二维码](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/156378376.jpg)
