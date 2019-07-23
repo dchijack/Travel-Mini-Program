@@ -21,8 +21,6 @@ App({
 
   onShow: function () {
     this.globalData.user = API.getUser();
-    this.globalData.skin = wx.getStorageSync('skin') ? wx.getStorageSync('skin') : 'bg-gray';
-    this.globalData.color = wx.getStorageSync('color') ? wx.getStorageSync('color') : 'gray';
   },
 
   globalData: {
