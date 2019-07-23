@@ -49,4 +49,6 @@
 
 ## 讨论交流群
 
-![微信群二维码](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/156378376.jpg)
+由于讨论交流群已经满了 100 人, 无法扫描二维码加入，可以扫描下方二维码添加好友，由群主拉入群。添加好友时，请注明：开源
+
+![二维码](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/20190723104521.jpg)
