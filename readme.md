@@ -15,11 +15,11 @@
 
 ## 安装指南
 
-1. 点击 Clone or download 下拉选择 Download ZIP 或者点击这里下载源码包
+1. 点击 Clone or download 下拉选择 Download ZIP 或者[点击这里](https://github.com/dchijack/Travel-Mini-Program/releases)下载源码包
 
 2. 解压压缩包后, 打开 weTravel / qTravel 文件夹 utils 目录下的 base.js
 
-3. 修改 base.js 里的 const API_HOST = '你的域名' // 注意，域名需要填写协议，比如 https://cxcat.com
+3. 修改 base.js 里的 **const API_HOST = '你的域名' **// 注意，域名需要填写协议，比如 https://cxcat.com
 
 4. 然后使用微信开发者工具导入 weTravel 目录进行开发调试, 使用 QQ 小程序开发者工具导入 qTravel 目录进行开发调试
 
