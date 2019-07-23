@@ -39,7 +39,7 @@
 
 ## 预览体验
 
-关注微信公众号 WordPressTalk ，点击菜单  小程序集合 - 丸子旅游  [注：目前小程序正在审核中]
+关注微信公众号 WordPressTalk ，点击菜单  小程序集合 - 丸子旅游
 
 ![微信公众号二维码](https://github.com/dchijack/WP-REST-API/blob/master/qrcode.jpg)
 
