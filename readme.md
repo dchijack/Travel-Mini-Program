@@ -19,7 +19,7 @@
 
 2. 解压压缩包后, 打开 weTravel / qTravel 文件夹 utils 目录下的 base.js
 
-3. 修改 base.js 里的 **const API_HOST = '你的域名' **// 注意，域名需要填写协议，比如 https://cxcat.com
+3. 修改 base.js 里的 **const API_HOST = '你的域名'**// 注意，域名需要填写协议，比如 https://cxcat.com
 
 4. 然后使用微信开发者工具导入 weTravel 目录进行开发调试, 使用 QQ 小程序开发者工具导入 qTravel 目录进行开发调试
 
