@@ -1,20 +1,11 @@
-const API_HOST = 'https://cxcat.com'
-const Auth = require('./auth')
-
 /**
- * 统一接口返回数据处理流程
- *
- * 0.全部wx.request的fail回调统一用reject返回的res
- * 
- * 1.普通不需授权的接口
- * 1.1先判断res.data.errcode是否为0, 为0则调用正常, 可传递给下一步继续操作
- * 1.2如果不为0, 则先toast数据中的res.data.errmsg, 然后reject此返回res
- * 
- * 2.需要授权的接口
- * 2.1先判断res.data.errcode是否为0, 为0则调用正常, 且toast数据中的res.data.errmsg作为
- * 操作提醒, 接着传递给下一步继续操作
- * 2.2如果不为0, 则直接reject返回的res即可, 此会让guard来统一处理异常情况
+ * Author : 丸子团队（波波、Chi、ONLINE.信）
+ * Github 地址: https://github.com/dchijack/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
+
+const API_HOST = 'https://cxcat.com' // 更换为你的网站域名, 需要有 https 协议
+const Auth = require('./auth')
  
 const API = {}
 
