@@ -1,14 +1,8 @@
-/*
-|-------------------------------------------------------------------------------
-| 基于token验证机制的微信小程序授权模块
-|-------------------------------------------------------------------------------
-| login()			- 登陆
-| logout()			- 注销
-| check()			- 验证当前用户授权是否有效/过期
-| user()			- 获取当前用户信息
-| openid()			- 获取当前用户的openid
-| token()			- 获取本地token
-*/
+/**
+ * Author : 丸子团队（波波、Chi、ONLINE.信）
+ * Github 地址: https://github.com/dchijack/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ */
 
 const Auth = {}
 
