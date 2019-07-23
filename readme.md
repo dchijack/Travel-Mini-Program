@@ -13,6 +13,16 @@
 1. 两个文件夹分别为微信小程序前端及 QQ 小程序前端
 2. weTravel 为微信小程序前端，qTravel 为 QQ 小程序前端，插件支持两个小程序前端
 
+## 安装指南
+
+1. 点击 Clone or download 下拉选择 Download ZIP 或者点击这里下载源码包
+
+2. 解压压缩包后, 打开 weTravel / qTravel 文件夹 utils 目录下的 base.js
+
+3. 修改 base.js 里的 const API_HOST = '你的域名' // 注意，域名需要填写协议，比如 https://cxcat.com
+
+4. 然后使用微信开发者工具导入 weTravel 目录进行开发调试, 使用 QQ 小程序开发者工具导入 qTravel 目录进行开发调试
+
 ## 预览截图
 
 ![小程序截图](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/20190722154321.jpg)
