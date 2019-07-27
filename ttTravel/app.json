@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/detail/detail",
+    "pages/list/list",
+    "pages/category/category",
+    "pages/mine/mine",
+    "pages/mine/mypost"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "丸子社区",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#AAAAAA",
+    "selectedColor": "#262626",
+    "borderStyle": "black",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/index/index",
+        "iconPath": "images/ic_index.png",
+        "selectedIconPath": "images/ic_index_on.png"
+      },
+      {
+        "text": "栏目",
+        "pagePath": "pages/category/category",
+        "iconPath": "images/ic_huoban.png",
+        "selectedIconPath": "images/ic_huoban_on.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/mine/mine",
+        "iconPath": "images/ic_user.png",
+        "selectedIconPath": "images/ic_user_on.png"
+      }
+    ]
+  }
+}

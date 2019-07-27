@@ -1,0 +1,109 @@
+.is-flex {
+  display: flex;
+}
+
+.center-xs {
+  justify-content: center;
+  text-align: center;
+}
+
+.end-xs {
+  justify-content: flex-end;
+  text-align: end;
+}
+
+.section {
+  padding: 40rpx;
+  padding-bottom: 48rpx;
+}
+
+.direction-vert {
+  flex-direction: column;
+}
+
+.section-features {
+  padding-bottom: 14px;
+}
+
+.section-features .feature-list {
+  width: 100%;
+  max-width: 750rpx;
+}
+
+.section-features .feature-list .feature-card {
+  padding-bottom: 40rpx;
+  position: relative;
+  font-weight: 300;
+  font-size: 18px;
+  flex: 1 0 auto;
+}
+
+.middle-xs {
+  align-items: center;
+}
+
+.section-features .feature-list .feature-card .card-cover {
+  width: 100%;
+  padding-top: 380rpx;
+  max-width: 100%;
+  background-size: cover;
+  background-color: #f6f7f7;
+}
+
+.section-features .feature-list .feature-card {
+  width: 100%;
+}
+
+.section-features .feature-list .feature-card .card-main {
+  background-color: #f6f7f7;
+}
+
+.section-features .feature-list .feature-card .card-main {
+  position: relative;
+  padding: 0;
+  padding-top: 280rpx;
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  transform: translate3d(0, 0, 0) !important;
+  text-align: left;
+}
+
+.section-features .feature-list .feature-card .card-main .card-top {
+  padding: 30rpx 29rpx;
+  position: absolute;
+  top: 0;
+}
+
+.section-features .feature-list .feature-card .card-title {
+  font-size: 38rpx;
+  line-height: 44rpx;
+  font-weight: 400;
+  padding-top:20rpx;
+  margin-bottom: 29.5rpx;
+}
+
+.section-features .feature-list .feature-card .card-content text {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 26rpx;
+}
+
+.section-features .feature-list .feature-card .card-main .card-actions {
+  bottom: 0;
+  right: 0;
+  margin-right: 0;
+  padding: 30rpx 29rpx;
+  position: absolute;
+}
+
+.section-features .feature-list .feature-card .img-icon {
+  width: 35rpx;
+  height: 35rpx;
+  margin-left: 15rpx;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.section-features .feature-list .feature-card .action-item {
+  font-size: 30rpx;
+  
+}
