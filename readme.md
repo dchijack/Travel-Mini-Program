@@ -17,7 +17,7 @@
 
 1. 点击 Clone or download 下拉选择 Download ZIP 或者[点击这里](https://github.com/dchijack/Travel-Mini-Program/releases)下载源码包
 
-2. 解压压缩包后, 打开 weTravel / qTravel /beTravel 文件夹 utils 目录下的 base.js
+2. 解压压缩包后, 打开 weTravel / qTravel / beTravel 文件夹 utils 目录下的 base.js
 
 3. 修改 base.js 里的 **const API_HOST = '你的域名'**  // 注意，域名需要填写协议，比如 https://cxcat.com
 
