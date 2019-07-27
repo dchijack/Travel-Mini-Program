@@ -1,0 +1,203 @@
+
+/**
+ * 百度小程序富文本解析
+ * 开发者：腾石建站
+ * 官网：http://www.tengcee.com
+ * bdParse.swan改造自wxParse.wxml
+ * wxParse的原作者github地址: https://github.com/icindy/wxParse
+ */
+
+.bdParse{
+    margin: 0 5px;
+    font-family: Helvetica,sans-serif;
+    font-size: 28rpx;
+    color: #666;
+    line-height: 1.8;
+}
+view{
+    word-break:break-all; overflow:auto;
+}
+.bdParse-inline{
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+/*//标题 */
+.bdParse-div{margin: 0;padding: 0;}
+.bdParse-h1{ font-size:2em; margin: .67em 0 }
+.bdParse-h2{ font-size:1.5em; margin: .75em 0 }
+.bdParse-h3{ font-size:1.17em; margin: .83em 0 }
+.bdParse-h4{ margin: 1.12em 0}
+.bdParse-h5 { font-size:.83em; margin: 1.5em 0 }
+.bdParse-h6{ font-size:.75em; margin: 1.67em 0 }
+
+.bdParse-h1 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: .9em;
+}
+.bdParse-h2 {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: .34em;
+}
+.bdParse-h3 {
+  font-weight: 400;
+  font-size: 15px;
+  margin-bottom: .34em;
+}
+.bdParse-h4 {
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: .24em;
+}
+.bdParse-h5 {
+  font-weight: 400;
+  font-size: 13px;
+  margin-bottom: .14em;
+}
+.bdParse-h6 {
+  font-weight: 400;
+  font-size: 12px;
+  margin-bottom: .04em;
+}
+
+.bdParse-h1, .bdParse-h2, .bdParse-h3, .bdParse-h4, .bdParse-h5, .bdParse-h6, .bdParse-b, .bdParse-strong  { font-weight: bolder }
+
+.bdParse-i,.bdParse-cite,.bdParse-em,.bdParse-var,.bdParse-address{font-style:italic}
+.bdParse-pre,.bdParse-tt,.bdParse-code,.bdParse-kbd,.bdParse-samp{font-family:monospace}
+.bdParse-pre{white-space:pre}
+.bdParse-big{font-size:1.17em}
+.bdParse-small,.bdParse-sub,.bdParse-sup{font-size:.83em}
+.bdParse-sub{vertical-align:sub}
+.bdParse-sup{vertical-align:super}
+.bdParse-s,.bdParse-strike,.bdParse-del{text-decoration:line-through}
+/*bdParse-自定义个性化的css样式*/
+/*增加video的css样式*/
+.bdParse-strong,.bdParse-s{display: inline}
+.bdParse-a{
+    color: deepskyblue;
+    word-break:break-all;
+    overflow:auto;
+}
+
+.bdParse-video{
+    text-align: center;
+    margin: 10px 0;
+}
+
+.bdParse-video-video{
+    width:100%;
+}
+
+.bdParse-img{
+    /*background-color: #efefef;*/
+    overflow: hidden;
+}
+
+.bdParse-blockquote {
+    margin: 0;
+    padding:10px 0 10px 5px;
+    font-family:Courier, Calibri,"宋体";
+    background:#f5f5f5;
+    border-left: 3px solid #dbdbdb;
+}
+
+.bdParse-code,.bdParse-wxxxcode-style{
+    display: inline;
+    background:#f5f5f5;
+}
+.bdParse-ul{
+    margin: 20rpx 10rpx;
+}
+
+.bdParse-li,.bdParse-li-inner{
+    display: flex;
+    align-items: baseline;
+    margin: 10rpx 0;
+}
+.bdParse-li-text{
+    
+    align-items: center;
+    line-height: 20px;
+}
+
+.bdParse-li-circle{
+    display: inline-flex;
+    width: 5px;
+    height: 5px;
+    background-color: #333;
+    margin-right: 5px;
+}
+
+.bdParse-li-square{
+    display: inline-flex;
+    width: 10rpx;
+    height: 10rpx;
+    background-color: #333;
+    margin-right: 5px;
+}
+.bdParse-li-ring{
+    display: inline-flex;
+    width: 10rpx;
+    height: 10rpx;
+    border: 2rpx solid #333;
+    border-radius: 50%;
+    background-color: #fff;
+    margin-right: 5px;
+}
+
+/*.bdParse-table{
+    width: 100%;
+    height: 400px;
+}
+.bdParse-thead,.bdParse-tfoot,.bdParse-tr{
+    display: flex;
+    flex-direction: row;
+}
+.bdParse-th,.bdParse-td{
+    display: flex;
+    width: 580px;
+    overflow: auto;
+}*/
+
+.bdParse-u {
+  text-decoration: underline;
+}
+.bdParse-hide{
+    display: none;
+}
+.WxEmojiView{
+    align-items: center;
+}
+.wxEmoji{
+    width: 16px;
+    height:16px;
+}
+.bdParse-tr{
+	display: flex;
+	border-right:1px solid #e0e0e0;
+	border-bottom:1px solid #e0e0e0;
+	border-top:1px solid #e0e0e0;
+}
+.bdParse-th,
+.bdParse-td{
+	flex:1;
+	padding:5px;
+	font-size:28rpx;
+	border-left:1px solid #e0e0e0;
+	word-break: break-all;
+}
+.bdParse-td:last{
+	border-top:1px solid #e0e0e0;
+}
+.bdParse-th{
+	background:#f0f0f0;
+	border-top:1px solid #e0e0e0;
+}
+.bdParse-del{
+    display: inline;
+}
+.bdParse-figure {
+  overflow: hidden;
+}

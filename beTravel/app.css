@@ -1,0 +1,5 @@
+/**app.wxss**/
+button::after {
+  border-radius: 0;
+  border: none;
+}
