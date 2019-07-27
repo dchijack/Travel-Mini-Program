@@ -41,9 +41,19 @@
 
 ![小程序截图](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/20190722154348.jpg)
 
-## 预览体验
+## 小程序体验
 
-关注微信公众号 WordPressTalk ，点击菜单  小程序集合 - 丸子旅游
+使用微信扫描下方二维码
+
+![微信小程序](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/wechat-mini-program.jpeg)
+
+使用手机 QQ 扫描下方二维码
+
+![QQ小程序](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/qq-mini-program.jpeg)
+
+## 关注公众号
+
+关注微信公众号 WordPressTalk
 
 ![微信公众号二维码](https://github.com/dchijack/WP-REST-API/blob/master/qrcode.jpg)
 
