@@ -10,14 +10,14 @@
 
 # WordPress Travel Mini Program 说明
 
-1. 两个文件夹分别为微信小程序前端及 QQ 小程序前端
-2. weTravel 为微信小程序前端，qTravel 为 QQ 小程序前端，插件支持两个小程序前端
+1. 分别有微信小程序前端、 QQ 小程序前端和百度智能小程序前端
+2. weTravel 为微信小程序前端，qTravel 为 QQ 小程序前端， beTravel 为百度智能小程序前端
 
 ## 安装指南
 
 1. 点击 Clone or download 下拉选择 Download ZIP 或者[点击这里](https://github.com/dchijack/Travel-Mini-Program/releases)下载源码包
 
-2. 解压压缩包后, 打开 weTravel / qTravel 文件夹 utils 目录下的 base.js
+2. 解压压缩包后, 打开 weTravel / qTravel /beTravel 文件夹 utils 目录下的 base.js
 
 3. 修改 base.js 里的 **const API_HOST = '你的域名'**  // 注意，域名需要填写协议，比如 https://cxcat.com
 
@@ -25,7 +25,7 @@
 
 5. 登录网站后台, 在仪表盘下方的小程序设置里，填写上对应的 AppID 和 AppScret
 
-6. 然后使用微信开发者工具导入 weTravel 目录进行开发调试, 使用 QQ 小程序开发者工具导入 qTravel 目录进行开发调试
+6. 然后使用微信开发者工具导入 weTravel 目录进行开发调试, 使用 QQ 小程序开发者工具导入 qTravel 目录进行开发调试，使用百度开发者工具导入 beTravel 目录进行开发调试
 
 ## 预览截图
 
