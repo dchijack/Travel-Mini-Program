@@ -24,9 +24,6 @@ App({
     onShow(options) {
         this.globalData.user = API.getUser();
     },
-    onHide() {
-        // do something when hide
-    },
     globalData: {
         user: ''
     }
