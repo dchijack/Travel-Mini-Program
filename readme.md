@@ -43,13 +43,7 @@
 
 ## 小程序体验
 
-使用微信扫描下方二维码
-
-![微信小程序](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/wechat-mini-program.jpeg)
-
-使用手机 QQ 扫描下方二维码
-
-![QQ小程序](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/qq-mini-program.jpeg)
+![小程序演示二维码](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/mini-program-demo.png)
 
 ## 关注公众号
 
