@@ -1,57 +1,46 @@
+<!--pages/mine/mine.qml-->
 <view class="user-container" style="min-height: 100vh; padding-top: {{navBarHeight}}px;">
-  <view class="user-information" wx:if="{{user}}">
-    <view class="user-information_img" style="background-image: url('{{user.avatarUrl}}')">
-      <button bindgetuserinfo="getUserInfoFun" class="transparent-btn" openType="getUserInfo"></button>
-    </view>
+  <view class="user-information relative">
+    <view qq:if="{{user.avatarUrl}}" class="user-information_img" style="background-image: url('{{user.avatarUrl}}')"></view>
+    <image qq:else class="user-information_img" src="../../images/avatar.png"></image>
     <view class="nickname">
-      <view class="user-information_nickname">{{user.nickName}}</view>
-      <view class="user-information_introduction">{{siteInfo.description}}</view>
+      <view class="user-information_nickname">{{user.nickName?user.nickName:'游客'}}</view>
+      <view class="user-information_introduction">{{user?'丸子小程序就是好看!':'点击这里授权登录'}}</view>
     </view>
-  </view>
-  <view class="user-information" wx:else>
-    <view class="user-information_img" style="background-image: url('/assets/my/default-avator.jpg')"></view>
-    <view class="nickname">
-      <view class="user-information_nickname">点击登录</view>
-      <view class="user-information_introduction">使用微信登录</view>
-    </view>
-    <button bindgetuserinfo="userInfoHandler" class="my-login" openType="getUserInfo"></button>
+    <button class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
   </view>
   <view class="user-items">
-    <view bindtap="{{user?'mineHandler':''}}" data-url="/pages/mine/mypost?id=1" class="user-item">
+    <view class="user-item relative">
       <text class="user-item_text">我的点赞</text>
       <view class="user-item_icon">
         <image class="user-item_icon_img" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/my-inform.svg"></image>
-        <view class="user-item_icon_sup" wx:if="{{unreadMessageCount>0}}">{{unreadMessageCount}}</view>
+        <view class="user-item_icon_sup" qq:if="{{unreadMessageCount>0}}">{{unreadMessageCount}}</view>
       </view>
-      <button bindgetuserinfo="getUserInfoFun" class="auth-btn" openType="getUserInfo" wx:if="{{!user}}"></button>
+      <button qq:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+      <button qq:else class="userLogin" data-url="/pages/posts/posts?id=1" bindtap="bindHandler"></button>
     </view>
-    <view bindtap="{{user?'mineHandler':''}}" data-url="/pages/mine/mypost?id=2" class="user-item">
-      <text class="user-item_text">我的评论</text>
-      <view class="user-item_icon">
-        <image class="user-item_icon_img" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/my-dynamic.svg"></image>
-      </view>
-      <button bindgetuserinfo="getUserInfoFun" class="auth-btn" openType="getUserInfo" wx:if="{{!user}}"></button>
-    </view>
-    <view bindtap="{{user?'mineHandler':''}}" data-url="/pages/mine/mypost?id=3" class="user-item">
+    <view class="user-item relative">
       <text class="user-item_text">我的收藏</text>
       <view class="user-item_icon">
         <image class="user-item_icon_img" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/my-like.svg"></image>
       </view>
-      <button bindgetuserinfo="getUserInfoFun" class="auth-btn" openType="getUserInfo" wx:if="{{!user}}"></button>
+      <button qq:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+      <button qq:else class="userLogin" data-url="/pages/posts/posts?id=2" bindtap="bindHandler"></button>
     </view>
-    <view class="user-item">
-      <text class="user-item_text">问题反馈</text>
+    <view class="user-item relative">
+      <text class="user-item_text">我的评论</text>
       <view class="user-item_icon">
-        <image class="user-item_icon_img" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/feedback.svg"></image>
+        <image class="user-item_icon_img" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/my-dynamic.svg"></image>
       </view>
-      <button class="auth-btn" open-type="contact"></button>
+      <button qq:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+      <button qq:else class="userLogin" data-url="/pages/posts/posts?id=3" bindtap="bindHandler"></button>
     </view>
     <view class="user-item">
       <text class="user-item_text">清除缓存</text>
       <view class="user-item_icon">
         <image class="user-item_icon_img" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/small-logo-gray-with-radius.svg"></image>
       </view>
-      <button class="auth-btn" bindtap="clear"></button>
+      <button class="auth-btn" bindtap="loginOut"></button>
     </view>
   </view>
 </view>

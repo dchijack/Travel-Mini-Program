@@ -1,28 +1,49 @@
+<!--pages/list/list.qml-->
 <view class="tab-content">
-  <view class="index">
-    <view class="index_label">
-      <view class="index_label_title">{{category}}</view>
-      <view class="index_label_bg"></view>
-    </view>
-    <view class="index_article">
-      <view bindtap="goArticleDetail" id="{{item.id}}" wx:if="{{posts.length>0}}" wx:for="{{posts}}" wx:key="item">
-        <view style="position: relative;height: 380rpx">
-          <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
-          <view class="index_article_during">
-            <image src="../../images/cate.png" style="width: 20rpx;height: 20rpx"></image>
-            <text>{{item.category[0].name}}</text>
-          </view>
+    <view class="index">
+        <!--view class="index_label">
+        <view class="index_label_title">{{category}}</view>
+        <view class="index_label_bg"></view>
+        </view-->
+        <view class="index_article" qq:if="{{posts.length>0}}">
+            <block qq:for="{{posts}}" qq:for-index="i" qq:key="item">
+                <block qq:if="{{i%5 == 0}}">
+                <view bindtap="bindDetail" id="{{item.id}}">
+                    <view style="position: relative;height: 380rpx">
+                        <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
+                        <view class="index_article_during">
+                            <text>{{item.category[0].name}}</text>
+                        </view>
+                    </view>
+                    <view class="index_article_title">{{item.title.rendered}}</view>
+                    <view class="index_article_desc">{{item.excerpt.rendered}}</view>
+                </view>
+                <view class="advert" qq:if="{{advert.platform.qq && advert.type == 'unit'}}">
+                    <ad unit-id="{{advert.code}}"></ad>
+                    </view>
+                </block>
+                <block qq:else>
+                <view bindtap="bindDetail" id="{{item.id}}">
+                    <view style="position: relative;height: 380rpx">
+                        <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
+                        <view class="index_article_during">
+                            <text>{{item.category[0].name}}</text>
+                        </view>
+                    </view>
+                    <view class="index_article_title">{{item.title.rendered}}</view>
+                    <view class="index_article_desc">{{item.excerpt.rendered}}</view>
+                </view>
+                
+                </block>
+            </block>
         </view>
-        <view class="index_article_title">{{item.title.rendered}}</view>
-        <view class="index_article_desc">{{item.excerpt.rendered}}</view>
-      </view>
-      <view wx:if="{{isLastPage&&posts.length==0}}">
-        暂无内容
-      </view>
+        <view class="index_article" qq:if="{{isLastPage&&posts.length==0}}">
+            <view style="position: relative;height: 380rpx">
+                <image mode="aspectFill" class="index_article_cover" src="../../images/message.png"></image>
+            </view>
+            <view class="last_text">对不起! 你查看的内容没有找到</view>
+        </view>
+        <view class="last_text" qq:if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
+        <view class="last_text" qq:if="{{!isLastPage&&posts.length>0}}">努力加载中...</view>
     </view>
-
-    <view class="last_text" wx:if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
-    <view class="last_text" wx:if="{{!isLastPage&&posts.length>0}}">努力加载中...</view>
-  </view>
-
 </view>

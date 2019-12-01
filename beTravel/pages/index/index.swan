@@ -1,4 +1,4 @@
-<!-- index.swan -->
+<!--index.swan-->
 <view class="page {{isIphoneX?'iphone-x':''}}">
   <view class="banner">
     <image class="banner-bg" mode="widthFix" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/tangzhi_banner_v4.jpg"></image>
@@ -10,10 +10,11 @@
     </view>
     <view class="index-search container-class">
       <view class="search-icon icon-class"></view>
-      <input bindconfirm="onConfirm" bindinput="onInput" class="search-input input-class" confirmType="search" focus="{{autoFocus}}" placeholder="{{placeHolder}}" placeholderClass="search-input-placeholder" value="{{searchKey}}" s-if="{{inputEnable}}" />
+      <input bindconfirm="onConfirm" bindinput="onInput" class="search-input input-class" confirmType="search" focus="{{autoFocus}}" placeholder="{{placeHolder}}" placeholderClass="search-input-placeholder" value="{{searchKey}}" s-if="{{inputEnable}}"></input>
       <view class="search-input" s-else>{{placeHolder}}</view>
       <image bindtap="onClear" class="close-btn" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/product-image-close.svg" s-if="{{searchKey}}"></image>
     </view>
+
   </view>
   <view class="tab-content">
     <view class="index">
@@ -21,22 +22,42 @@
         <view class="index_label_title">为你精选</view>
         <view class="index_label_bg"></view>
         <view class="index_label_more">
-          <div bindtap="goClassByid" class="category" id="{{item.id}}" s-for="category" s-if="{{index<2}}">{{item.name}}</div>
-          <image bindtap="goClassfication" data-url="/pages/classification/classification?name=全部栏目" src="../../images/lanmu@2x.png" style="width: 26rpx;height: 24rpx;padding: 30rpx 15rpx"></image>
+          <block s-for="{{category}}" s-key="item" >
+            <view bindtap="bindCateByID" class="category" id="{{item.id}}" s-if="{{index < 2}}">{{item.name}}</view>
+          </block>
+          <image bindtap="bindCateList" src="../../images/more.png" style="width: 26rpx;height: 24rpx;padding: 30rpx 15rpx"></image>
         </view>
       </view>
-      <view class="index_article">
-        <view bindtap="goArticleDetail" id="{{item.id}}" s-if="{{posts.length>0}}" s-for="posts">
-          <view style="position: relative;height: 380rpx">
-            <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
-            <view class="index_article_during">
-              <image src="../../images/cate.png" style="width: 20rpx;height: 20rpx"></image>
-              <text>{{item.category[0].name}}</text>
+      <view class="index_article" s-if="{{posts.length>0}}">
+        <block s-for="{{posts}}" s-for-index="i" s-key="id">
+          <block s-if="{{i%5 == 0}}">
+            <view bindtap="bindDetail" id="{{item.id}}">
+              <view style="position: relative;height: 380rpx">
+                <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
+                <view class="index_article_during">
+                  <text>{{item.category[0].name}}</text>
+                </view>
+              </view>
+              <view class="index_article_title">{{item.title.rendered}}</view>
+              <view class="index_article_desc">{{item.excerpt.rendered}}</view>
             </view>
-          </view>
-          <view class="index_article_title">{{item.title.rendered}}</view>
-          <view class="index_article_desc">{{item.excerpt.rendered}}</view>
-        </view>
+            <view class="advert" s-if="{{advert.platform.baidu && advert.type == 'unit'}}">
+              <ad appid="16995429" apid="{{advert.code}}" class="ad" type="feed" ></ad>
+            </view>
+          </block>
+          <block s-else>
+            <view bindtap="bindDetail" id="{{item.id}}">
+              <view style="position: relative;height: 380rpx">
+                <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
+                <view class="index_article_during">
+                  <text>{{item.category[0].name}}</text>
+                </view>
+              </view>
+              <view class="index_article_title">{{item.title.rendered}}</view>
+              <view class="index_article_desc">{{item.excerpt.rendered}}</view>
+            </view>
+          </block>
+        </block>
       </view>
       <view class="last_text" s-if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
       <view class="last_text" s-if="{{!isLastPage&&posts.length>0}}">努力加载中...</view>

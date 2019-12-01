@@ -5,12 +5,12 @@
     "pages/list/list",
     "pages/category/category",
     "pages/mine/mine",
-    "pages/mine/mypost"
+    "pages/posts/posts"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "丸子社区",
+    "navigationBarTitleText": "丸子小程序",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -22,21 +22,22 @@
       {
         "text": "首页",
         "pagePath": "pages/index/index",
-        "iconPath": "images/ic_index.png",
-        "selectedIconPath": "images/ic_index_on.png"
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home_on.png"
       },
       {
         "text": "栏目",
         "pagePath": "pages/category/category",
-        "iconPath": "images/ic_huoban.png",
-        "selectedIconPath": "images/ic_huoban_on.png"
+        "iconPath": "images/category.png",
+        "selectedIconPath": "images/category_on.png"
       },
       {
         "text": "我的",
         "pagePath": "pages/mine/mine",
-        "iconPath": "images/ic_user.png",
-        "selectedIconPath": "images/ic_user_on.png"
+        "iconPath": "images/user.png",
+        "selectedIconPath": "images/user_on.png"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

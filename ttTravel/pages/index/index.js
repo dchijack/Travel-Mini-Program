@@ -1,16 +1,12 @@
 /**
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
-
 const API = require('../../utils/api')
 
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
     posts: [],
     page:1,
@@ -24,10 +20,7 @@ Page({
     inputEnable: true,
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
+  onLoad: function () {
     let that=this;
     tt.getSystemInfo({
       success: function (a) {
@@ -36,99 +29,10 @@ Page({
         });
       }
     });
-    this.getStickyPosts();
-    this.getPostList();
-    this.getCategories();
     this.getSiteInfo();
-  },
-
-  getSiteInfo: function() {
-
-    API.getSiteInfo().then(res => {
-      this.setData({
-        siteInfo: res
-      })
-    })
-  },
-
-  onInput: function(e) {
-    this.setData({
-      searchKey: e.detail.value
-    })
-  },
-
-  currentChange: function(e) {
-    this.setData({
-      currentSwiper: e.detail.current
-    });
-  },
-
-  getCategories: function() {
-    API.getCategories().then(res => {
-      this.setData({
-        category: res
-      })
-    })
-  },
-  getStickyPosts: function() {
-    API.getStickyPosts().then(res => {
-      this.setData({
-        stickyPost: res
-      })
-    })
-  },
-  goClassfication:function(){
-    tt.switchTab({
-      url: '/pages/category/category',
-    })
-  },
-
-  getPostList: function(args) {
-    API.getPostsList(args).then(res => {
-      console.log(res)
-      let args = {}
-      if (res.length < 10) {
-        this.setData({
-          isLastPage: true,
-          loadtext: '到底啦',
-          showloadmore: false
-        })
-      }
-      if (this.data.isPull) {
-        args.posts = [].concat(this.data.posts, res)
-        args.page = this.data.page + 1
-      } else if (this.data.isBottom) {
-        args.posts = [].concat(this.data.posts, res)
-        args.page = this.data.page + 1
-      } else {
-        args.posts = [].concat(this.data.posts, res)
-        args.page = this.data.page + 1
-      }
-      this.setData(args)
-    })
-    
-  },
-
-  goClassByid: function (e) {
-    let id = e.currentTarget.id;
-    tt.navigateTo({
-      url: '/pages/list/list?id=' + id,
-    })
-  },
-
-  goArticleDetail: function(e) {
-    let id = e.currentTarget.id;
-    tt.navigateTo({
-      url: '/pages/detail/detail?id=' + id,
-    })
-  },
-
-  onConfirm:function(e){
-  console.log(e);
-  let s=e.detail.value;
-  tt.navigateTo({
-    url: '/pages/list/list?s='+s,
-  })
+    this.getStickyPosts();
+    this.getCategories();
+    this.getPostList();
   },
 
   /**
@@ -170,13 +74,10 @@ Page({
    */
   onPullDownRefresh: function() {
     this.setData({
-      posts:[],
       page:1,
+      posts:[]
     })
-    this.getPostList({
-      page: this.data.page
-    });
-    tt.stopPullDownRefresh();
+    this.getPostList()
   },
 
   /**
@@ -186,7 +87,7 @@ Page({
     if (!this.data.isLastPage) {
       this.getPostList({
         page:this.data.page
-      });
+      })
     }
   },
 
@@ -194,11 +95,108 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-    let that=this;
     return {
-      title:that.data.siteInfo.name ,
+      title: this.data.siteInfo.name ,
       path: '/pages/index/index'
     }
+  },
 
+  getSiteInfo: function() {
+    API.getSiteInfo().then(res => {
+      this.setData({
+        siteInfo: res
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+
+  onInput: function(e) {
+    this.setData({
+      searchKey: e.detail.value
+    })
+  },
+
+  currentChange: function(e) {
+    this.setData({
+      currentSwiper: e.detail.current
+    });
+  },
+
+  getStickyPosts: function() {
+    API.getStickyPosts().then(res => {
+      this.setData({
+        stickyPost: res
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+
+  getCategories: function() {
+    API.getCategories().then(res => {
+      this.setData({
+        category: res
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+
+  getPostList: function(data) {
+    API.getPostsList(data).then(res => {
+      let args = {}
+      if (res.length < 10) {
+        this.setData({
+          isLastPage: true,
+          loadtext: '到底啦',
+          showloadmore: false
+        })
+      }
+      if (this.data.isBottom) {
+        args.posts = [].concat(this.data.posts, res)
+        args.page = this.data.page + 1
+      } else {
+        args.posts = [].concat(this.data.posts, res)
+        args.page = this.data.page + 1
+      }
+      this.setData(args)
+      tt.stopPullDownRefresh()
+    })
+    .catch(err => {
+      console.log(err)
+      tt.stopPullDownRefresh()
+    })
+  },
+
+  bindCateByID: function (e) {
+    let id = e.currentTarget.id;
+    tt.navigateTo({
+      url: '/pages/list/list?id=' + id,
+    })
+  },
+
+  bindCateList:function(){
+    tt.switchTab({
+      url: '/pages/category/category',
+    })
+  },
+
+  bindDetail: function(e) {
+    let id = e.currentTarget.id;
+    tt.navigateTo({
+      url: '/pages/detail/detail?id=' + id,
+    })
+  },
+
+  onConfirm:function(e){
+    let s=e.detail.value;
+    tt.navigateTo({
+      url: '/pages/list/list?s='+s,
+    })
   }
+
 })

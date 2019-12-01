@@ -19,7 +19,7 @@ import HtmlToJson from './html2json.js';
  **/
 var realWindowWidth = 0;
 var realWindowHeight = 0;
-tt.getSystemInfo({
+wx.getSystemInfo({
   success: function (res) {
     realWindowWidth = res.windowWidth
     realWindowHeight = res.windowHeight
@@ -57,7 +57,7 @@ function wxParseImgTap(e) {
   var nowImgUrl = e.target.dataset.src;
   var tagFrom = e.target.dataset.from;
   if (typeof (tagFrom) != 'undefined' && tagFrom.length > 0) {
-    tt.previewImage({
+    wx.previewImage({
       current: nowImgUrl, // 当前显示图片的http链接
       urls: that.data[tagFrom].imageUrls // 需要预览的图片http链接列表
     })

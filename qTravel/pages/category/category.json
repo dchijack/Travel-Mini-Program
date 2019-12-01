@@ -1,5 +1,4 @@
 {
   "enablePullDownRefresh": true,
-  "navigationBarTitleText": "分类栏目",
-  "usingComponents": {}
+  "navigationBarTitleText": "分类栏目"
 }

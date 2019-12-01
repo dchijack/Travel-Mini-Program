@@ -27,6 +27,8 @@
 
 6. 然后使用微信开发者工具导入 weTravel 目录进行开发调试, 使用 QQ 小程序开发者工具导入 qTravel 目录进行开发调试，使用百度开发者工具导入 beTravel 目录进行开发调试, 使用字节跳动开发者工具导入 ttTravel 目录进入开发调试
 
+7.  丸子小程序开源免费版详细安装指南，[点击这里](https://www.imahui.com/minapp/2185.html)
+
 ## 预览截图
 
 ![小程序截图](https://github.com/dchijack/Travel-Mini-Program/blob/master/screenshot/20190722154321.jpg)

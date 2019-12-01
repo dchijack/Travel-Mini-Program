@@ -1,11 +1,16 @@
 /**
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
 
-const API_HOST = 'https://cxcat.com'  // 更换为你的网站域名, 需要有 https 协议
+const API_HOST = 'https://demo.imahui.com'  // 更换为你的网站域名, 需要有 https 协议
 const Auth = require('./auth')
+
+const templates = {
+	comments:['fNlp81kLJvCKLNBdendgPG7Pe1lCJFKmIMHt2r76YZ0','zYvY02QIIrAD1snUHBHZzKdlWzN54lRX05KYvSSTvUk'], // 评论回复与审核模板ID
+	subscribe:['5UTa3Mi43Tht3xGX2PzIyurKKGbFSREdsWrb3jwU-GY'] // 资讯更新提醒模板ID
+}
  
 const API = {}
 
@@ -13,11 +18,13 @@ API.getHost = function(){
 	return API_HOST;
 }
 
-API.request = function(url, method = "GET", data={}, args = { token: true, isPull: false }) {
+API.template = function() {
+	return templates;
+}
+
+API.request = function(url, method = "GET", data={}, args = { token: true }) {
 	
 	return new Promise(function(resolve, reject) {
-		
-		wx.showNavigationBarLoading()
 		
 		url = API_HOST + url;
 		
@@ -33,8 +40,8 @@ API.request = function(url, method = "GET", data={}, args = { token: true, isPul
 				console.warn('[提示]','部分数据需要授权，检测出当前访问用户未授权登录小程序');
 			}
 		}
-		//console.log(url)
-		//console.log(data)
+		console.log(url)
+		console.log(data)
 		wx.request({
 			url: url,
 			data: data,
@@ -57,10 +64,8 @@ API.request = function(url, method = "GET", data={}, args = { token: true, isPul
 					console.log(res.data.message);
 					reject(res.data);
 				}
-				wx.hideNavigationBarLoading()
 			},
 			fail: function(err) {
-				wx.hideNavigationBarLoading();
 				console.log(err);
 				reject(err);
 			}
@@ -110,6 +115,9 @@ API.logout = function() {
 	let logout = Auth.logout();
 	if(logout) {
 		getApp().globalData.user = '';
+		wx.reLaunch({
+			url: '/pages/index/index'
+		})
 	} else {
 		wx.showToast({
 			title: '注销失败!',
@@ -131,7 +139,6 @@ API.getUserInfo = function() {
 			});
 		})
 		.catch( err =>{
-			//console.log(err);
 			reject(err);
 		})
 	});

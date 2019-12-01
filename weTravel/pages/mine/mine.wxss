@@ -1,3 +1,4 @@
+/* pages/mine/mine.wxss */
 .user-container {
     background-color: #F5F7F9;
     overflow: hidden;

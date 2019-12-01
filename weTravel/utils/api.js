@@ -1,7 +1,7 @@
 /**
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
 
 const API = require('./base')
@@ -197,7 +197,7 @@ const Loginout = function() {
  * @return {promise}
  */
 const fav = function(data) {
-	return API.post('/wp-json/mp/v1/comments?type=fav', data, { token:true });
+	return API.post('/wp-json/mp/v1/comments?type=fav', data, { token: true });
 }
 
 /**
@@ -207,7 +207,7 @@ const fav = function(data) {
  * @return {promise}
  */
 const like = function(data) {
-	return API.post('/wp-json/mp/v1/comments?type=like', data, { token:true });
+	return API.post('/wp-json/mp/v1/comments?type=like', data, { token: true });
 }
 
 /**
@@ -217,7 +217,7 @@ const like = function(data) {
  * @return {promise}
  */
 const getFavPosts = function(data) {
-	return API.get('/wp-json/mp/v1/posts/comment?type=fav', data, { token:true });
+	return API.get('/wp-json/mp/v1/posts/comment?type=fav', data, { token: true });
 }
 
 /**
@@ -227,7 +227,7 @@ const getFavPosts = function(data) {
  * @return {promise}
  */
 const getLikePosts = function(data) {
-	return API.get('/wp-json/mp/v1/posts/comment?type=like', data, { token:true });
+	return API.get('/wp-json/mp/v1/posts/comment?type=like', data, { token: true });
 }
 
 /**
@@ -237,7 +237,7 @@ const getLikePosts = function(data) {
  * @return {promise}
  */
 const getCommentsPosts = function(data) {
-	return API.get('/wp-json/mp/v1/posts/comment?type=comment', data, { token:true });
+	return API.get('/wp-json/mp/v1/posts/comment?type=comment', data, { token: true });
 }
 
 /**
@@ -247,7 +247,7 @@ const getCommentsPosts = function(data) {
  * @return {promise}
  */
 const addComment = function(data) {
-	return API.post('/wp-json/mp/v1/comments?type=comment', data, { token:true });
+	return API.post('/wp-json/mp/v1/comments?type=comment', data, { token: true });
 }
 
 /**
@@ -257,7 +257,15 @@ const addComment = function(data) {
  * @return {promise}
  */
 const votePosts = function(data) {
-	return API.post('/wp-json/mp/v1/vote', data, { token:true });
+	return API.post('/wp-json/mp/v1/vote', data, { token: true });
+}
+
+/**
+ * 微信小程序订阅消息
+ * @param {*} data 
+ */
+const subscribeMessage = function(data) {
+  return API.post('/wp-json/mp/v1/subscribe', data, { token: true });
 }
 
 /**
@@ -304,38 +312,39 @@ const pageAdsense = function(data) {
 	return API.get('/wp-json/mp/v1/advert?type=page', data);
 }
 
-API.getSiteInfo					= getSiteInfo
-API.getStickyPosts				= getStickyPosts
-API.getPostsList				= getPostsList
-API.getPostsbyID				= getPostsbyID
-API.getPagesList				= getPagesList
-API.getPageByID					= getPageByID
-API.getCategories				= getCategories
-API.getCategoryByID				= getCategoryByID
-API.getTags						= getTags
-API.getTagByID					= getTagByID
-API.getRandPosts				= getRandPosts
-API.getRelatePosts				= getRelatePosts
-API.getMostViewsPosts			= getMostViewsPosts
-API.getMostFavPosts				= getMostFavPosts
-API.getMostLikePosts			= getMostLikePosts
+API.getSiteInfo					    = getSiteInfo
+API.getStickyPosts			    = getStickyPosts
+API.getPostsList				    = getPostsList
+API.getPostsbyID				    = getPostsbyID
+API.getPagesList				    = getPagesList
+API.getPageByID					    = getPageByID
+API.getCategories				    = getCategories
+API.getCategoryByID			    = getCategoryByID
+API.getTags						      = getTags
+API.getTagByID					    = getTagByID
+API.getRandPosts				    = getRandPosts
+API.getRelatePosts				  = getRelatePosts
+API.getMostViewsPosts		  	= getMostViewsPosts
+API.getMostFavPosts				  = getMostFavPosts
+API.getMostLikePosts			  = getMostLikePosts
 API.getMostCommentPosts			= getMostCommentPosts
 API.getRecentCommentPosts		= getRecentCommentPosts
-API.getComments					= getComments
-API.getProfile					= API.guard(getProfile)
-API.fav							= API.guard(fav)
-API.getFavPosts					= API.guard(getFavPosts)
-API.like						= API.guard(like)
-API.getLikePosts				= API.guard(getLikePosts)
-API.getCommentsPosts			= API.guard(getCommentsPosts)
-API.addComment					= API.guard(addComment)
-API.votePosts					= API.guard(votePosts)
-API.getCodeImg					= getCodeImg
-API.Loginout					= Loginout
-API.getMenuSetting				= getMenuSetting
-API.indexAdsense				= indexAdsense
-API.listAdsense					= listAdsense
-API.detailAdsense				= detailAdsense
-API.pageAdsense					= pageAdsense
+API.getComments					    = getComments
+API.getProfile					    = API.guard(getProfile)
+API.fav							        = API.guard(fav)
+API.getFavPosts					    = API.guard(getFavPosts)
+API.like						        = API.guard(like)
+API.getLikePosts				    = API.guard(getLikePosts)
+API.getCommentsPosts			  = API.guard(getCommentsPosts)
+API.addComment					    = API.guard(addComment)
+API.votePosts					      = API.guard(votePosts)
+API.subscribeMessage        = API.guard(subscribeMessage)
+API.getCodeImg					    = getCodeImg
+API.Loginout					      = Loginout
+API.getMenuSetting				  = getMenuSetting
+API.indexAdsense				    = indexAdsense
+API.listAdsense					    = listAdsense
+API.detailAdsense				    = detailAdsense
+API.pageAdsense					    = pageAdsense
 
 module.exports = API

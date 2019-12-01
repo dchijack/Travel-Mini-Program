@@ -1,30 +1,17 @@
 /**
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
 
 const Auth = {}
-
-/**
- * 获取当前登陆用户的openid
- * @return {string}
- */
-Auth.openid = function() {
-    const user = Auth.user()
-    if (user && user.openid) {
-        return user.openid
-    } else {
-        return ''
-    }
-}
 
 /**
  * 获取当前登陆用户信息
  * @return {object}
  */
 Auth.user = function() {
-    return wx.getStorageSync('user');
+    return qq.getStorageSync('user');
 }
 
 /**
@@ -32,18 +19,18 @@ Auth.user = function() {
  * @return {string}
  */
 Auth.token = function() {
-    return wx.getStorageSync('token');
+    return qq.getStorageSync('token');
 }
 
 /**
- * 判断token还是否在有效期内
+ * 判断是否有效期
  * @return {boolean}
  */
 Auth.check = function() {
     let user = Auth.user()
     let token = Auth.token()
-    if (user && Date.now() < wx.getStorageSync('expired_in') && token) {
-        console.log('access_token过期时间：', (wx.getStorageSync('expired_in') - Date.now()) / 1000, '秒');
+    if (user && Date.now() < qq.getStorageSync('expired_in') && token) {
+        console.log('access_token过期时间：', (qq.getStorageSync('expired_in') - Date.now()) / 1000, '秒');
         return true;
     } else {
         return false;
@@ -56,30 +43,10 @@ Auth.check = function() {
  */
 Auth.login = function() {
     return new Promise(function(resolve, reject) {
-        wx.login({
+        qq.login({
             success: function(res) {
-                //console.log('wx.login.code', res.code);
                 resolve(res);
             },
-
-            fail: function(err) {
-                reject(err);
-            }
-        });
-    });
-}
-
-/**
- * 通过 wx.login 获取code
- * @return code
- */
-Auth.code = function(){
-    return new Promise(function(resolve, reject) {
-        wx.login({
-            success: function(res){
-                resolve(res.code);
-            },
-
             fail: function(err) {
                 reject(err);
             }
@@ -92,9 +59,9 @@ Auth.code = function(){
  * @return {boolean}
  */
 Auth.logout = function() {
-    wx.removeStorageSync('user')
-    wx.removeStorageSync('token')
-    wx.removeStorageSync('expired_in')
+    qq.removeStorageSync('user')
+    qq.removeStorageSync('token')
+    qq.removeStorageSync('expired_in')
     return true
 }
 
@@ -103,10 +70,10 @@ Auth.logout = function() {
  */
 Auth.getUserInfo = function(){
     return new Promise(function(resolve, reject) {
-		Auth.code().then(data => {
+		Auth.login().then(data => {
 			let args = {}
-			args.code = data;
-			wx.getUserInfo({
+			args.code = data.code;
+			qq.getUserInfo({
 				success: function (res) {
 					//console.log(res);
 					args.iv = encodeURIComponent(res.iv);

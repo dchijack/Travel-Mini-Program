@@ -1,14 +1,15 @@
 /**
+ * Date : 2019.12.01
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
-//app.js
 const API = require('/utils/base')
 
 App({
 
   onLaunch: function () {
+    API.login();
     // 获取系统状态栏信息
     tt.getSystemInfo({
       success: e => {
@@ -24,8 +25,6 @@ App({
 
   globalData: {
     user: '',
-    skin: '',
-    color: '',
     StatusBar: '',
     CustomBar: ''
   }

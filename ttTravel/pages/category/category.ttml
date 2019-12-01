@@ -1,8 +1,9 @@
+<!--pages/category/category.ttml-->
 <view class="section section-features">
   <view class="section-content is-flex center-xs">
     <view class="feature-list is-flex direction-vert middle-xs">
-      <block tt:for="{{category}}">
-        <view bindtap='goClassByid' id="{{item.id}}" class="feature-card card-type-life">
+      <block tt:for="{{category}}" tt:key="id">
+        <view bindtap='bindCateByID' id="{{item.id}}" class="feature-card card-type-life">
           <view class="card-cover" style='background-image:url({{item.cover}});background-repeat:no-repeat;background-position:center;'></view>
           <view data-jarallax-element="-80" class="card-main is-flex direction-vert between-xs parallax">
             <view class="card-top">

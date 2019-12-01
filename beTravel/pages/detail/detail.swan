@@ -1,3 +1,4 @@
+<!--pages/detail/detail.qml-->
 <import src="../../bdParse/bdParse.swan" />
 
 <view class="topic-detail">
@@ -19,10 +20,8 @@
       <text class="time" style='width:100rpx;height:40rpx;background:#f3f3f3'>{{detail.time}}</text>
     </view>
   </view>
-
   <view id="entry-content" s-if="{{article.nodes}}" class="entry-content clearfix">
     <template is="bdParse" data="{{ {bdParseData:article.nodes} }}" />
-
   </view>
   <view id="entry-content" s-else class="entry-content clearfix">
     <view style='padding-top:20rpx' s-for="article" s-key="index">
@@ -30,17 +29,20 @@
       <view style='width:690rpx;height:250rpx;background:#f3f3f3;margin-top:20rpx'></view>
     </view>
   </view>
+  <view class="advert" s-if="{{advert.platform.baidu && advert.type == 'unit'}}">
+    <ad appid="16995429" apid="{{advert.code}}" class="ad" type="feed" ></ad>
+  </view>
   <view class="topic-title-wrapper" id="comment">
     <view class="topic-title">话题讨论</view>
-    <view bind:tap="onCommentShareTap" class="onlooker-amount">
+    <view class="onlooker-amount relative">
       <text>邀请好友参与讨论 </text>
       <text class="onlooker-arrow">>></text>
-      <button open-type='share' class="share-friend"></button>
+      <button open-type='share' class="userLogin"></button>
     </view>
   </view>
   <view class="commentdata">
     <view class="listnodata" s-if="{{comments.length==0}}">
-      <image class="nodataimg" lazyLoad="false" mode="aspectFit|aspectFill|widthFix" src="../../images/messageListNodata.png"></image>
+      <image class="nodataimg" lazyLoad="false" mode="aspectFit|aspectFill|widthFix" src="../../images/message.png"></image>
       <view class="nodatatext">
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;&nbsp;</text>还没有评论，快来抢沙发吧！</view>
     </view>
@@ -69,20 +71,16 @@
           <view class="replay-user" catchtap="replyComment" data-id="{{item1.id}}" data-reply="{{item1.author.name}}" data-parent="{{item1.id?item1.id:0}}" data-userid="{{item1.userid}}" data-formId="{{item1.formId}}" data-commentdate="{{item1.date}}">
             <text style="font-weight:bold;"> {{item1.author.name}} </text>:{{item1.content}}
           </view>
-
-
           <!-- 二级回复 -->
           <view s-for="{{item1.reply}}" s-key="itemid2" s-for-index="idx" s-for-item="item2">
             <view class="replay-user" catchtap="replyComment" data-id="{{item2.id}}" data-reply="{{item2.author.name}}" data-userid="{{item2.userid}}" data-formId="{{item2.formId}}" data-commentdate="{{item2.date}}">
               <text style="font-weight:bold;"> {{item2.author.name}} </text> 回复 {{item1.author.name}}:{{item2.content}}
             </view>
-
             <!-- 三级回复 -->
             <view s-for="{{item2.reply}}" s-key="itemid3" s-for-index="idx" s-for-item="item3">
               <view class="replay-user" catchtap="replyComment" data-id="{{item3.id}}" data-reply="{{item3.author.name}}" data-userid="{{item3.userid}}" data-formId="{{item3.formId}}" data-commentdate="{{item3.date}}">
                 <text style="font-weight:bold;"> {{item3.author.name}} </text> 回复 {{item2.author.name}}:{{item3.content}}
               </view>
-
               <!-- 四级回复 -->
               <view s-for="{{item3.reply}}" s-key="itemid4" s-for-index="idx" s-for-item="item4">
                 <view class="replay-user">
@@ -90,13 +88,10 @@
                 </view>
               </view>
               <!-- 四级回复 -->
-
             </view>
             <!-- 三级回复  -->
-
           </view>
           <!-- 二级回复 -->
-
         </view>
         <!-- 一级回复  -->
         <view class="comment-footer">
@@ -105,60 +100,46 @@
       </view>
     </view>
   </view>
-   <view class="bottom bottom-wz">
-    <form class="bottom-wz" catchsubmit="formSubmit" report-submit="true" s-if="{{!showTextarea}}">
-      <view class="bottom-bar {{isIphoneX?'bottom-bar-iphonex':''}} {{newsItem.forbidcomment?'forbid-comment':''}}">
-        <image bindtap="bindBack" class="bottom-btn bottom-back" src="../../images/detail/bottom_bar_back.png"></image>
-        <block>
-          <input class="comment-input" maxlength="200" name="inputPostID" value="{{detail.id}}" style="display:none" />
-          <view bindtap='tapcomment' class="bottom-btn bottom-text" style="width:260rpx">
-            <text>{{placeholder}}</text>
-          </view>
-          <view bindtap="bindFavTap" data-type="post" id="{{detail.id}}" class="bottom-btn bottom-comment-container">
-            <image class="bottom-comment" src="{{isfav?'../../images/detail/collected.png':'../../images/detail/collect.png'}}"></image>
 
-          </view>
-        </block>
-        <image bindtap="bindLikeTap" id="{{detail.id}}" class="bottom-btn bottom-fav" src="{{isLike?'../../images/detail/quan_liked.png':'../../images/detail/quan_like.png'}}"></image>
-        <button  open-type='share' class="bottom-btn bottom-share bottom-fav btn-clear-style" plain="true">
-          <image src="../../images/detail/bottom_bar_share.png"></image>
+   <view class="bottom">
+    <form catchsubmit="formSubmit" report-submit="true" s-if="{{!showTextarea}}">
+      <view class="bottom-bar {{isIphoneX?'bottom-bar-iphonex':''}} {{newsItem.forbidcomment?'forbid-comment':''}}">
+        <image bindtap="bindBack" class="bottom-btn bottom-back" src="../../images/back.png"></image>
+        <view class="bottom-btn bottom-text relative" style="width:260rpx">
+          <text>{{placeholder}}</text>
+          <button s-if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button s-else class="userLogin" bindtap="tapcomment"></button>
+        </view>
+        <view class="bottom-btn bottom-comment-container relative">
+          <image class="bottom-comment" src="{{detail.isfav?'../../images/collected.png':'../../images/collect.png'}}"></image>
+          <button s-if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button s-else class="userLogin" bindtap="bindFavTap" id="{{detail.id}}" ></button>
+        </view>
+        <view class="bottom-btn bottom-comment-container">
+          <image class="bottom-btn bottom-fav" src="{{detail.islike?'../../images/liked.png':'../../images/like.png'}}"></image>
+          <button s-if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button s-else class="userLogin" bindtap="bindLikeTap" id="{{detail.id}}"></button>
+        </view>
+        <button open-type="share" class="bottom-btn bottom-share bottom-fav btn-clear-style" plain="true">
+          <image src="../../images/share.png"></image>
         </button>
       </view>
     </form>
+   </view>
 
-  </view>
- 
-<view class="zan-actionsheet {{isIphoneX?'bottom-bar-iphonex':''}} {{shareshow?'zan-actionsheet--show':''}}">
-  <view catchtap="_handleZanActionsheetMaskClick" class="zan-actionsheet__mask" data-close-on-click-overlay="{{closeOnClickOverlay}}" data-component-id="{{componentId}}"></view>
-  <view class="zan-actionsheet__container {{className}}">
-    <button catchtap="isPrefix" class="zan-btn zan-actionsheet__btn  {{item.className}} {{item.loading?'zan-btn--loading':''}}" data-component-id="{{componentId}}" data-tag="{{item.iconClassName}}" data-index="{{index}}" openType="{{item.openType}}" s-for="{{shareActionsheet.actions}}"
-      s-key="{{ index }}-{{ item.name }}">
-      <image class="{{item.iconClassName}}" mode="aspectFit" src="{{item.icon}}" s-if="{{item.iconClassName}}"></image>
-      <text>{{item.name}}</text>
-      <text class="zan-actionsheet__subname" s-if="{{item.subname}}">{{item.subname}}</text>
-    </button>
-    <view class="zan-actionsheet__footer" s-if="{{cancelText}}">
-      <button catchtap="_handleZanActionsheetCancelBtnClick" class="zan-btn zan-actionsheet__btn" data-component-id="{{componentId}}">{{cancelText}}</button>
+    <view capture-catch:touchmove class="textareacontent" s-if="{{showTextarea}}">
+    <form catchsubmit="addComment" report-submit="true">
+        <view class="textheaders">
+        <view bindtap="closeCommentary" class="cancel">取消</view>
+        <button s-if="{{!user}}" class="nopublish" bindgetuserinfo="getProfile" openType="getUserInfo">登录</button>
+        <button s-else formType="submit" class="publish">发布</button>
+        </view>
+        <view class="textareaBox" s-if="{{showTextarea}}">
+        <view class="textareaInput" s-if="{{!focus}}">{{content}}</view>
+        <textarea autoFocus="true" name="inputComment" bindinput="bindInputContent" bindblur="onReplyBlur" bindfocus="onRepleyFocus" class="textareaInput {{focus?'':'hide'}}" fixed="true" focus="{{focus}}" maxlength="1000" placeholder="{{placeholder}}" showConfirmBar="{{false}}" style="height: 286rpx;" value="{{content}}"></textarea>
+        <view class="textNum">{{textNum}}/1000</view>
+        </view>
+    </form>
     </view>
-  </view>
+    <view bindtap="closeCommentary" class="pagemake" s-if="{{showTextarea}}"></view>
 </view>
-
-<view class="textareacontent" s-if="{{showTextarea}}">
-  <form catchsubmit="addComment" report-submit="true">
-    <view class="textheaders">
-      <view bindtap="closeCommentary" class="cancel">取消</view>
-      <button formType="submit" class="{{iscanpublish?'publish':'nopublish'}}">发布</button>
-    </view>
-    <view class="textareaBox" s-if="{{showTextarea}}">
-      <input class="comment-input" maxlength="200" name="inputPostID" value="{{detail.id}}" style="display:none" />
-      <view class="textareaInput" s-if="{{!focus}}">{{content}}</view>
-      <textarea autoFocus="true" name="inputComment" bindinput="bindWordLimit" bindblur="onReplyBlur" bindfocus="onRepleyFocus" class="textareaInput {{focus?'':'hide'}}" fixed="true" focus="{{focus}}" maxlength="1000" placeholder="{{placeholder}}" showConfirmBar="{{false}}"
-        style="height: 286rpx;" value="{{content}}"></textarea>
-      <view class="textNum">{{textNum}}/1000</view>
-    </view>
-  </form>
-</view>
-<view bindtap="closeCommentary" class="pagemake" s-if="{{showTextarea}}"></view>
-</view>
-
- <button class="isLogin" bindgetuserinfo="getUserInfoFun" open-type="getUserInfo" bindtap='getProfile' s-if="{{!user}}"></button>

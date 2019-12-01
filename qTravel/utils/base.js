@@ -1,10 +1,10 @@
 /**
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
 
-const API_HOST = 'https://cxcat.com' // 更换为你的网站域名, 需要有 https 协议
+const API_HOST = 'https://demo.imahui.com'  // 更换为你的网站域名, 需要有 https 协议
 const Auth = require('./auth')
  
 const API = {}
@@ -13,11 +13,9 @@ API.getHost = function(){
 	return API_HOST;
 }
 
-API.request = function(url, method = "GET", data={}, args = { token: true, isPull: false }) {
+API.request = function(url, method = "GET", data={}, args = { token: true }) {
 	
 	return new Promise(function(resolve, reject) {
-		
-		wx.showNavigationBarLoading()
 		
 		url = API_HOST + url;
 		
@@ -33,9 +31,9 @@ API.request = function(url, method = "GET", data={}, args = { token: true, isPul
 				console.warn('[提示]','部分数据需要授权，检测出当前访问用户未授权登录小程序');
 			}
 		}
-		//console.log(url)
-		//console.log(data)
-		wx.request({
+		console.log(url)
+		console.log(data)
+		qq.request({
 			url: url,
 			data: data,
 			method: method,
@@ -44,23 +42,21 @@ API.request = function(url, method = "GET", data={}, args = { token: true, isPul
 				if(res.statusCode == 200) {
 					resolve(res.data);
 				} else if(res.data.code === "rest_post_invalid_page_number") {
-					wx.showToast({
+					qq.showToast({
 						title: '没有更多内容',
 						mask: false,
 						duration: 1000
 					});
 				} else {
-					wx.showToast({
+					qq.showToast({
 						title: "请求数据失败",
 						duration: 1500
 					});
 					console.log(res.data.message);
 					reject(res.data);
 				}
-				wx.hideNavigationBarLoading()
 			},
 			fail: function(err) {
-				wx.hideNavigationBarLoading();
 				console.log(err);
 				reject(err);
 			}
@@ -91,17 +87,7 @@ API.login = function() {
 		if(Auth.check()){
 			resolve(Auth.user());
 		}else{
-			Auth.login().then(data=>{
-        API.post('/wp-json/mp/v1/user/openid', data, { token: false }).then(res => {
-					API.storageUser(res);
-					//console.log(res);
-					resolve(res);
-				}, err => {
-					reject(err);
-				});
-			}).catch( err =>{
-				reject(err);
-			})
+			resolve(Auth.login());
 		}
 	});
 }
@@ -110,8 +96,11 @@ API.logout = function() {
 	let logout = Auth.logout();
 	if(logout) {
 		getApp().globalData.user = '';
+		qq.reLaunch({
+			url: '/pages/index/index'
+		})
 	} else {
-		wx.showToast({
+		qq.showToast({
 			title: '注销失败!',
 			icon: 'warn',
 			duration: 1000,
@@ -131,7 +120,6 @@ API.getUserInfo = function() {
 			});
 		})
 		.catch( err =>{
-			//console.log(err);
 			reject(err);
 		})
 	});
@@ -140,7 +128,7 @@ API.getUserInfo = function() {
 API.token = function() {
 	let token = Auth.token();
 	let datetime = Date.now();
-	if(token && datetime < wx.getStorageSync('expired_in')) {
+	if(token && datetime < qq.getStorageSync('expired_in')) {
 		return token;
 	} else {
 		return false;
@@ -149,11 +137,11 @@ API.token = function() {
 
 API.storageUser = function(res) {
 	getApp().globalData.user = res.user;
-	wx.setStorageSync('user', res.user);
-	wx.setStorageSync('openid', res.openid);
+	qq.setStorageSync('user', res.user);
+	qq.setStorageSync('openid', res.openid);
 	if(res.access_token){
-		wx.setStorageSync('token', res.access_token);
-		wx.setStorageSync('expired_in', Date.now() + parseInt(res.expired_in, 10) * 100000 - 60000);
+		qq.setStorageSync('token', res.access_token);
+		qq.setStorageSync('expired_in', Date.now() + parseInt(res.expired_in, 10) * 100000 - 60000);
 	}
 }
 

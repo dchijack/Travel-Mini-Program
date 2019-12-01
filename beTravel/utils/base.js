@@ -1,10 +1,10 @@
 /**
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
 
-const API_HOST = 'https://cxcat.com'  // 更换为你的网站域名, 需要有 https 协议
+const API_HOST = 'https://demo.imahui.com'  // 更换为你的网站域名, 需要有 https 协议
 const Auth = require('./auth')
  
 const API = {}
@@ -13,11 +13,9 @@ API.getHost = function(){
 	return API_HOST;
 }
 
-API.request = function(url, method = "GET", data={}, args = { token: true, isPull: false }) {
+API.request = function(url, method = "GET", data={}, args = { token: true }) {
 	
 	return new Promise(function(resolve, reject) {
-		
-		swan.showNavigationBarLoading()
 		
 		url = API_HOST + url;
 		
@@ -33,8 +31,8 @@ API.request = function(url, method = "GET", data={}, args = { token: true, isPul
 				console.warn('[提示]','部分数据需要授权，检测出当前访问用户未授权登录小程序');
 			}
 		}
-		//console.log(url)
-		//console.log(data)
+		console.log(url)
+		console.log(data)
 		swan.request({
 			url: url,
 			data: data,
@@ -57,10 +55,8 @@ API.request = function(url, method = "GET", data={}, args = { token: true, isPul
 					console.log(res.data.message);
 					reject(res.data);
 				}
-				swan.hideNavigationBarLoading()
 			},
 			fail: function(err) {
-				swan.hideNavigationBarLoading();
 				console.log(err);
 				reject(err);
 			}
@@ -91,11 +87,7 @@ API.login = function() {
 		if(Auth.check()){
 			resolve(Auth.user());
 		}else{
-			Auth.login().then(res=>{
-				resolve(res);
-			}).catch( err =>{
-				reject(err);
-			})
+			resolve(Auth.login());
 		}
 	});
 }
@@ -104,6 +96,9 @@ API.logout = function() {
 	let logout = Auth.logout();
 	if(logout) {
 		getApp().globalData.user = '';
+		swan.reLaunch({
+			url: '/pages/index/index'
+		})
 	} else {
 		swan.showToast({
 			title: '注销失败!',
@@ -125,7 +120,6 @@ API.getUserInfo = function() {
 			});
 		})
 		.catch( err =>{
-			//console.log(err);
 			reject(err);
 		})
 	});

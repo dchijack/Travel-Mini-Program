@@ -17,10 +17,11 @@
   </view>
 </template>
 <template name="wxParseAudio">
-  <!--增加audio标签支持，并循环添加-->
+  <!--增加audio标签支持，并循环添加
   <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
    <audio poster="{{item.attr.poster}}" name="{{item.attr.name}}" author="{{item.attr.author}}" src="{{item.attr.src}}" id="Audio" controls loop></audio>
   </view>
+  -->
 </template>
 <template name="wxParseImg">
   <image class="{{item.classStr}} wxParse-{{item.tag}}" data-from="{{item.from}}" data-src="{{item.attr.src}}" data-idx="{{item.imgIndex}}" src="{{item.attr.src}}" mode="aspectFit" bindload="wxParseImgLoad" bindtap="wxParseImgTap" mode="widthFix" style="width:{{item.width}}px;"
@@ -29,7 +30,7 @@
 <!--33行加入text组件，用于复制文字-->
 <template name="WxEmojiView">
   <view class="WxEmojiView wxParse-inline" style="{{item.styleStr}}">
-    <block tt:for="{{item.textArray}}" tt:key="">
+    <block tt:for="{{item.textArray}}" tt:key="item">
       <block class="{{item.text == '\\n' ? 'wxParse-hide':''}}" tt:if="{{item.node == 'text'}}"><text selectable="{{true}}">{{item.text}}</text></block>
       <block tt:elif="{{item.node == 'element'}}">
         <image class="wxEmoji" src="{{item.baseSrc}}{{item.text}}" />
@@ -44,7 +45,7 @@
 <!--入口模版-->
 
 <template name="wxParse">
-  <block tt:for="{{wxParseData}}" tt:key="">
+  <block tt:for="{{wxParseData}}" tt:key="item">
     <template is="wxParse0" data="{{item}}" />
   </block>
 </template>
@@ -57,7 +58,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse1" data="{{item}}" />
         </block>
       </button>
@@ -70,7 +71,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse1" data="{{item}}" />
             </block>
           </view>
@@ -96,14 +97,14 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse1" data="{{item}}" />
         </block>
       </view>
     </block>
     <block tt:elif="{{item.tag == 'table'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse1" data="{{item}}" />
         </block>
       </view>
@@ -115,7 +116,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse1" data="{{item}}" />
         </block>
       </view>
@@ -123,7 +124,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse1" data="{{item}}" />
       </block>
     </view>
@@ -147,7 +148,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse2" data="{{item}}" />
         </block>
       </button>
@@ -160,7 +161,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse2" data="{{item}}" />
             </block>
           </view>
@@ -186,7 +187,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse2" data="{{item}}" />
         </block>
       </view>
@@ -198,7 +199,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse2" data="{{item}}" />
         </block>
       </view>
@@ -206,7 +207,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse2" data="{{item}}" />
       </block>
     </view>
@@ -229,7 +230,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse3" data="{{item}}" />
         </block>
       </button>
@@ -242,7 +243,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse3" data="{{item}}" />
             </block>
           </view>
@@ -268,7 +269,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse3" data="{{item}}" />
         </block>
       </view>
@@ -280,7 +281,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse3" data="{{item}}" />
         </block>
       </view>
@@ -288,7 +289,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse3" data="{{item}}" />
       </block>
     </view>
@@ -310,7 +311,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse4" data="{{item}}" />
         </block>
       </button>
@@ -323,7 +324,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse4" data="{{item}}" />
             </block>
           </view>
@@ -349,7 +350,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse4" data="{{item}}" />
         </block>
       </view>
@@ -361,7 +362,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse4" data="{{item}}" />
         </block>
       </view>
@@ -369,7 +370,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse4" data="{{item}}" />
       </block>
     </view>
@@ -391,7 +392,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse5" data="{{item}}" />
         </block>
       </button>
@@ -404,7 +405,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse5" data="{{item}}" />
             </block>
           </view>
@@ -430,7 +431,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse5" data="{{item}}" />
         </block>
       </view>
@@ -442,7 +443,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse5" data="{{item}}" />
         </block>
       </view>
@@ -450,7 +451,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse5" data="{{item}}" />
       </block>
     </view>
@@ -472,7 +473,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse6" data="{{item}}" />
         </block>
       </button>
@@ -485,7 +486,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse6" data="{{item}}" />
             </block>
           </view>
@@ -511,7 +512,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse6" data="{{item}}" />
         </block>
       </view>
@@ -523,7 +524,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse6" data="{{item}}" />
         </block>
       </view>
@@ -531,7 +532,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse6" data="{{item}}" />
       </block>
     </view>
@@ -553,7 +554,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse7" data="{{item}}" />
         </block>
       </button>
@@ -566,7 +567,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse7" data="{{item}}" />
             </block>
           </view>
@@ -592,7 +593,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse7" data="{{item}}" />
         </block>
       </view>
@@ -604,7 +605,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse7" data="{{item}}" />
         </block>
       </view>
@@ -612,7 +613,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse7" data="{{item}}" />
       </block>
     </view>
@@ -633,7 +634,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse8" data="{{item}}" />
         </block>
       </button>
@@ -646,7 +647,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse8" data="{{item}}" />
             </block>
           </view>
@@ -672,7 +673,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse8" data="{{item}}" />
         </block>
       </view>
@@ -684,7 +685,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse8" data="{{item}}" />
         </block>
       </view>
@@ -692,7 +693,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse8" data="{{item}}" />
       </block>
     </view>
@@ -714,7 +715,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse9" data="{{item}}" />
         </block>
       </button>
@@ -727,7 +728,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse9" data="{{item}}" />
             </block>
           </view>
@@ -753,7 +754,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse9" data="{{item}}" />
         </block>
       </view>
@@ -765,7 +766,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse9" data="{{item}}" />
         </block>
       </view>
@@ -773,7 +774,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse9" data="{{item}}" />
       </block>
     </view>
@@ -795,7 +796,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse10" data="{{item}}" />
         </block>
       </button>
@@ -808,7 +809,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse10" data="{{item}}" />
             </block>
           </view>
@@ -834,7 +835,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse10" data="{{item}}" />
         </block>
       </view>
@@ -846,7 +847,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse10" data="{{item}}" />
         </block>
       </view>
@@ -854,7 +855,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse10" data="{{item}}" />
       </block>
     </view>
@@ -876,7 +877,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse11" data="{{item}}" />
         </block>
       </button>
@@ -889,7 +890,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse11" data="{{item}}" />
             </block>
           </view>
@@ -915,7 +916,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse11" data="{{item}}" />
         </block>
       </view>
@@ -927,7 +928,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse11" data="{{item}}" />
         </block>
       </view>
@@ -935,7 +936,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse11" data="{{item}}" />
       </block>
     </view>
@@ -957,7 +958,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse12" data="{{item}}" />
         </block>
       </button>
@@ -970,7 +971,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse12" data="{{item}}" />
             </block>
           </view>
@@ -996,7 +997,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse12" data="{{item}}" />
         </block>
       </view>
@@ -1008,7 +1009,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse12" data="{{item}}" />
         </block>
       </view>
@@ -1016,7 +1017,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse12" data="{{item}}" />
       </block>
     </view>
@@ -1038,7 +1039,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse13" data="{{item}}" />
         </block>
       </button>
@@ -1051,7 +1052,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse13" data="{{item}}" />
             </block>
           </view>
@@ -1077,7 +1078,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse13" data="{{item}}" />
         </block>
       </view>
@@ -1089,7 +1090,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse13" data="{{item}}" />
         </block>
       </view>
@@ -1097,7 +1098,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse13" data="{{item}}" />
       </block>
     </view>
@@ -1119,7 +1120,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse14" data="{{item}}" />
         </block>
       </button>
@@ -1132,7 +1133,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse14" data="{{item}}" />
             </block>
           </view>
@@ -1158,7 +1159,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse14" data="{{item}}" />
         </block>
       </view>
@@ -1170,7 +1171,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse14" data="{{item}}" />
         </block>
       </view>
@@ -1178,7 +1179,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse14" data="{{item}}" />
       </block>
     </view>
@@ -1200,7 +1201,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse15" data="{{item}}" />
         </block>
       </button>
@@ -1213,7 +1214,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse15" data="{{item}}" />
             </block>
           </view>
@@ -1239,7 +1240,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse15" data="{{item}}" />
         </block>
       </view>
@@ -1251,7 +1252,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse15" data="{{item}}" />
         </block>
       </view>
@@ -1259,7 +1260,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse15" data="{{item}}" />
       </block>
     </view>
@@ -1281,7 +1282,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse16" data="{{item}}" />
         </block>
       </button>
@@ -1294,7 +1295,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse16" data="{{item}}" />
             </block>
           </view>
@@ -1320,7 +1321,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse16" data="{{item}}" />
         </block>
       </view>
@@ -1332,7 +1333,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse16" data="{{item}}" />
         </block>
       </view>
@@ -1340,7 +1341,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse16" data="{{item}}" />
       </block>
     </view>
@@ -1362,7 +1363,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse17" data="{{item}}" />
         </block>
       </button>
@@ -1375,7 +1376,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse17" data="{{item}}" />
             </block>
           </view>
@@ -1401,7 +1402,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse17" data="{{item}}" />
         </block>
       </view>
@@ -1413,7 +1414,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse17" data="{{item}}" />
         </block>
       </view>
@@ -1421,7 +1422,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse17" data="{{item}}" />
       </block>
     </view>
@@ -1443,7 +1444,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse18" data="{{item}}" />
         </block>
       </button>
@@ -1456,7 +1457,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse18" data="{{item}}" />
             </block>
           </view>
@@ -1482,7 +1483,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse18" data="{{item}}" />
         </block>
       </view>
@@ -1494,7 +1495,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse18" data="{{item}}" />
         </block>
       </view>
@@ -1502,7 +1503,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse18" data="{{item}}" />
       </block>
     </view>
@@ -1524,7 +1525,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse19" data="{{item}}" />
         </block>
       </button>
@@ -1537,7 +1538,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse19" data="{{item}}" />
             </block>
           </view>
@@ -1563,7 +1564,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse19" data="{{item}}" />
         </block>
       </view>
@@ -1575,7 +1576,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse19" data="{{item}}" />
         </block>
       </view>
@@ -1583,7 +1584,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse19" data="{{item}}" />
       </block>
     </view>
@@ -1605,7 +1606,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse20" data="{{item}}" />
         </block>
       </button>
@@ -1618,7 +1619,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse20" data="{{item}}" />
             </block>
           </view>
@@ -1644,7 +1645,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse20" data="{{item}}" />
         </block>
       </view>
@@ -1656,7 +1657,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse20" data="{{item}}" />
         </block>
       </view>
@@ -1664,7 +1665,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse20" data="{{item}}" />
       </block>
     </view>
@@ -1686,7 +1687,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse21" data="{{item}}" />
         </block>
       </button>
@@ -1699,7 +1700,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse21" data="{{item}}" />
             </block>
           </view>
@@ -1725,7 +1726,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse21" data="{{item}}" />
         </block>
       </view>
@@ -1737,7 +1738,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse21" data="{{item}}" />
         </block>
       </view>
@@ -1745,7 +1746,7 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse21" data="{{item}}" />
       </block>
     </view>
@@ -1767,7 +1768,7 @@
   <block tt:if="{{item.node == 'element'}}">
     <block tt:if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse22" data="{{item}}" />
         </block>
       </button>
@@ -1780,7 +1781,7 @@
             <view class="{{item.classStr}} wxParse-li-circle"></view>
           </view>
           <view class="{{item.classStr}} wxParse-li-text">
-            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
               <template is="wxParse22" data="{{item}}" />
             </block>
           </view>
@@ -1806,7 +1807,7 @@
     <!--a类型-->
     <block tt:elif="{{item.tag == 'a'}}">
       <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse22" data="{{item}}" />
         </block>
       </view>
@@ -1818,7 +1819,7 @@
     <!--其他块级标签-->
     <block tt:elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
           <template is="wxParse22" data="{{item}}" />
         </block>
       </view>
@@ -1826,8 +1827,89 @@
 
     <!--内联标签-->
     <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
-      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
         <template is="wxParse22" data="{{item}}" />
+      </block>
+    </view>
+
+  </block>
+
+  <!--判断是否是文本节点-->
+  <block tt:elif="{{item.node == 'text'}}">
+    <!--如果是，直接进行-->
+    <template is="WxEmojiView" data="{{item}}" />
+  </block>
+
+</template>
+
+<!--循环模版-->
+<template name="wxParse22">
+  <!--<template is="wxParse22" data="{{item}}" />-->
+  <!--判断是否是标签节点-->
+  <block tt:if="{{item.node == 'element'}}">
+    <block tt:if="{{item.tag == 'button'}}">
+      <button type="default" size="mini">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
+          <template is="wxParse23" data="{{item}}" />
+        </block>
+      </button>
+    </block>
+    <!--li类型-->
+    <block tt:elif="{{item.tag == 'li'}}">
+      <view class="{{item.classStr}} wxParse-li" style="{{item.styleStr}}">
+        <view class="{{item.classStr}} wxParse-li-inner">
+          <view class="{{item.classStr}} wxParse-li-text">
+            <view class="{{item.classStr}} wxParse-li-circle"></view>
+          </view>
+          <view class="{{item.classStr}} wxParse-li-text">
+            <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
+              <template is="wxParse23" data="{{item}}" />
+            </block>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!--video类型-->
+    <block tt:elif="{{item.tag == 'video'}}">
+      <template is="wxParseVideo" data="{{item}}" />
+    </block>
+
+    <!--audio类型-->
+    <block tt:elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{item}}" />
+    </block>
+
+    <!--img类型-->
+    <block tt:elif="{{item.tag == 'img'}}">
+      <template is="wxParseImg" data="{{item}}" />
+    </block>
+
+    <!--a类型-->
+    <block tt:elif="{{item.tag == 'a'}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
+          <template is="wxParse23" data="{{item}}" />
+        </block>
+      </view>
+    </block>
+
+    <block tt:elif="{{item.tag == 'br'}}">
+      <template is="WxParseBr"></template>
+    </block>
+    <!--其他块级标签-->
+    <block tt:elif="{{item.tagType == 'block'}}">
+      <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
+        <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
+          <template is="wxParse23" data="{{item}}" />
+        </block>
+      </view>
+    </block>
+
+    <!--内联标签-->
+    <view tt:else class="{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}" style="{{item.styleStr}}">
+      <block tt:for="{{item.nodes}}" tt:for-item="item" tt:key="item">
+        <template is="wxParse23" data="{{item}}" />
       </block>
     </view>
 

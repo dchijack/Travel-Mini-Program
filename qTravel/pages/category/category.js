@@ -1,11 +1,10 @@
+// pages/category/category.js
 /**
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
-// pages/category/category.js
 const API = require('../../utils/api')
-
 
 Page({
 
@@ -13,7 +12,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    page: 1,
+    category: '',
+    isBottom: false,
+    isLastPage: false
   },
 
   /**
@@ -22,20 +24,7 @@ Page({
   onLoad: function (options) {
     this.getCategories();
   },
-  getCategories: function () {
-    API.getCategories().then(res => {
-      this.setData({
-        category: res
-      })
-    })
-  },
 
-  goClassByid: function (e) {
-    let id = e.currentTarget.id;
-    wx.navigateTo({
-      url: '/pages/list/list?id=' + id,
-    })
-  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -68,14 +57,24 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.setData({
+      page: 1,
+      category: '',
+      isBottom: false
+    })
+    this.getCategories()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    this.setData({
+      isBottom: true
+    })
+    if(!this.data.isLastPage) {
+      this.getCategories({page:this.data.page})
+    }
   },
 
   /**
@@ -83,5 +82,42 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  getCategories: function () {
+    API.getCategories().then(res => {
+      let args = {}
+      if (res.length < 10) {
+        this.setData({
+          isLastPage: true
+        })
+      }
+      if (this.data.isBottom) {
+        qq.showToast({
+          title: '加载下一页',
+          icon: 'loading',
+          duration: 1000
+        })
+        args.category = [].concat(this.data.category, res)
+        args.page = this.data.page + 1
+      } else {
+        args.category = res
+        args.page = this.data.page + 1
+      }
+      this.setData(args)
+      qq.stopPullDownRefresh()
+    })
+    .catch(err => {
+      console.log(err)
+      qq.stopPullDownRefresh()
+    })
+  },
+
+  bindCateByID: function (e) {
+    let id = e.currentTarget.id;
+    qq.navigateTo({
+      url: '/pages/list/list?id=' + id,
+    })
   }
+
 })

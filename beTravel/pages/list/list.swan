@@ -1,28 +1,49 @@
+<!--pages/list/list.swan-->
 <view class="tab-content">
-  <view class="index">
-    <view class="index_label">
-      <view class="index_label_title">{{category}}</view>
-      <view class="index_label_bg"></view>
-    </view>
-    <view class="index_article">
-      <view bindtap="goArticleDetail" id="{{item.id}}" s-if="{{posts.length>0}}" s-for="{{posts}}" s-key="item">
-        <view style="position: relative;height: 380rpx">
-          <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
-          <view class="index_article_during">
-            <image src="../../images/cate.png" style="width: 20rpx;height: 20rpx"></image>
-            <text>{{item.category[0].name}}</text>
-          </view>
+    <view class="index">
+        <!--view class="index_label">
+        <view class="index_label_title">{{category}}</view>
+        <view class="index_label_bg"></view>
+        </view-->
+        <view class="index_article" s-if="{{posts.length>0}}">
+            <block s-for="{{posts}}" s-for-index="i" s-key="item">
+                <block s-if="{{i%5 == 0}}">
+                <view bindtap="bindDetail" id="{{item.id}}">
+                    <view style="position: relative;height: 380rpx">
+                        <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
+                        <view class="index_article_during">
+                            <text>{{item.category[0].name}}</text>
+                        </view>
+                    </view>
+                    <view class="index_article_title">{{item.title.rendered}}</view>
+                    <view class="index_article_desc">{{item.excerpt.rendered}}</view>
+                </view>
+                <view class="advert" s-if="{{advert.platform.baidu && advert.type == 'unit'}}">
+                    <ad appid="16995429" apid="{{advert.code}}" class="ad" type="feed" ></ad>
+                </view>
+                </block>
+                <block s-else>
+                <view bindtap="bindDetail" id="{{item.id}}">
+                    <view style="position: relative;height: 380rpx">
+                        <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
+                        <view class="index_article_during">
+                            <text>{{item.category[0].name}}</text>
+                        </view>
+                    </view>
+                    <view class="index_article_title">{{item.title.rendered}}</view>
+                    <view class="index_article_desc">{{item.excerpt.rendered}}</view>
+                </view>
+                
+                </block>
+            </block>
         </view>
-        <view class="index_article_title">{{item.title.rendered}}</view>
-        <view class="index_article_desc">{{item.excerpt.rendered}}</view>
-      </view>
-      <view s-if="{{isLastPage&&posts.length==0}}">
-        暂无内容
-      </view>
+        <view class="index_article" s-if="{{isLastPage&&posts.length==0}}">
+            <view style="position: relative;height: 380rpx">
+                <image mode="aspectFill" class="index_article_cover" src="../../images/message.png"></image>
+            </view>
+            <view class="last_text">对不起! 你查看的内容没有找到</view>
+        </view>
+        <view class="last_text" s-if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
+        <view class="last_text" s-if="{{!isLastPage&&posts.length>0}}">努力加载中...</view>
     </view>
-
-    <view class="last_text" s-if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
-    <view class="last_text" s-if="{{!isLastPage&&posts.length>0}}">努力加载中...</view>
-  </view>
-
 </view>

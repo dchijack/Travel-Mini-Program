@@ -1,0 +1,27 @@
+<!--pages/posts/posts.qml-->
+<view class="tab-content">
+    <view class="index">
+        <view class="index_article" qq:if="{{posts.length>0}}">
+            <block qq:for="{{posts}}" qq:for-index="i" qq:key="item">
+                <view bindtap="bindDetail" id="{{item.id}}">
+                    <view style="position: relative;height: 380rpx">
+                        <image mode="aspectFill" class="index_article_cover" src="{{item.meta.thumbnail}}"></image>
+                        <view class="index_article_during">
+                            <text>{{item.category[0].name}}</text>
+                        </view>
+                    </view>
+                    <view class="index_article_title">{{item.title.rendered}}</view>
+                    <view class="index_article_desc">{{item.excerpt.rendered}}</view>
+                </view>
+            </block>
+        </view>
+        <view class="index_article" qq:if="{{isLastPage&&posts.length==0}}">
+            <view style="position: relative;height: 380rpx">
+                <image mode="aspectFill" class="index_article_cover" src="../../images/message.png"></image>
+            </view>
+            <view class="last_text">对不起! 你查看的内容没有找到</view>
+        </view>
+        <view class="last_text" qq:if="{{isLastPage&&posts.length>0}}">已经到底啦~</view>
+        <view class="last_text" qq:if="{{!isLastPage&&posts.length>0}}">努力加载中...</view>
+    </view>
+</view>

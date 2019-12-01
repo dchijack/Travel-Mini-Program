@@ -1,45 +1,110 @@
+// pages/detail/detail.js
 /**
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
-// pages/detail/detail.js
 const API = require('../../utils/api')
 const bdParse = require('../../bdParse/bdParse')
 const app = getApp()
 let isFocusing = false
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    comments: [],
     page: 1,
-    placeholder: '输入评论',
+    detail:'',
     textNum: 0,
+    comments: [],
+    placeholder: '输入评论'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-	  let that=this;
+  onLoad: function (options) {
+    let that = this
     swan.getSystemInfo({
       success: function (a) {
         that.setData({
           isIphoneX: a.model.match(/iPhone X/gi)
-        });
+        })
       }
-    });
-    this.getPostsbyID(options.id)
+    })
+    this.setData({options:options})
+    //this.getPostsbyID(options.id)
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    let user = app.globalData.user
+    if (!user) {
+      user = '';
+    }
+    this.setData({
+      user: user,
+    })
+    this.getPostsbyID(this.data.options.id)
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    this.setData({
+      page: 1,
+      detail: '',
+      comments: []
+    })
+    this.getAdvert()
+    this.getPostsbyID(this.data.options.id)
+    this.getComments()
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    if (!this.data.isLastPage) {
+      this.getComments();
+    }
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+    return {
+      title: this.data.detail.title.rendered,
+      path: '/pages/detail/detail?id=' + this.data.detail.id,
+      imageUrl: this.data.detail.meta.thumbnail
+    }
   },
 
   getPostsbyID: function(id) {
@@ -47,22 +112,54 @@ Page({
     API.getPostsbyID(id).then(res => {
       that.setData({
         id: id,
-        detail: res,
-        isLike: res.islike,
-        isfav: res.isfav,
+        detail: res
       })
       bdParse.bdParse('article', 'html', res.content.rendered, this,5);
       if (res.comments != 0) {
         this.getComments()
       }
+      swan.setPageInfo({
+				title:res.smartprogram.title,
+				keywords:res.smartprogram.keywords,
+				description:res.smartprogram.description,
+        image: res.smartprogram.image,
+        visit: res.smartprogram.visit,
+        comments: res.smartprogram.comments,
+        likes: res.smartprogram.likes,
+        collects: res.smartprogram.collects,
+				success: function () {
+					console.log('小程序 Web 化信息设置成功');
+				},
+				fail: function (err) {
+					console.log('小程序 Web 化信息设置失败', err);
+				}
+			})
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+
+  getAdvert: function() {
+    API.detailAdsense().then(res => {
+      console.log(res)
+      if(res.status === 200) {
+        this.setData({
+          advert: res.data
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
     })
   },
 
   getComments: function() {
     API.getComments({
-      id: this.data.detail.id,
+      id: this.data.options.id,
       page: this.data.page
     }).then(res => {
+      let data = {}
       if (res.length < 10) {
         this.setData({
           isLastPage: true,
@@ -70,14 +167,7 @@ Page({
           showloadmore: false
         })
       }
-      let data = {}
-      if (this.data.isReply) {
-        this.setData({
-          comments: []
-        })
-        data.comments = [].concat(this.data.comments, res)
-        data.page = this.data.page + 1
-      } else if (this.data.isBottom) {
+      if (this.data.isBottom) {
         data.comments = [].concat(this.data.comments, res)
         data.page = this.data.page + 1
       } else {
@@ -86,20 +176,104 @@ Page({
       }
       this.setData(data)
     })
-
   },
-  // 发表评论
+
+  bindFavTap: function(e) {
+    console.log(e)
+    let args = {}
+    let detail = this.data.detail
+    args.id = detail.id
+    API.fav(args).then(res => {
+      //console.log(res)
+      if (res.status === 200) {
+        detail.isfav = true
+        this.setData({
+          detail: detail,
+        })
+        swan.showToast({
+          title: '加入收藏!',
+          icon: 'success',
+          duration: 900,
+        })
+      } else if (res.status === 202) {
+        detail.isfav = false
+        this.setData({
+          detail: detail,
+        })
+        swan.showToast({
+          title: '取消收藏!',
+          icon: 'success',
+          duration: 900,
+        })
+      } else {
+        swan.showModal({
+          title: '温馨提示',
+          content: '数据出错, 建议清除缓存重新尝试',
+          success: response => {
+            swan.removeStorageSync('user')
+            swan.removeStorageSync('token')
+            swan.removeStorageSync('expired_in')
+          }
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+
+  bindLikeTap: function(e) {
+    console.log(e)
+    let args = {}
+    let detail = this.data.detail
+    args.id = detail.id
+    API.like(args).then(res => {
+      //console.log(res)
+      if (res.status === 200) {
+        detail.islike = true
+        this.setData({
+          detail: detail,
+        })
+        swan.showToast({
+          title: '谢谢点赞!',
+          icon: 'success',
+          duration: 900,
+        })
+      } else if (res.status === 202) {
+        detail.islike = false
+        this.setData({
+          detail: detail,
+        })
+        swan.showToast({
+          title: '取消点赞!',
+          icon: 'success',
+          duration: 900,
+        })
+      } else {
+        swan.showModal({
+          title: '温馨提示',
+          content: '数据出错, 建议清除缓存重新尝试',
+          success: response => {
+            swan.removeStorageSync('user')
+            swan.removeStorageSync('token')
+            swan.removeStorageSync('expired_in')
+          }
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+
   addComment: function(e) {
     console.log(e)
-    let that = this;
     let args = {}
-    let id = this.data.detail.id;
-    let content = e.detail.value.inputComment
-    args.id = id
-    args.content = content
-    this.setData({
-      content: content
-    })
+    let that = this
+    args.id = this.data.detail.id
+    args.content = this.data.content
+    args.parent = this.data.parent
+    args.formid = e.detail.formId
     if (!this.data.user) {
       swan.showModal({
         title: '提示',
@@ -110,222 +284,87 @@ Page({
           }
         }
       })
-    } else if (content.length === 0) {
+    } else if (args.content.length === 0) {
       swan.showModal({
         title: '提示',
         content: '评论内容不能为空'
       })
     } else {
       API.addComment(args).then(res => {
-          console.log(res)
-          if (res.status === 200) {
+        console.log(res)
+        if (res.status === 200) {
+          this.setData({
+            page: 1,
+            showTextarea: false,
+            content: "",
+            comments: [],
+            placeholder: "",
+            isFocus: false
+          })
+          setTimeout(function() {
+            swan.showModal({
+              title: '温馨提示',
+              content: res.message
+            })
+          }, 900)
+          if (!this.data.isComments) {
             this.setData({
-              page: 1,
-              showTextarea: false,
-              content: "",
-              comments: [],
-              placeholder: "",
-              isFocus: false,
-              modalTarget: ''
-            })
-            setTimeout(function() {
-              swan.showToast({
-                title: '发布成功，审核后方可显示',
-                icon: 'success',
-                duration: 900,
-              })
-            }, 900)
-            if (!this.data.isComments) {
-              this.setData({
-                isComments: true,
-                placeholder: '',
-                modalTarget: ''
-              })
-            }
-            this.getComments()
-          } else if (res.status === 500) {
-            swan.showModal({
-              title: '提示',
-              content: '评论失败，请稍后重试。'
-            })
-          } else {
-            swan.showModal({
-              title: '提示',
-              content: '必须授权登录才可以评论'
+              isComments: true,
+              placeholder: ''
             })
           }
-        })
-        .catch(err => {
-          console.log(err)
+          this.getComments()
+        } else if (res.status === 500) {
           swan.showModal({
             title: '提示',
             content: '评论失败，请稍后重试。'
           })
+        } else {
+          swan.showModal({
+            title: '提示',
+            content: '必须授权登录才可以评论',
+            success: function(res) {
+              if (res.confirm) {
+                that.getProfile();
+              }
+            }
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        swan.showModal({
+          title: '提示',
+          content: '评论失败，请稍后重试。'
         })
-    }
-  },
-
-  // 收藏文章
-  bindFavTap: function(e) {
-    //console.log(e)
-    let args = {}
-    args.id = e.currentTarget.id
-    API.fav(args).then(res => {
-        //console.log(res)
-        if (res.status === 200) {
-          this.setData({
-            isfav: true,
-          })
-          swan.showToast({
-            title: '加入收藏!',
-            icon: 'success',
-            duration: 900,
-
-          })
-        } else if (res.status === 202) {
-          this.setData({
-            isfav: false,
-          })
-          swan.showToast({
-            title: '取消收藏!',
-            icon: 'success',
-            duration: 900,
-          })
-        } else {
-          swan.showToast({
-            title: '数据出错!',
-            icon: 'success',
-            duration: 900,
-          })
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  },
-
-  bindLikeTap: function(e) {
-    let args = {}
-    let that = this;
-    args.id = e.currentTarget.id
-    API.like(args).then(res => {
-        if (res.status === 200) {
-          swan.showToast({
-            title: '谢谢点赞!',
-            icon: 'success',
-            duration: 900,
-          })
-          that.setData({
-            isLike: true
-          })
-        } else if (res.status === 202) {
-          that.setData({
-            isLike: false
-          })
-          swan.showToast({
-            title: '取消点赞!',
-            icon: 'success',
-            duration: 900,
-          })
-        } else {
-          swan.showToast({
-            title: '数据出错!',
-            icon: 'success',
-            duration: 900,
-          })
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  },
-
-  onReplyBlur: function(e) {
-    var self = this;
-    if (!self.data.focus) {
-      const text = e.detail.value.trim();
-      if (text === '') {
-        self.setData({
-          parentID: "0",
-          placeholder: "评论...",
-          userid: "",
-          toFromId: "",
-          commentdate: ""
-        });
-      }
-
-    } else {
-      self.setData({
-        placeholder: "不说算了，口亨",
-        focus: false,
       })
     }
-
-    console.log(isFocusing);
   },
 
-  tapcomment: function(e) {
-    var self = this;
-    let id = e.currentTarget.id;
-    if (id) {
-      this.setData({
-        id: id,
-        showTextarea: true,
-      })
-    } else {
-      this.setData({
-        showTextarea: true,
-      })
-    }
-
-    setTimeout(function() {
-      self.setData({
-        focus: true
-      });
-    }, 100);
-  },
-
-  closeCommentary: function() {
+  replyComment: function(e) {
+    console.log(e)
+    isFocusing = true
+    let parent = e.currentTarget.dataset.parent
+    let reply = e.currentTarget.dataset.reply
     this.setData({
-      showTextarea: false
-    });
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-    let user = app.globalData.user
-    if (!user) {
-      user = '';
-    }
-    this.setData({
-      user: user,
+      isFocus: true,
+      isReply: true,
+      parent: parent,
+      placeholder: " 回复 " + reply + ":"
     })
   },
 
-  getUserInfoFun: function(e) {
-    console.log(e);
-    if (e.detail.errMsg == "getUserInfo:ok") {
-      this.getProfile();
-      swan.setStorageSync('user', e.detail)
-      this.setData({
-        user: true,
-      })
-    } else {
-      return
-    }
-
-
-  },
-
   getProfile: function(e) {
-    console.log(e);
+    console.log(e)
+    swan.showLoading({
+      title: '正在登录...',
+    })
     API.getProfile().then(res => {
         console.log(res)
         this.setData({
           user: res
         })
+        swan.hideLoading()
       })
       .catch(err => {
         console.log(err)
@@ -343,77 +382,67 @@ Page({
     }
   },
 
-  replyComment: function(e) {
-    console.log(e)
-    isFocusing = true
-    let parent = e.currentTarget.dataset.parent
-    let reply = e.currentTarget.dataset.reply
-    this.setData({
-      isFocus: true,
-      isReply: true,
-      parent: parent,
-      modalTarget: 'comment',
-      placeholder: " 回复 " + reply + ":",
-    })
+  onReplyBlur: function(e) {
+    var that = this;
+    if (!that.data.focus) {
+      const text = e.detail.value.trim();
+      if (text === '') {
+        that.setData({
+          parent: "0",
+          placeholder: "评论...",
+          commentdate: ""
+        });
+      }
+    } else {
+      that.setData({
+        placeholder: "不说算了，口亨",
+        focus: false
+      })
+    }
+    console.log(isFocusing)
   },
 
-  bindWordLimit: function(e) {
+  bindInputContent: function(e) {
     if (e.detail.value.length > 0) {
       this.setData({
+        content: e.detail.value,
         textNum: e.detail.value.length,
-        iscanpublish: true,
+        iscanpublish: true
       })
     } else {
       this.setData({
-        iscanpublish: false,
+        iscanpublish: false
       })
     }
-
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
+  tapcomment: function(e) {
+    var self = this;
+    let id = e.currentTarget.id;
+    if (id) {
+      this.setData({
+        id: id,
+        showTextarea: true
+      })
+    } else {
+      this.setData({
+        showTextarea: true
+      })
+    }
+    setTimeout(function() {
+      self.setData({
+        focus: true
+      });
+    }, 100);
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
+  closeCommentary: function() {
     this.setData({
-      comments: [],
-      page: 1,
-    })
-    this.getComments();
+      showTextarea: false
+    });
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-    if (!this.data.isLastPage) {
-      this.getComments();
-    }
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-    let that = this;
-    return {
-      title: that.data.detail.title.rendered,
-      path: '/pages/detail/detail?id=' + that.data.detail.id,
-      imageUrl: that.data.detail.meta.thumbnail
-    }
+  bindBack: function() {
+    swan.navigateBack()
   }
 })

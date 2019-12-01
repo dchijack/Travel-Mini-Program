@@ -1,7 +1,7 @@
 /**
  * Author : 丸子团队（波波、Chi、ONLINE.信）
  * Github 地址: https://github.com/dchijack/Travel-Mini-Program
- * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
+ * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
 // pages/list/list.js
 const API = require('../../utils/api')
@@ -12,22 +12,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-    posts: [],
+    id:0,
     page: 1,
-    isLoadAll: false,
+    posts: [],
+    isLoadAll: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-    let id = options.id;
-    this.setData({
-      options: options,
-    })
+  onLoad: function (options) {
+    this.setData({options: options})
+    this.getAdvert()
     if (options.id) {
       this.getPostList({
-        categories: id,
+        categories: options.id,
         page: this.data.page
       });
       this.getCategoryByID(options.id);
@@ -40,108 +39,64 @@ Page({
       this.setData({
         category: '关键词“' + options.s + '”的结果'
       })
+      qq.setNavigationBarTitle({
+        title: '关键词:'+options.s
+      })
     }
-
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
-
-  getCategoryByID: function(id) {
-    API.getCategoryByID(id).then(res => {
-      this.setData({
-        category: res.name
-      })
-    })
-
-  },
-
-  goArticleDetail: function(e) {
-    let id = e.currentTarget.id;
-    wx.navigateTo({
-      url: '/pages/detail/detail?id=' + id,
-    })
-  },
-
-  getPostList: function(args) {
-    API.getPostsList(args).then(res => {
-      let args = {}
-      if (res.length < 10) {
-        this.setData({
-          isLastPage: true,
-          loadtext: '到底啦',
-          showloadmore: false
-        })
-      }
-      if (this.data.isPull) {
-        args.posts = [].concat(this.data.posts, res)
-        args.page = this.data.page + 1
-      } else if (this.data.isBottom) {
-        args.posts = [].concat(this.data.posts, res)
-        args.page = this.data.page + 1
-      } else {
-        args.posts = [].concat(this.data.posts, res)
-        args.page = this.data.page + 1
-        args.isLoadAll = true
-      }
-      this.setData(args)
-    })
-  },
-
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
-
+  onShow: function () {
+    
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     this.setData({
-      posts:[],
       page:1,
+      posts:[]
     })
     if (this.data.options.id) {
       this.getPostList({
-        categories: this.data.options.id,
-        page: this.data.page
+        categories: this.data.options.id
       });
     }
     if (this.data.options.s) {
       this.getPostList({
-        search: this.data.options.s,
-        page: this.data.page
+        search: this.data.options.s
       });
     }
-    wx.stopPullDownRefresh();
-
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
     if (!this.data.isLastPage) {
       if (this.data.options.id) {
         this.getPostList({
@@ -161,7 +116,69 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
+  },
+
+  getCategoryByID: function(id) {
+    API.getCategoryByID(id).then(res => {
+      this.setData({
+        title: res.name
+      })
+      qq.setNavigationBarTitle({
+        title: res.name
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+
+  getPostList: function(data) {
+    API.getPostsList(data).then(res => {
+      let args = {}
+      if (res.length < 10) {
+        this.setData({
+          isLastPage: true,
+          loadtext: '到底啦',
+          showloadmore: false
+        })
+      }
+      if (this.data.isBottom) {
+        args.posts = [].concat(this.data.posts, res)
+        args.page = this.data.page + 1
+      } else {
+        args.posts = [].concat(this.data.posts, res)
+        args.page = this.data.page + 1
+      }
+      this.setData(args)
+      qq.stopPullDownRefresh()
+    })
+    .catch(err => {
+      console.log(err)
+      qq.stopPullDownRefresh()
+    })
+  },
+
+  getAdvert: function() {
+    API.listAdsense().then(res => {
+      console.log(res)
+      if(res.status === 200) {
+        this.setData({
+          advert: res.data
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+
+  bindDetail: function(e) {
+    let id = e.currentTarget.id;
+    qq.navigateTo({
+      url: '/pages/detail/detail?id=' + id,
+    })
   }
+
 })
