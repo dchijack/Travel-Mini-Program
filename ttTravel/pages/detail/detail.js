@@ -27,7 +27,7 @@ Page({
    */
   onLoad: function (options) {
     let that = this
-    qq.getSystemInfo({
+    tt.getSystemInfo({
       success: function (a) {
         that.setData({
           isIphoneX: a.model.match(/iPhone X/gi)
