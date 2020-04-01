@@ -173,7 +173,7 @@ Page({
         this.setData({
           detail: detail,
         })
-        qq.showToast({
+        tt.showToast({
           title: '加入收藏!',
           icon: 'success',
           duration: 900,
@@ -183,19 +183,19 @@ Page({
         this.setData({
           detail: detail,
         })
-        qq.showToast({
+        tt.showToast({
           title: '取消收藏!',
           icon: 'success',
           duration: 900,
         })
       } else {
-        qq.showModal({
+        tt.showModal({
           title: '温馨提示',
           content: '数据出错, 建议清除缓存重新尝试',
           success: response => {
-            qq.removeStorageSync('user')
-            qq.removeStorageSync('token')
-            qq.removeStorageSync('expired_in')
+            tt.removeStorageSync('user')
+            tt.removeStorageSync('token')
+            tt.removeStorageSync('expired_in')
           }
         })
       }
@@ -217,7 +217,7 @@ Page({
         this.setData({
           detail: detail,
         })
-        qq.showToast({
+        tt.showToast({
           title: '谢谢点赞!',
           icon: 'success',
           duration: 900,
@@ -227,19 +227,19 @@ Page({
         this.setData({
           detail: detail,
         })
-        qq.showToast({
+        tt.showToast({
           title: '取消点赞!',
           icon: 'success',
           duration: 900,
         })
       } else {
-        qq.showModal({
+        tt.showModal({
           title: '温馨提示',
           content: '数据出错, 建议清除缓存重新尝试',
           success: response => {
-            qq.removeStorageSync('user')
-            qq.removeStorageSync('token')
-            qq.removeStorageSync('expired_in')
+            tt.removeStorageSync('user')
+            tt.removeStorageSync('token')
+            tt.removeStorageSync('expired_in')
           }
         })
       }
@@ -258,7 +258,7 @@ Page({
     args.parent = this.data.parent
     args.formid = e.detail.formId
     if (!this.data.user) {
-      qq.showModal({
+      tt.showModal({
         title: '提示',
         content: '必须授权登录才可以评论',
         success: function(res) {
@@ -268,7 +268,7 @@ Page({
         }
       })
     } else if (args.content.length === 0) {
-      qq.showModal({
+      tt.showModal({
         title: '提示',
         content: '评论内容不能为空'
       })
@@ -285,7 +285,7 @@ Page({
             isFocus: false
           })
           setTimeout(function() {
-            qq.showModal({
+            tt.showModal({
               title: '温馨提示',
               content: res.message
             })
@@ -298,12 +298,12 @@ Page({
           }
           this.getComments()
         } else if (res.status === 500) {
-          qq.showModal({
+          tt.showModal({
             title: '提示',
             content: '评论失败，请稍后重试。'
           })
         } else {
-          qq.showModal({
+          tt.showModal({
             title: '提示',
             content: '必须授权登录才可以评论',
             success: function(res) {
@@ -316,7 +316,7 @@ Page({
       })
       .catch(err => {
         console.log(err)
-        qq.showModal({
+        tt.showModal({
           title: '提示',
           content: '评论失败，请稍后重试。'
         })
@@ -339,7 +339,7 @@ Page({
 
   getProfile: function(e) {
     console.log(e)
-    qq.showLoading({
+    tt.showLoading({
       title: '正在登录...',
     })
     API.getProfile().then(res => {
@@ -347,11 +347,11 @@ Page({
         this.setData({
           user: res
         })
-        qq.hideLoading()
+        tt.hideLoading()
       })
       .catch(err => {
         console.log(err)
-        qq.hideLoading()
+        tt.hideLoading()
       })
   },
 
@@ -426,7 +426,7 @@ Page({
   },
 
   bindBack: function() {
-    qq.navigateBack()
+    tt.navigateBack()
   },
 
   shareClick: function () {
@@ -447,7 +447,7 @@ Page({
     let prefixPath = ''
     let title = this.data.detail.title.rendered
     let excerpt = this.data.detail.excerpt.rendered
-    const downloadTaskCoverPrefix = qq.downloadFile({
+    const downloadTaskCoverPrefix = tt.downloadFile({
       url: that.data.detail.meta.thumbnail,
       success: response => {
         if (response.statusCode === 200) {
@@ -457,8 +457,8 @@ Page({
             that.createPostPrefix(prefixPath, qrcodePath, title, excerpt);
           }
         } else {
-          qq.hideLoading();
-          qq.showToast({
+          tt.hideLoading();
+          tt.showToast({
             title: "下载封面失败",
             mask: true,
             duration: 2000
@@ -467,7 +467,7 @@ Page({
       }
     });
     downloadTaskCoverPrefix.onProgressUpdate((res) => {
-      qq.showLoading({
+      tt.showLoading({
         title: "正在下载封面...",
         mask: true,
       });
@@ -477,13 +477,13 @@ Page({
   //将canvas转换为图片保存到本地，然后将路径传给image图片的src
   createPostPrefix: function (prefixPath, qrcodePath, title, excerpt) {
     //console.log(excerpt);
-    qq.showLoading({
+    tt.showLoading({
       title: "正在生成海报",
       mask: true,
     });
     let textTitle = title.replace(/<\/?.+?>/g,"").replace(/[\r\n]/g, "").replace(/ /g,"")
     let textExcerpt = excerpt.replace(/<\/?.+?>/g,"").replace(/[\r\n]/g, "").replace(/ /g,"")
-    let context = qq.createCanvasContext('prefix');
+    let context = tt.createCanvasContext('prefix');
     context.setFillStyle('#ffffff');//填充背景色
     context.fillRect(0, 0, 600, 970);
     context.drawImage(prefixPath, 0, 0, 600, 400);//绘制首图
@@ -505,11 +505,11 @@ Page({
     context.draw();
     //将生成好的图片保存到本地，需要延迟一会，绘制期间耗时
     setTimeout(function () {
-      qq.canvasToTempFilePath({
+      tt.canvasToTempFilePath({
         canvasId: 'prefix',
         success: function (res) {
-          qq.hideLoading();
-          qq.previewImage({
+          tt.hideLoading();
+          tt.previewImage({
             current: res.tempFilePath,
             urls: [res.tempFilePath]
           })
@@ -517,7 +517,7 @@ Page({
         },
         fail: function (res) {
           console.log(res);
-          qq.hideLoading();
+          tt.hideLoading();
         }
       });
     }, 900);
