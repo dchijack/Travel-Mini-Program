@@ -23,6 +23,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({options: options})
+    this.getAdvert()
     if (options.id) {
       this.getPostList({
         categories: options.id,
@@ -156,6 +157,20 @@ Page({
     .catch(err => {
       console.log(err)
       tt.stopPullDownRefresh()
+    })
+  },
+
+  getAdvert: function() {
+    API.listAdsense().then(res => {
+      console.log(res)
+      if(res.status === 200) {
+        this.setData({
+          advert: res.data
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
     })
   },
 

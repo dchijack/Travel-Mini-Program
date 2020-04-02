@@ -1,7 +1,7 @@
 <!--index.qml-->
 <view class="page {{isIphoneX?'iphone-x':''}}">
   <view class="banner">
-    <image class="banner-bg" mode="widthFix" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/tangzhi_banner_v4.jpg"></image>
+    <image class="banner-bg" mode="widthFix" src="{{siteInfo && siteInfo.cover ? siteInfo.cover : 'https://cloud-minapp-16269.cloud.ifanrusercontent.com/tangzhi_banner_v4.jpg'}}"></image>
     <view class="banner-info" style="top: {{navBarHeight+150}}rpx">
       <view class="banner-title">
         <view class="banner-title_text">{{siteInfo.name}}</view>
@@ -39,7 +39,7 @@
               <view class="index_article_title">{{item.title.rendered}}</view>
               <view class="index_article_desc">{{item.excerpt.rendered}}</view>
             </view>
-            <view class="advert" qq:if="{{advert.platform.qq && advert.type == 'unit'}}">
+            <view class="advert" qq:if="{{advert.type == 'unit'}}">
               <ad unit-id="{{advert.code}}"></ad>
             </view>
           </block>

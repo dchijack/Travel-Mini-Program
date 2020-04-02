@@ -29,6 +29,9 @@
       <view style='width:690rpx;height:250rpx;background:#f3f3f3;margin-top:20rpx'></view>
     </view>
   </view>
+  <view class="advert" tt:if="{{advert.type == 'unit'}}">
+    <ad unit-id="{{advert.code}}"></ad>
+  </view>
   <view class="topic-title-wrapper" id="comment">
     <view class="topic-title">话题讨论</view>
     <view class="onlooker-amount relative">

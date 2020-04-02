@@ -29,7 +29,7 @@
       <view style='width:690rpx;height:250rpx;background:#f3f3f3;margin-top:20rpx'></view>
     </view>
   </view>
-  <view class="advert" wx:if="{{advert.platform.weapp && advert.type == 'unit'}}">
+  <view class="advert" wx:if="{{advert.type == 'unit'}}">
     <ad unit-id="{{advert.code}}"></ad>
   </view>
   <view class="topic-title-wrapper" id="comment">

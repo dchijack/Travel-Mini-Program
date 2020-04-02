@@ -477,11 +477,12 @@ Page({
   //将canvas转换为图片保存到本地，然后将路径传给image图片的src
   createPostPrefix: function (prefixPath, qrcodePath, title, excerpt) {
     //console.log(excerpt);
-    let that = this;
     qq.showLoading({
       title: "正在生成海报",
       mask: true,
     });
+    let textTitle = title.replace(/<\/?.+?>/g,"").replace(/[\r\n]/g, "").replace(/ /g,"")
+    let textExcerpt = excerpt.replace(/<\/?.+?>/g,"").replace(/[\r\n]/g, "").replace(/ /g,"")
     let context = qq.createCanvasContext('prefix');
     context.setFillStyle('#ffffff');//填充背景色
     context.fillRect(0, 0, 600, 970);
@@ -500,7 +501,7 @@ Page({
     context.setTextAlign('left');
     context.fillText("阅读详情,请长按识别二维码", 240, 880);
     context.setFillStyle("#000000");   
-    this.CanvasTextContent(context, title, excerpt);//文章标题
+    this.CanvasTextContent(context, textTitle, textExcerpt);//文章标题
     context.draw();
     //将生成好的图片保存到本地，需要延迟一会，绘制期间耗时
     setTimeout(function () {
@@ -523,8 +524,9 @@ Page({
   },
 
   CanvasTextContent: function(context, title, excerpt) {
+    let textLength = title.replace(/[\u0391-\uFFE5]/g, "aa").length
     context.setFillStyle("#000000")
-    if (this.CanvasTextLength(title) <= 17 ) {
+    if ( textLength <= 17 ) {
       //14字以内绘制成一行，美观一点
       context.setFontSize(30)
       context.setTextAlign('left')
@@ -536,7 +538,6 @@ Page({
       context.fillText(title.substring(0, 18), 30, 460)
       context.fillText(title.substring(18, 36), 30, 520)
     }
-    context.setFillStyle("#000000");
     context.setFillStyle("#666666")
     context.setFontSize(24)
     context.setTextAlign('left')
@@ -545,9 +546,6 @@ Page({
     context.fillText(excerpt.substring(45, 64), 35, 668)
     context.stroke()
     context.save()
-  },
-
-  CanvasTextLength: function(string) {
-    return string.replace(/[\u0391-\uFFE5]/g, "aa").length
   }
+
 })

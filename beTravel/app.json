@@ -10,7 +10,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "丸子小程序",
+    "navigationBarTitleText": "丸子旅游",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

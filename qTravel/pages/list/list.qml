@@ -18,9 +18,9 @@
                     <view class="index_article_title">{{item.title.rendered}}</view>
                     <view class="index_article_desc">{{item.excerpt.rendered}}</view>
                 </view>
-                <view class="advert" qq:if="{{advert.platform.qq && advert.type == 'unit'}}">
+                <view class="advert" qq:if="{{advert.type == 'unit'}}">
                     <ad unit-id="{{advert.code}}"></ad>
-                    </view>
+                </view>
                 </block>
                 <block qq:else>
                 <view bindtap="bindDetail" id="{{item.id}}">

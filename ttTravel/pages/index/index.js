@@ -10,6 +10,7 @@ Page({
   data: {
     posts: [],
     page:1,
+    siteInfo: '',
     indicatorDots: !1,
     autoplay: !0,
     interval: 3e3,
@@ -31,7 +32,8 @@ Page({
     });
     this.getSiteInfo();
     this.getStickyPosts();
-    this.getCategories();
+    this.getCategories({per_page:2});
+    this.getAdvert();
     this.getPostList();
   },
 
@@ -135,8 +137,8 @@ Page({
     })
   },
 
-  getCategories: function() {
-    API.getCategories().then(res => {
+  getCategories: function(args) {
+    API.getCategories(args).then(res => {
       this.setData({
         category: res
       })
@@ -169,6 +171,20 @@ Page({
     .catch(err => {
       console.log(err)
       tt.stopPullDownRefresh()
+    })
+  },
+
+  getAdvert: function() {
+    API.indexAdsense().then(res => {
+      console.log(res)
+      if(res.status === 200) {
+        this.setData({
+          advert: res.data
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
     })
   },
 

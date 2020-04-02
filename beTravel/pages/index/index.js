@@ -10,6 +10,7 @@ Page({
   data: {
     posts: [],
     page:1,
+    siteInfo: '',
     indicatorDots: !1,
     autoplay: !0,
     interval: 3e3,
@@ -30,7 +31,7 @@ Page({
       }
     });
     this.getStickyPosts();
-    this.getCategories();
+    this.getCategories({per_page:2});
     this.getAdvert();
     this.getPostList();
   },
@@ -110,7 +111,7 @@ Page({
 				title:res.name,
 				keywords:res.keywords,
 				description:res.description,
-				image: 'https://static.weitimes.com/uploads/colorui/macbook.jpg',
+				image: res.cover,
 				success: function () {
 					console.log('小程序 Web 化信息设置成功');
 				},
@@ -147,8 +148,8 @@ Page({
     })
   },
 
-  getCategories: function() {
-    API.getCategories().then(res => {
+  getCategories: function(args) {
+    API.getCategories(args).then(res => {
       this.setData({
         category: res
       })

@@ -35,7 +35,7 @@ Page({
       }
     })
     this.setData({options:options})
-    //this.getPostsbyID(options.id)
+    this.getAdvert()
   },
 
   /**
@@ -82,7 +82,6 @@ Page({
       detail: '',
       comments: []
     })
-    this.getAdvert()
     this.getPostsbyID(this.data.options.id)
     this.getComments()
   },

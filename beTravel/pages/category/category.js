@@ -126,7 +126,7 @@ Page({
         title: '分类目录 - ' + res.name,
         keywords:res.keywords,
         description:res.description,
-        image: 'https://static.weitimes.com/uploads/colorui/macbook.jpg',
+        image: 'https://cxcat.com/wp-content/uploads/2019/09/2019091022383071.jpg',
         success: function () {
           console.log('小程序 Web 化信息设置成功');
         },

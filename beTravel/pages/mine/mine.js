@@ -85,7 +85,7 @@ Page({
 				title: '个人中心 - ' + res.name,
 				keywords: res.keywords,
 				description: res.description,
-				image: 'https://static.weitimes.com/uploads/colorui/macbook.jpg',
+				image: 'https://cxcat.com/wp-content/uploads/2019/10/2019101511214592.jpg',
 				success: function () {
 					console.log('小程序 Web 化信息设置成功');
 				},

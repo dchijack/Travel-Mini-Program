@@ -29,8 +29,8 @@
       <view style='width:690rpx;height:250rpx;background:#f3f3f3;margin-top:20rpx'></view>
     </view>
   </view>
-  <view class="advert" s-if="{{advert.platform.baidu && advert.type == 'unit'}}">
-    <ad appid="16995429" apid="{{advert.code}}" class="ad" type="feed" ></ad>
+  <view class="advert" s-if="{{advert.type == 'unit'}}">
+    <ad appid="16995423" apid="{{advert.code}}" class="ad" type="feed"></ad>
   </view>
   <view class="topic-title-wrapper" id="comment">
     <view class="topic-title">话题讨论</view>

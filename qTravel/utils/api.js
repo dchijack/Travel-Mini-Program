@@ -288,28 +288,28 @@ const getMenuSetting = function(data) {
  * 首页广告数据
  */
 const indexAdsense = function(data) {
-	return API.get('/wp-json/mp/v1/advert?type=index', data);
+	return API.get('/wp-json/mp/v1/advert/qq?type=index', data);
 }
 
 /**
  * 列表广告数据
  */
 const listAdsense = function(data) {
-	return API.get('/wp-json/mp/v1/advert?type=list', data);
+	return API.get('/wp-json/mp/v1/advert/qq?type=list', data);
 }
 
 /**
  * 详情广告数据
  */
 const detailAdsense = function(data) {
-	return API.get('/wp-json/mp/v1/advert?type=detail', data);
+	return API.get('/wp-json/mp/v1/advert/qq?type=detail', data);
 }
 
 /**
  * 页面广告数据
  */
 const pageAdsense = function(data) {
-	return API.get('/wp-json/mp/v1/advert?type=page', data);
+	return API.get('/wp-json/mp/v1/advert/qq?type=page', data);
 }
 
 API.getSiteInfo					    = getSiteInfo
