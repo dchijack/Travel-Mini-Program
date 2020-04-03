@@ -19,6 +19,7 @@ Page({
     placeHolder: '输入你想知道的内容...',
     autoFocus: false,
     inputEnable: true,
+    isLastPage: false
   },
 
   onLoad: function () {
@@ -76,7 +77,8 @@ Page({
   onPullDownRefresh: function() {
     this.setData({
       page:1,
-      posts:[]
+      posts:[],
+      isLastPage: false
     })
     this.getPostList()
   },
