@@ -281,7 +281,7 @@ Page({
             content: "",
             comments: [],
             placeholder: "",
-            isFocus: false
+            focus: false
           })
           setTimeout(function() {
             wx.showModal({
@@ -330,7 +330,7 @@ Page({
     let parent = e.currentTarget.dataset.parent
     let reply = e.currentTarget.dataset.reply
     this.setData({
-      isFocus: true,
+      focus: true,
       isReply: true,
       parent: parent,
       placeholder: " 回复 " + reply + ":"
@@ -400,7 +400,7 @@ Page({
     console.log('onRepleyFocus', isFocusing)
     if (!this.data.isFocus) {
       this.setData({
-        isFocus: true
+        focus: true
       })
     }
   },

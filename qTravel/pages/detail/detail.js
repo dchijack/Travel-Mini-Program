@@ -282,7 +282,7 @@ Page({
             content: "",
             comments: [],
             placeholder: "",
-            isFocus: false
+            focus: false
           })
           setTimeout(function() {
             qq.showModal({
@@ -330,7 +330,7 @@ Page({
     let parent = e.currentTarget.dataset.parent
     let reply = e.currentTarget.dataset.reply
     this.setData({
-      isFocus: true,
+      focus: true,
       isReply: true,
       parent: parent,
       placeholder: " 回复 " + reply + ":"
@@ -358,9 +358,9 @@ Page({
   onRepleyFocus: function(e) {
     isFocusing = false
     console.log('onRepleyFocus', isFocusing)
-    if (!this.data.isFocus) {
+    if (!this.data.focus) {
       this.setData({
-        isFocus: true
+        focus: true
       })
     }
   },
