@@ -2,7 +2,7 @@
 
 > 标签：旅游、笔记、博客
 
-基于 WordPress Mini Program API 插件创建的 WordPress 小程序之 Travel 主题，包括微信小程序及 QQ 小程序。虽然说是旅游类型，但是同样也适用于日记类型小程序，博客类型小程序。 技术博客：https://www.imahui.com
+基于 WordPress Mini Program API 插件创建的 WordPress 小程序之 Travel 主题，包括微信小程序、 QQ 小程序、百度智能小程序及今日头条小程序。虽然说是旅游类型，但是同样也适用于日记类型小程序，博客类型小程序。 技术博客：https://www.imahui.com
 
 # WordPress Mini Program API 插件
 
