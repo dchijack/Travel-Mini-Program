@@ -23,3 +23,7 @@ button::after {
   opacity: 0;
   position: absolute;
 }
+.advert {
+  margin-top:40rpx;
+  margin-bottom:40rpx;
+}
