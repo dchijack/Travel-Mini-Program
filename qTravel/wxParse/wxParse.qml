@@ -7,6 +7,7 @@
  * 
  * for: 微信小程序富文本解析
  * detail : http://weappdev.com/t/wxparse-alpha0-1-html-markdown/184
+ * A 标签链接增强版 + 音频播放 - By 艾码汇(https://www.imahui.com)
  */-->
 
 <!--基础元素-->
@@ -17,14 +18,21 @@
   </view>
 </template>
 <template name="wxParseAudio">
-  <!--增加audio标签支持，并循环添加
+  <!--增加audio标签支持，并循环添加-->
   <view class="{{item.classStr}} wxParse-{{item.tag}}" style="{{item.styleStr}}">
-   <audio poster="{{item.attr.poster}}" name="{{item.attr.name}}" author="{{item.attr.author}}" src="{{item.attr.src}}" id="Audio" controls loop></audio>
+    <!--audio poster="{{item.attr.poster}}" name="{{item.attr.name}}" author="{{item.attr.author}}" src="{{item.attr.src}}" id="Audio" controls loop></audio-->
+    <view class="wxParseAudioView" data-src="{{item.attr.src}}" bindtap="wxParseAudioPlay">
+      <view class="WxEmojiView wxParse-inline AudioPlayTips">
+        <text>点击播放:</text>
+      </view>
+      <view class="AudioTitleText">
+        <text>{{item.attr.title ? item.attr.title : '未知作品辑'}}{{item.attr.author ? ' - ' + item.attr.author : ''}}</text>
+      </view>
+    </view>
   </view>
-  -->
 </template>
 <template name="wxParseImg">
-  <image class="{{item.classStr}} wxParse-{{item.tag}}" data-from="{{item.from}}" data-src="{{item.attr.src}}" data-idx="{{item.imgIndex}}" src="{{item.attr.src}}" mode="aspectFit" bindload="wxParseImgLoad" bindtap="wxParseImgTap" mode="widthFix" style="width:{{item.width}}px;"
+  <image class="{{item.classStr}} wxParse-{{item.tag}}" data-from="{{item.from}}" data-src="{{item.attr.src}}" data-idx="{{item.imgIndex}}" src="{{item.attr.src}}" mode="aspectFit" bindload="wxParseImgLoad" bindtap="wxParseImgTap" style="{{item.width?'width:' + item.width + 'px;':''}}{{item.height?'height:' + item.height + 'px;':''}}"
   />
 </template>
 <!--33行加入text组件，用于复制文字-->
@@ -96,7 +104,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse1" data="{{item}}" />
         </block>
@@ -186,7 +203,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse2" data="{{item}}" />
         </block>
@@ -268,7 +294,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse3" data="{{item}}" />
         </block>
@@ -349,7 +384,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse4" data="{{item}}" />
         </block>
@@ -430,7 +474,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse5" data="{{item}}" />
         </block>
@@ -511,7 +564,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse6" data="{{item}}" />
         </block>
@@ -592,7 +654,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse7" data="{{item}}" />
         </block>
@@ -672,7 +743,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse8" data="{{item}}" />
         </block>
@@ -753,7 +833,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse9" data="{{item}}" />
         </block>
@@ -834,7 +923,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse10" data="{{item}}" />
         </block>
@@ -915,7 +1013,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse11" data="{{item}}" />
         </block>
@@ -996,7 +1103,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse12" data="{{item}}" />
         </block>
@@ -1077,7 +1193,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse13" data="{{item}}" />
         </block>
@@ -1158,7 +1283,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse14" data="{{item}}" />
         </block>
@@ -1239,7 +1373,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse15" data="{{item}}" />
         </block>
@@ -1320,7 +1463,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse16" data="{{item}}" />
         </block>
@@ -1401,7 +1553,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse17" data="{{item}}" />
         </block>
@@ -1482,7 +1643,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse18" data="{{item}}" />
         </block>
@@ -1563,7 +1733,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse19" data="{{item}}" />
         </block>
@@ -1644,7 +1823,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse20" data="{{item}}" />
         </block>
@@ -1725,7 +1913,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse21" data="{{item}}" />
         </block>
@@ -1806,7 +2003,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse22" data="{{item}}" />
         </block>
@@ -1887,7 +2093,16 @@
 
     <!--a类型-->
     <block qq:elif="{{item.tag == 'a'}}">
-      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="wxParseTagATap" class="wxParse-inline {{item.classStr}} wxParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView wxParse-inline" qq:if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView wxParse-inline" qq:else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block qq:for="{{item.nodes}}" qq:for-item="item" qq:key="item">
           <template is="wxParse23" data="{{item}}" />
         </block>

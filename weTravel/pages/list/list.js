@@ -120,6 +120,24 @@ Page({
 
   },
 
+  /**
+	 * 用户点击右上角分享至朋友圈
+	 */
+	onShareTimeline: function () {
+		return {
+			title: this.data.title
+		}
+	},
+	  
+	/**
+	 * 用户点击右上角添加到收藏
+	 */
+	onAddToFavorites: function () {
+		return {
+			title: this.data.title
+		}
+	},
+
   getCategoryByID: function(id) {
     API.getCategoryByID(id).then(res => {
       this.setData({

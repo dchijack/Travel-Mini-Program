@@ -1,0 +1,236 @@
+/* pages/twitter/detail.qss */
+@import "../../wxParse/icon.qss";
+page {
+  background: #eee;
+}
+.container {
+  width:100%;
+  overflow: hidden;
+  padding: 20rpx 30rpx;
+  background: #ffffff;
+  font-family: Helvetica Neue, Helvetica, sans-serif;
+}
+.detail-title {
+  width:100%;
+  font-size: 36rpx;
+  font-weight: 600;
+  letter-spacing: 3rpx;
+  word-break: normal;
+}
+.detail-meta {
+  width:100%;
+  display: flex;
+  color:#aaa;
+  font-size: 28rpx;
+  font-weight: 500;
+  align-items: center;
+  margin-top: 20rpx;
+  margin-bottom: 30rpx;
+}
+.meta-box {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 20rpx;
+}
+.meta-text-tag {
+  padding: 5rpx 10rpx;
+  background: #eee;
+}
+.meta-text-color {
+  color:#7d89a9!important;
+}
+.detail-content {
+  width:100%;
+  padding: 20rpx;
+}
+.wxParse-p {
+  color: #333;
+  font-size: 32rpx;
+  line-height: 1.75;
+  margin-top: 10rpx;
+  margin-bottom: 20rpx;
+  letter-spacing: 2rpx;
+}
+.wxParse-inline{
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+.wxParse-img{
+  width: 100%;
+  overflow: hidden;
+}
+.WxEmojiView{
+  align-items: center;
+}
+.detail-footer {
+  width:100%;
+  display: flex;
+  align-items: center;
+  padding-top: 20rpx;
+  border-top: #ddd solid 1rpx;
+  justify-content: space-between;
+}
+.detail-foot-meta, .detail-foot-meta button {
+  font-size: 32rpx;
+}
+.comments-box {
+  padding: 20rpx;
+}
+.comments-title {
+  display: flex;
+  align-items: center;
+  padding-top: 20rpx;
+  padding-bottom: 40rpx;
+  justify-content: space-between;
+}
+.comments-meta-bar {
+  font-size:30rpx;
+}
+.comments-content {
+  padding-bottom: 40rpx;
+}
+.comments-item {
+  height: auto;
+  display: grid;
+  padding-top:15rpx;
+  padding-left:5rpx;
+  padding-right:5rpx;
+  padding-bottom:15rpx;
+  transform: translateX(0rpx);
+  transition: all 0.6s ease-in-out 0s;
+  grid-template-columns: minmax(64rpx,80rpx) 1fr;
+}
+.author image {
+  width:64rpx;
+  height:64rpx;
+  border-radius: 5rpx;
+}
+.comment-author {
+  display: flex;
+  align-items: center;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  justify-content: space-between;
+}
+.author-meta {
+  color:#666;
+  font-size:28rpx;
+  position: relative;
+}
+.thumbs-btn {
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  opacity: 0;
+  position: absolute;
+}
+.comment-text {
+  display: block;
+  font-size:28rpx;
+  padding-left:20rpx;
+  padding-right:20rpx;
+  padding-bottom: 20rpx;
+}
+.comment-reply {
+  padding-top: 10rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  padding-bottom: 10rpx;
+  border-left: #ddd solid 2rpx;
+}
+.reply-box {
+  padding-bottom:5rpx;
+}
+.reply-author {
+  color:#999999;
+  padding-top: 5rpx;
+  padding-bottom:5rpx;
+}
+.nocomments {
+  font-size: 30rpx;
+  text-align: center;
+  letter-spacing: 2rpx;
+}
+.nocomments text {
+  margin-right:20rpx;
+}
+/* 评论框 */
+.textareacontent {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 1000rpx;
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+  background-color: #fff;
+  z-index: 10;
+}
+.textareacontent .textheaders {
+  width: 100%;
+  height: 96rpx;
+  border-bottom: 1rpx solid #eaeaea;
+}
+.textareacontent .textheaders .cancel {
+  color: #333;
+  font-size: 32rpx;
+  line-height: 96rpx;
+  margin-left: 32rpx;
+  float: left;
+}
+.textareacontent .textheaders .publish {
+  color: #3ec382;
+  font-size: 32rpx;
+  line-height: 96rpx;
+  margin-right: 32rpx;
+  float: right;
+}
+.textareacontent .textheaders .nopublish {
+  color: #999;
+  font-size: 32rpx;
+  line-height: 96rpx;
+  margin-right: 32rpx;
+  float: right;
+}
+.textareaBox {
+  height: 360rpx;
+  position: relative;
+}
+.textCount {
+  position: absolute;
+  font-size: 26rpx;
+  color: #999;
+  right: 32rpx;
+  top: 4rpx;
+}
+.textareacontent .textareaInput {
+  width: 100%;
+  height: 300rpx;
+  font-size: 34rpx;
+  padding: 32rpx 32rpx 42rpx 32rpx;
+}
+.textareaInput.hide {
+  display: none;
+}
+.pagemake {
+  background-color: #000;
+  opacity: 0.8;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+}
+button {
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+button::after {
+  border: 0!important;
+}
+.bottom-modal-icon {
+  width:64rpx;
+  height:64rpx;
+}

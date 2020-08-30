@@ -105,6 +105,26 @@ Page({
     }
   },
 
+  /**
+	 * 用户点击右上角分享至朋友圈
+	 */
+	onShareTimeline: function () {
+    return {
+      title: this.data.siteInfo.name + ":" + this.data.siteInfo.description,
+      imageUrl: this.data.siteInfo.cover
+    }
+  },
+  
+  /**
+   * 用户点击右上角添加到收藏
+   */
+  onAddToFavorites: function () {
+    return {
+      title: this.data.siteInfo.name + ":" + this.data.siteInfo.description,
+      imageUrl: this.data.siteInfo.cover
+    }
+  },
+
   getSiteInfo: function() {
     API.getSiteInfo().then(res => {
       this.setData({

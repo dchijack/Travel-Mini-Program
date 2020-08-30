@@ -120,6 +120,20 @@ Page({
 
   },
 
+  /**
+	 * 用户点击右上角分享至朋友圈
+	 */
+	onShareTimeline: function () {
+		
+	},
+	  
+	/**
+	 * 用户点击右上角添加到收藏
+	 */
+	onAddToFavorites: function () {
+		
+	},
+
   getLikePosts: function(args) {
     API.getLikePosts(args).then(res => {
       let args = {}

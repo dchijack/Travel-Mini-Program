@@ -251,16 +251,6 @@ const addComment = function(data) {
 }
 
 /**
- * 投票表态
- * @param  {object} args 参数, POST 文章 ID 及选项 ID
- * TOKEN 参数为 true ,需要用户授权使用
- * @return {promise}
- */
-const votePosts = function(data) {
-	return API.post('/wp-json/mp/v1/vote', data, { token: true });
-}
-
-/**
  * 微信小程序订阅消息
  * @param {*} data 
  */
@@ -312,39 +302,70 @@ const pageAdsense = function(data) {
 	return API.get('/wp-json/mp/v1/advert/wechat?type=page', data);
 }
 
+/**
+ * 获取公众号推文
+ * @param  {object} args 参数,默认为空
+ * @return {promise}
+ */
+const getTwitterPosts = function(data) {
+	return API.get('/wp-json/wp/v2/tweets', data);
+}
+  
+/**
+ * 获取推文详情
+ * @param  {int} id 文章id
+ * @return {promise}
+ */
+const getTwitterDetail = function(id) {
+	return API.get('/wp-json/wp/v2/tweets/' + id, {}, {
+		token: true
+	});
+}
+  
+/**
+ * 推文评论点赞
+ */
+const markComment = function (args) {
+	return API.post('/wp-json/mp/v1/comments/mark', args, {
+		token: true,
+	})
+}
+
 API.getSiteInfo					    = getSiteInfo
-API.getStickyPosts			    = getStickyPosts
+API.getStickyPosts			    	= getStickyPosts
 API.getPostsList				    = getPostsList
 API.getPostsbyID				    = getPostsbyID
 API.getPagesList				    = getPagesList
 API.getPageByID					    = getPageByID
 API.getCategories				    = getCategories
-API.getCategoryByID			    = getCategoryByID
-API.getTags						      = getTags
+API.getCategoryByID			    	= getCategoryByID
+API.getTags						    = getTags
 API.getTagByID					    = getTagByID
 API.getRandPosts				    = getRandPosts
-API.getRelatePosts				  = getRelatePosts
-API.getMostViewsPosts		  	= getMostViewsPosts
-API.getMostFavPosts				  = getMostFavPosts
-API.getMostLikePosts			  = getMostLikePosts
-API.getMostCommentPosts			= getMostCommentPosts
-API.getRecentCommentPosts		= getRecentCommentPosts
+API.getRelatePosts				  	= getRelatePosts
+API.getMostViewsPosts		  		= getMostViewsPosts
+API.getMostFavPosts				  	= getMostFavPosts
+API.getMostLikePosts			  	= getMostLikePosts
+API.getMostCommentPosts				= getMostCommentPosts
+API.getRecentCommentPosts			= getRecentCommentPosts
 API.getComments					    = getComments
 API.getProfile					    = API.guard(getProfile)
-API.fav							        = API.guard(fav)
+API.fav							    = API.guard(fav)
 API.getFavPosts					    = API.guard(getFavPosts)
-API.like						        = API.guard(like)
+API.like						    = API.guard(like)
 API.getLikePosts				    = API.guard(getLikePosts)
-API.getCommentsPosts			  = API.guard(getCommentsPosts)
+API.getCommentsPosts			  	= API.guard(getCommentsPosts)
 API.addComment					    = API.guard(addComment)
-API.votePosts					      = API.guard(votePosts)
-API.subscribeMessage        = API.guard(subscribeMessage)
+API.subscribeMessage        		= API.guard(subscribeMessage)
 API.getCodeImg					    = getCodeImg
-API.Loginout					      = Loginout
-API.getMenuSetting				  = getMenuSetting
+API.Loginout					    = Loginout
+API.getMenuSetting				  	= getMenuSetting
 API.indexAdsense				    = indexAdsense
 API.listAdsense					    = listAdsense
 API.detailAdsense				    = detailAdsense
 API.pageAdsense					    = pageAdsense
+API.getTwitterPosts         		= getTwitterPosts
+API.getTwitterDetail        		= getTwitterDetail
+API.markComment             		= API.guard(markComment)
 
 module.exports = API

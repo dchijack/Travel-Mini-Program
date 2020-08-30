@@ -4,7 +4,7 @@
  * GiTee 地址： https://gitee.com/izol/Travel-Mini-Program
  */
 
-const API_HOST = 'https://demo.imahui.com'  // 更换为你的网站域名, 需要有 https 协议
+const API_HOST = 'https://cxcat.com'  // 更换为你的网站域名, 需要有 https 协议, 如 https://cxcat.com
 const Auth = require('./auth')
  
 const API = {}
@@ -49,10 +49,10 @@ API.request = function(url, method = "GET", data={}, args = { token: true }) {
 					});
 				} else {
 					qq.showToast({
-						title: "请求数据失败",
+						title: "请求数据出错",
+						icon: 'loading',
 						duration: 1500
 					});
-					console.log(res.data.message);
 					reject(res.data);
 				}
 			},
@@ -102,7 +102,7 @@ API.logout = function() {
 	} else {
 		qq.showToast({
 			title: '注销失败!',
-			icon: 'warn',
+			icon: 'loading',
 			duration: 1000,
 		})
 	}

@@ -8,8 +8,28 @@
  * 
  * for: 微信小程序富文本解析
  * detail : http://weappdev.com/t/wxparse-alpha0-1-html-markdown/184
+ * A 标签链接增强版 + 音频播放 - By 艾码汇(https://www.imahui.com)
  */
-
+@font-face {
+    font-family: 'wxParseFonts';
+    src: url('data:application/font-woff2;charset=utf-8;base64,d09GMgABAAAAAAV4AA0AAAAACzgAAAUjAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cGh4GYACCXhEICop4iR8LEgABNgIkAxwEIAWDVwdZG2QJUZQuTpvs54FtTHvwggBiYaSMZVFQYyGj5IUQfBo9DoonD2P8kj2vU+99yQ4gklPghNfCxABrK4L6/XTvvxAKHxmXEtlONcsKA+yrgBT5CFdj69hXAQkXC23pjs2nN2GAoUKASrJZKg90JoAOsapSJk6dwxYLJd9/VzEpNs/9Uq+SjiKa8Iwif+RdU2EFxbKep23PD2gRTUkTHJiOaIbp9lczH0knRDeeBYAAuNe3CgDgyWL+V+27AyAP0AQwhEghPIABuLRAVxABu2MPYC0Zhr70ogzNG7Vo12D0kXEnBycxlygxgJiwN0YADtEvB7JTEPGv4fkDZEljGGL8wYR/ggBAzEBJeKvl2zolywCI7gYVAErsEBkAhvrLEPCIB6GBQAlPGqAsquWBRXwNEIEXB+FJhMPwieOctq25PW++fvFi4B37Zmawi7tC5KNIq1iGIUs7+omTCaGDGF1GZdt4HBXzVOtoG0vMbjQFXjgdUY+jKvhR+YgEo1lqFvCUv2seCwm5t3X+YOdGVG6tnV+aCyFg30Ysy1vYVrcJVYe6Fva1MaEAchu1p2XuQMcGVGypmVuSQ4ID5FP54uzZzdXrUb6/fXZ3syEkcEdaYoM3P84Xn7sOlo1soqqmF3kjQ5niLfoIrQmlqDoeyukeq3mT5douYf6uhtJB28wy6CyI3M0q5w0pgbXuXSzWPEucG/n8p9uqx7CKq7zcueE4x3EHXZUYpsuiNYTTcEprV+DXI7vTUScrusRHbl65Zsl2RG7qMiF/uSL/5IjiWw1fOaJAIQHVzNXmsor76LXzhHLC36Shrssb8/OWCuLmwoKKqetzcyri12Zn43+kFydeEGeqOg7ReC4ZP3rE+f/Y+TFhxA4KPX5zLCW7gUqK27aFp7+x98jntb2Zz8fJ++0Ohf2ZzHze2ehXi4shetbZ6Fcd1SmvhTn1otf2XpYZ8Ql6GDvPvCtu2+pmDhxPj5YReteu5Fv92My2dt2ICJ84gqI3OrfqIagjLm+X0lbmRAuE8RnTq8urXYiANTvPNr06M24VnZNmeunhjLb9b838l36zjqi3KlyBD8srCuFI/D958eSsI/IJFtRQVCKOGcgl5HzlgyXSOt1G/eP3SvenoePehwP2niAivtkY2Ud7aCFPKe7fLVoRttQKAYAo3p/Ft6nzbixPhOKmt4jTabmBr66ywGiOfoHnbGBBRp2Grv+C+nEHWI6JrCMotisPAExmUW+ajk2Xu51fNx1Vs1vzZOy8rpuml3b6jKTbE1QjUQ/3ade1SxrHWj2/po3THIX6rGT34emmIFLYkCxLDNLcdfOS3XudzkRLdN103XT/5B5P3tX7l0xTzLq7zVJMkwsKbB98sS/tyy+loKxB9Dh3McLAJKqrxVxEUhLriwO5pSSVjbvo/D4OXkrQfah0+K+0HI8z6mjCee5zOgmksR7BcwXW0lezimDA4lIZQItxhtZqshNclfYLL09iWCjaDlIl8nRjPSPFC+DKmDkAD+awXkTOZkAM5pXLZelGAxzKyYBoA/SMIiuAAzMI4MGs1ItoWg2Iwdz1QlnuHjrQLVmJVm0qRGrSqF0bFjp8/jvwbLSPJZAqlqt0qG+G4OeFK4CuM9Mkl6miOq6GGzTmwpEz3A7ZHJet24eJFLYbq1KhcVDzEu0qlGdL9ci9Mco0SdDULucI/cZdO8vFlDX9X8ctAIzxMmmgDCw4cMGTiMTiqvqe5moXqb3GGmcS9OURPs7bmTvAnQA=') format('woff2'),
+        url('data:application/font-woff;charset=utf-8;base64,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') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+[class^="vicon-"], [class*="vicon-"] {
+    font-size: inherit;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: auto;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'wxParseFonts'!important;
+}
 .wxParse{
     margin: 0 5px;
     font-family: Helvetica,sans-serif;
@@ -25,59 +45,78 @@ view{
     margin: 0;
     padding: 0;
 }
-/*//标题 */
-.wxParse-div{margin: 0;padding: 0;}
-.wxParse-h1{ font-size:2em; margin: .67em 0 }
-.wxParse-h2{ font-size:1.5em; margin: .75em 0 }
-.wxParse-h3{ font-size:1.17em; margin: .83em 0 }
-.wxParse-h4{ margin: 1.12em 0}
-.wxParse-h5 { font-size:.83em; margin: 1.5em 0 }
-.wxParse-h6{ font-size:.75em; margin: 1.67em 0 }
-
+.wxParse-div {
+    margin: 0;
+    padding: 0;
+}
 .wxParse-h1 {
-  font-size: 18px;
-  font-weight: 400;
-  margin-bottom: .9em;
+    font-size: 1.75em;
+    font-weight: 400;
+    margin-top: .9em;
+    margin-bottom: .9em;
 }
 .wxParse-h2 {
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: .34em;
+    font-size: 1.5em;
+    font-weight: 400;
+    margin-top: .75em;
+    margin-bottom: .75em;
 }
 .wxParse-h3 {
-  font-weight: 400;
-  font-size: 15px;
-  margin-bottom: .34em;
+    font-size: 1.35em;
+    font-weight: 400;
+    margin-top: .5em;
+    margin-bottom: .5em;
 }
 .wxParse-h4 {
-  font-weight: 400;
-  font-size: 14px;
-  margin-bottom: .24em;
+    font-size: 1.17em;
+    font-weight: 400;
+    margin-top: .24em;
+    margin-bottom: .24em;
 }
 .wxParse-h5 {
-  font-weight: 400;
-  font-size: 13px;
-  margin-bottom: .14em;
+    font-size: 1.0em;
+    font-weight: 400;
+    margin-top: .15em;
+    margin-bottom: .15em;
 }
 .wxParse-h6 {
-  font-weight: 400;
-  font-size: 12px;
-  margin-bottom: .04em;
+    font-size: .83em;
+    font-weight: 400;
+    margin-top: .07em;
+    margin-bottom: .07em;
 }
-
-.wxParse-h1, .wxParse-h2, .wxParse-h3, .wxParse-h4, .wxParse-h5, .wxParse-h6, .wxParse-b, .wxParse-strong  { font-weight: bolder }
-
-.wxParse-i,.wxParse-cite,.wxParse-em,.wxParse-var,.wxParse-address{font-style:italic}
-.wxParse-pre,.wxParse-tt,.wxParse-code,.wxParse-kbd,.wxParse-samp{font-family:monospace}
-.wxParse-pre{white-space:pre}
-.wxParse-big{font-size:1.17em}
-.wxParse-small,.wxParse-sub,.wxParse-sup{font-size:.83em}
-.wxParse-sub{vertical-align:sub}
-.wxParse-sup{vertical-align:super}
-.wxParse-s,.wxParse-strike,.wxParse-del{text-decoration:line-through}
+.wxParse-h1, .wxParse-h2, .wxParse-h3, .wxParse-h4, .wxParse-h5, .wxParse-h6, .wxParse-b, .wxParse-strong  {
+    font-weight: bolder;
+}
+.wxParse-i,.wxParse-cite,.wxParse-em,.wxParse-var,.wxParse-address {
+    font-style:italic;
+}
+.wxParse-pre,.wxParse-tt,.wxParse-code,.wxParse-kbd,.wxParse-samp {
+    font-family:monospace;
+}
+.wxParse-pre {
+    white-space:pre;
+}
+.wxParse-big {
+    font-size:1.17em;
+}
+.wxParse-small,.wxParse-sub,.wxParse-sup {
+    font-size:.83em;
+}
+.wxParse-sub {
+    vertical-align:sub;
+}
+.wxParse-sup {
+    vertical-align:super;
+}
+.wxParse-s,.wxParse-strike,.wxParse-del {
+    text-decoration:line-through;
+}
 /*wxparse-自定义个性化的css样式*/
 /*增加video的css样式*/
-.wxParse-strong,.wxParse-s{display: inline}
+.wxParse-strong,.wxParse-s{
+    display: inline;
+}
 .wxParse-a{
     color: deepskyblue;
     word-break:break-all;
@@ -203,4 +242,42 @@ view{
 }
 .wxParse-figure {
   overflow: hidden;
+}
+.wxParseAudioView {
+    display: flex;
+    align-items: center;
+    background: #f1f1f1;
+}
+.wxParseAudioIcon {
+    font-size:42rpx;
+    padding-top: 15rpx;
+    padding-left: 20rpx;
+}
+.AudioPlayTips {
+    font-size: 28rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 20rpx;
+}
+.AudioTitleText {
+    font-size: 28rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 10rpx;
+    padding-right: 20rpx;
+}
+.wxParseIconFonts {
+    margin-left:5rpx;
+    margin-right:5rpx;
+}
+.vicon-miniprogram:before {
+    content: "\e901";
+}
+.vicon-document:before {
+    content: "\e900";
+}
+.vicon-link:before {
+    content: "\e902";
 }

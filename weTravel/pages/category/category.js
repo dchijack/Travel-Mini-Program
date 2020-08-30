@@ -21,7 +21,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function () {
     this.getCategories();
   },
 
@@ -84,8 +84,26 @@ Page({
 
   },
 
-  getCategories: function () {
-    API.getCategories().then(res => {
+  /**
+	 * 用户点击右上角分享至朋友圈
+	 */
+	onShareTimeline: function () {
+    return {
+      title: '小程序分类列表'
+    }
+  },
+  
+  /**
+   * 用户点击右上角添加到收藏
+   */
+  onAddToFavorites: function () {
+    return {
+      title: '小程序分类列表'
+    }
+  },
+
+  getCategories: function (data) {
+    API.getCategories(data).then(res => {
       let args = {}
       if (res.length < 10) {
         this.setData({

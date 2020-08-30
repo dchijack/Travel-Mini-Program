@@ -10,6 +10,12 @@ App({
 
   onLaunch: function () {
     API.login();
+    if(swan.canIUse('showFavoriteGuide')) {
+      swan.showFavoriteGuide({
+          type: 'tip',
+          content: '关注小程序，下次使用更便捷。'
+      })
+    }
     // 获取系统状态栏信息
     swan.getSystemInfo({
       success: e => {

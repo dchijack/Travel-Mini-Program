@@ -56,8 +56,10 @@
               <text>{{item.date}}</text>
             </view>
           </view>
-          <view class="comment-header-right">
-            <text></text>
+          <view class="comment-header-right relative">
+            <text class="{{item.islike ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate'}}"> {{item.likes ? item.likes : 0}}</text>
+            <button qq:if="{{!user}}" class="userLogin" open-type="getUserInfo" bindgetuserinfo="getProfile"></button>
+            <button qq:else class="userLogin" id="{{item.id}}" data-index="{{index}}" bindtap="bindLikeComment"></button>
           </view>
         </view>
         <view class="comment-content" bindtap="replyComment" data-id="{{item.id}}" data-reply="{{item.author.name}}" data-parent="{{item.id?item.id:0}}" data-userid="{{item.userid}}" data-formId="{{item.formId}}" data-commentdate="{{item.date}}">
@@ -101,23 +103,23 @@
     </view>
   </view>
 
-   <view class="bottom">
-    <form catchsubmit="formSubmit" report-submit="true" qq:if="{{!showTextarea}}">
+  <view class="bottom" qq:if="{{!showTextarea}}">
+    <form catchsubmit="formSubmit" report-submit="true">
       <view class="bottom-bar {{isIphoneX?'bottom-bar-iphonex':''}} {{newsItem.forbidcomment?'forbid-comment':''}}">
         <image bindtap="bindBack" class="bottom-btn bottom-back" src="../../images/back.png"></image>
         <view class="bottom-btn bottom-text relative" style="width:260rpx">
           <text>{{placeholder}}</text>
-          <button qq:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button qq:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
           <button qq:else class="userLogin" bindtap="tapcomment"></button>
         </view>
         <view class="bottom-btn bottom-comment-container relative">
           <image class="bottom-comment" src="{{detail.isfav?'../../images/collected.png':'../../images/collect.png'}}"></image>
-          <button qq:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button qq:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
           <button qq:else class="userLogin" bindtap="bindFavTap" id="{{detail.id}}" ></button>
         </view>
         <view class="bottom-btn bottom-comment-container">
           <image class="bottom-btn bottom-fav" src="{{detail.islike?'../../images/liked.png':'../../images/like.png'}}"></image>
-          <button qq:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button qq:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
           <button qq:else class="userLogin" bindtap="bindLikeTap" id="{{detail.id}}"></button>
         </view>
         <button bindtap="shareClick" class="bottom-btn bottom-share bottom-fav btn-clear-style" plain="true">
@@ -125,9 +127,9 @@
         </button>
       </view>
     </form>
-   </view>
+  </view>
  
-    <view class="zan-actionsheet {{isIphoneX?'bottom-bar-iphonex':''}} {{shareshow?'zan-actionsheet--show':''}}">
+  <view class="zan-actionsheet {{isIphoneX?'bottom-bar-iphonex':''}} {{shareshow?'zan-actionsheet--show':''}}">
     <view catchtap="_handleZanActionsheetMaskClick" class="zan-actionsheet__mask" data-close-on-click-overlay="{{closeOnClickOverlay}}" data-component-id="{{componentId}}"></view>
     <view class="zan-actionsheet__container">
         <button catchtap="downloadPrefix" class="zan-btn zan-actionsheet__btn">
@@ -139,24 +141,35 @@
             <text>分享给朋友</text>
         </button>
     </view>
-    </view>
+  </view>
 
-    <view capture-catch:touchmove class="textareacontent" qq:if="{{showTextarea}}">
+  <view capture-catch:touchmove class="textareacontent" qq:if="{{showTextarea}}">
     <form catchsubmit="addComment" report-submit="true">
-        <view class="textheaders">
+      <view class="textheaders">
         <view bindtap="closeCommentary" class="cancel">取消</view>
-        <button qq:if="{{!user}}" class="nopublish" bindgetuserinfo="getProfile" openType="getUserInfo">登录</button>
-        <button qq:else formType="submit" class="publish">发布</button>
-        </view>
-        <view class="textareaBox" qq:if="{{showTextarea}}">
+        <button qq:if="{{!user}}" class="{{iscanpublish?'publish':'nopublish'}}" bindgetuserinfo="getProfile" open-type="getUserInfo">登录</button>
+        <button qq:else form-type="submit" class="{{iscanpublish?'publish':'nopublish'}}">发布</button>
+      </view>
+      <view class="textareaBox" qq:if="{{showTextarea}}">
         <view class="textareaInput" qq:if="{{!focus}}">{{content}}</view>
         <textarea autoFocus="true" name="inputComment" bindinput="bindInputContent" bindblur="onReplyBlur" bindfocus="onRepleyFocus" class="textareaInput {{focus?'':'hide'}}" fixed="true" focus="{{focus}}" maxlength="1000" placeholder="{{placeholder}}" showConfirmBar="{{false}}" style="height: 286rpx;" value="{{content}}"></textarea>
         <view class="textNum">{{textNum}}/1000</view>
-        </view>
+      </view>
     </form>
-    </view>
-    <view bindtap="closeCommentary" class="pagemake" qq:if="{{showTextarea}}"></view>
+  </view>
+  <view bindtap="closeCommentary" class="pagemake" qq:if="{{showTextarea}}"></view>
 </view>
 <view class="canvas">
   <canvas canvas-id="prefix" style="width: 600px;height: 970px;"></canvas>
+</view>
+<view class="widget-bar" qq:if="{{isPlaying}}">
+  <view class="widget-playing" bindtap="bindAudioPlay">
+    <view class="widget-playing-icon">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </view>
+  </view>
 </view>

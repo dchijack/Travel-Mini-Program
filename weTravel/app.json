@@ -5,7 +5,10 @@
     "pages/list/list",
     "pages/category/category",
     "pages/mine/mine",
-    "pages/posts/posts"
+    "pages/posts/posts",
+    "pages/twitter/twitter",
+    "pages/twitter/detail",
+    "pages/view/view"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -39,8 +42,5 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": [
-    "wx4cf53bda66b14de9"
-  ],
   "sitemapLocation": "sitemap.json"
 }

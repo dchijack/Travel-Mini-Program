@@ -1,0 +1,83 @@
+/* pages/twitter/twitter.wxss */
+.custom-card {
+  display: block;
+  overflow:hidden;
+}
+.custom-item {
+  overflow: hidden;
+  position: relative;
+  margin: 30rpx 20rpx;
+  border-radius: 10rpx;
+  padding-bottom: 30rpx;
+  background-color: #fff;
+  box-shadow: 0 6rpx 24rpx 0 rgba(155,155, 155, 0.1);
+}
+.custom-item .title {
+  color:#333;
+  font-size:34rpx;
+  font-weight:900;
+  word-wrap:normal;
+  padding:0 30rpx;
+  line-height:100rpx;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  -o-text-overflow:ellipsis;
+}
+.custom-item .content {
+  display: flex;
+  color: #999;
+  padding: 0 30rpx;
+  line-height: 38rpx;
+}
+.custom-item .content image {
+  z-index: 0;
+  width: 240rpx;
+  height: 6.4em;
+  margin-right: 20rpx;
+  border-radius: 6rpx;
+  position: relative;
+  display: inline-block;
+}
+.custom-item .content .desc {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.custom-item .content .text-content {
+  font-size: 24rpx;
+  padding: 10rpx 0;
+  color: #888;
+  height: 4.2em;
+  overflow: hidden;
+  line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+}
+.custom-fl {
+  float: left;
+}
+.custom-fr {
+  float: right;
+}
+.custom-tag {
+  color: #888;
+  height: 32rpx;
+  font-size: 20rpx;
+  background: #f1f1f1;
+  border-radius: 5000rpx;
+  vertical-align: middle;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding-left: 16rpx;
+  padding-right: 16rpx;
+  font-family: Helvetica Neue, Helvetica, sans-serif;
+}

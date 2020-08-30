@@ -7,6 +7,7 @@
  * 
  * for: 微信小程序富文本解析
  * detail : http://weappdev.com/t/wxparse-alpha0-1-html-markdown/184
+ * A 标签链接增强版 + 音频播放 - By 艾码汇(https://www.imahui.com)
  */
 
 /**

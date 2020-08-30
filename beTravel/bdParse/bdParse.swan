@@ -4,6 +4,7 @@
  * 官网:http://www.tengcee.com
  * bdParse.swan改造自wxParse.wxml
  * wxParse的原作者github地址: https://github.com/icindy/wxParse
+ * A 标签链接增强版 + 音频播放 - By 艾码汇(https://www.imahui.com)
  */-->
 
 <!--基础元素-->
@@ -14,8 +15,23 @@
   </view>
 </template>
 
+<template name="wxParseAudio">
+  <!--增加audio标签支持，并循环添加-->
+  <view class="{{item.classStr}} bdParse-{{item.tag}}" style="{{item.styleStr}}">
+    <!--audio poster="{{item.attr.poster}}" name="{{item.attr.name}}" author="{{item.attr.author}}" src="{{item.attr.src}}" id="Audio" bindtap="wxParseAudioPlay"></audio-->
+    <view class="wxParseAudioView" data-src="{{item.attr.src}}" bindtap="wxParseAudioPlay">
+      <view class="WxEmojiView bdParse-inline AudioPlayTips">
+        <text>点击播放:</text>
+      </view>
+      <view class="AudioTitleText">
+        <text>{{item.attr.title ? item.attr.title : '未知作品辑'}}{{item.attr.author ? ' - ' + item.attr.author : ''}}</text>
+      </view>
+    </view>
+  </view>
+</template>
+
 <template name="bdParseImg">
-  <image class="{{item.classStr}} bdParse-{{item.tag}}" data-from="{{item.from}}" data-src="{{item.attr.src}}"  data-idx="{{item.imgIndex}}" src="{{item.attr.src}}"  bindload="bdParseImgLoad" bindtap="bdParseImgTap" mode="aspectFit" style="width:{{item.width}}px;height:{{item.height}}px;"/>
+  <image class="{{item.classStr}} bdParse-{{item.tag}}" data-from="{{item.from}}" data-src="{{item.attr.src}}"  data-idx="{{item.imgIndex}}" src="{{item.attr.src}}"  bindload="bdParseImgLoad" bindtap="bdParseImgTap" mode="aspectFit" style="{{item.width?'width:' + item.width + 'px;':''}}{{item.height?'height:' + item.height + 'px;':''}}"/>
 </template>
 
 <template name="WxEmojiView">
@@ -73,6 +89,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -80,7 +101,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse1" data="{{ {item} }}" />
         </block>
@@ -158,6 +188,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -165,7 +200,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse2" data="{{ {item} }}" />
         </block>
@@ -235,6 +279,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -242,7 +291,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse3" data="{{ {item} }}" />
         </block>
@@ -311,6 +369,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -318,7 +381,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse4" data="{{ {item} }}" />
         </block>
@@ -387,6 +459,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -394,7 +471,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse5" data="{{ {item} }}" />
         </block>
@@ -463,6 +549,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -470,7 +561,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse6" data="{{ {item} }}" />
         </block>
@@ -539,6 +639,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -546,7 +651,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse7" data="{{ {item} }}" />
         </block>
@@ -614,6 +728,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -621,7 +740,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse8" data="{{ {item} }}" />
         </block>
@@ -690,6 +818,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -697,7 +830,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse9" data="{{ {item} }}" />
         </block>
@@ -766,6 +908,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -773,7 +920,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse10" data="{{ {item} }}" />
         </block>
@@ -842,6 +998,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -849,7 +1010,16 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
           <template is="bdParse11" data="{{ {item} }}" />
         </block>
@@ -887,13 +1057,13 @@
 
 <!--循环模版-->
 <template name="bdParse11">
-  <!--<template is="bdParse12" data="{{ {item} }}" />-->
+  <!--<template is="bdParse0" data="{{ {item} }}" />-->
   <!--判断是否是标签节点-->
   <block s-if="{{item.node == 'element'}}">
     <block s-if="{{item.tag == 'button'}}">
       <button type="default" size="mini">
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
-          <template is="bdParse12" data="{{ {item} }}" />
+          <template is="bdParse0" data="{{ {item} }}" />
         </block>
       </button>
     </block>
@@ -906,7 +1076,7 @@
           </view>
           <view class="{{item.classStr}} bdParse-li-text">
             <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
-              <template is="bdParse12" data="{{ {item} }}" />
+              <template is="bdParse0" data="{{ {item} }}" />
             </block>
           </view>
         </view>
@@ -918,6 +1088,11 @@
       <template is="bdParseVideo" data="{{ {item} }}" />
     </block>
 
+    <!--audio类型-->
+    <block s-elif="{{item.tag == 'audio'}}">
+      <template is="wxParseAudio" data="{{ {item} }}" />
+    </block>
+
     <!--img类型-->
     <block s-elif="{{item.tag == 'img'}}">
       <template is="bdParseImg" data="{{ {item} }}" />
@@ -925,9 +1100,18 @@
 
     <!--a类型-->
     <block s-elif="{{item.tag == 'a'}}">
-      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+      <view bindtap="bdParseTagATap" class="bdParse-inline {{item.classStr}} bdParse-{{item.tag}}" data-appid="{{item.attr.appid}}" data-type="{{item.attr.type}}" data-path="{{item.attr.path}}" data-src="{{item.attr.href}}" style="{{item.styleStr}}">
+        <view class="WxEmojiView bdParse-inline" s-if="{{item.attr.type == 'miniprogram'}}">
+          <text class="wxParseIconFonts vicon-miniprogram"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-elif="{{item.attr.type == 'document'}}">
+          <text class="wxParseIconFonts vicon-document"></text>
+        </view>
+        <view class="WxEmojiView bdParse-inline" s-else>
+          <text class="wxParseIconFonts vicon-link"></text>
+        </view>
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
-          <template is="bdParse12" data="{{ {item} }}" />
+          <template is="bdParse0" data="{{ {item} }}" />
         </block>
       </view>
     </block>
@@ -939,7 +1123,7 @@
     <block s-elif="{{item.tagType == 'block'}}">
       <view class="{{item.classStr}} bdParse-{{item.tag}}" style="{{item.styleStr}}">
         <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
-          <template is="bdParse12" data="{{ {item} }}" />
+          <template is="bdParse0" data="{{ {item} }}" />
         </block>
       </view>
     </block>
@@ -947,7 +1131,7 @@
     <!--内联标签-->
     <view s-else class="{{item.classStr}} bdParse-{{item.tag}} bdParse-{{item.tagType}}" style="{{item.styleStr}}">
       <block s-for="{{item.nodes}}" s-for-item="item" s-for-index="idx">
-        <template is="bdParse12" data="{{ {item} }}" />
+        <template is="bdParse0" data="{{ {item} }}" />
       </block>
     </view>
 

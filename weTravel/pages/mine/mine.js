@@ -79,7 +79,7 @@ Page({
   },
 
   getProfile: function (e) {
-    console.log(e);
+    //console.log(e);
     wx.showLoading({
       title: '正在登录...',
     })

@@ -56,8 +56,10 @@
               <text>{{item.date}}</text>
             </view>
           </view>
-          <view class="comment-header-right">
-            <text></text>
+          <view class="comment-header-right relative">
+            <text class="{{item.islike ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate'}}"> {{item.likes ? item.likes : 0}}</text>
+            <button tt:if="{{!user}}" class="userLogin" bindtap="getProfile"></button>
+            <button tt:else class="userLogin" id="{{item.id}}" data-index="{{index}}" bindtap="bindLikeComment"></button>
           </view>
         </view>
         <view class="comment-content" bindtap="replyComment" data-id="{{item.id}}" data-reply="{{item.author.name}}" data-parent="{{item.id?item.id:0}}" data-userid="{{item.userid}}" data-formId="{{item.formId}}" data-commentdate="{{item.date}}">
@@ -101,8 +103,8 @@
     </view>
   </view>
 
-   <view class="bottom">
-    <form catchsubmit="formSubmit" report-submit="true" tt:if="{{!showTextarea}}">
+  <view class="bottom" tt:if="{{!showTextarea}}">
+    <form catchsubmit="formSubmit" report-submit="true">
       <view class="bottom-bar {{isIphoneX?'bottom-bar-iphonex':''}} {{newsItem.forbidcomment?'forbid-comment':''}}">
         <image bindtap="bindBack" class="bottom-btn bottom-back" src="../../images/back.png"></image>
         <view class="bottom-btn bottom-text relative" style="width:260rpx">
@@ -125,21 +127,32 @@
         </button>
       </view>
     </form>
-   </view>
+  </view>
 
-    <view capture-catch:touchmove class="textareacontent" tt:if="{{showTextarea}}">
+  <view capture-catch:touchmove class="textareacontent" tt:if="{{showTextarea}}">
     <form catchsubmit="addComment" report-submit="true">
-        <view class="textheaders">
+      <view class="textheaders">
         <view bindtap="closeCommentary" class="cancel">取消</view>
-        <button tt:if="{{!user}}" class="nopublish" bindgetuserinfo="getProfile" openType="getUserInfo">登录</button>
-        <button tt:else formType="submit" class="publish">发布</button>
-        </view>
-        <view class="textareaBox" tt:if="{{showTextarea}}">
+        <button tt:if="{{!user}}" class="{{iscanpublish?'publish':'nopublish'}}" bindgetuserinfo="getProfile" openType="getUserInfo">登录</button>
+        <button tt:else form-type="submit" class="{{iscanpublish?'publish':'nopublish'}}">发布</button>
+      </view>
+      <view class="textareaBox" tt:if="{{showTextarea}}">
         <view class="textareaInput" tt:if="{{!focus}}">{{content}}</view>
         <textarea autoFocus="true" name="inputComment" bindinput="bindInputContent" bindblur="onReplyBlur" bindfocus="onRepleyFocus" class="textareaInput {{focus?'':'hide'}}" fixed="true" focus="{{focus}}" maxlength="1000" placeholder="{{placeholder}}" showConfirmBar="{{false}}" style="height: 286rpx;" value="{{content}}"></textarea>
         <view class="textNum">{{textNum}}/1000</view>
-        </view>
+      </view>
     </form>
+  </view>
+  <view bindtap="closeCommentary" class="pagemake" tt:if="{{showTextarea}}"></view>
+</view>
+<view class="widget-bar" tt:if="{{isPlaying}}">
+  <view class="widget-playing" bindtap="bindAudioPlay">
+    <view class="widget-playing-icon">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
     </view>
-    <view bindtap="closeCommentary" class="pagemake" tt:if="{{showTextarea}}"></view>
+  </view>
 </view>

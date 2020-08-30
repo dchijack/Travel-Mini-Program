@@ -16,9 +16,11 @@ Page({
    */
   data: {
     page: 1,
+    audio: '',
     detail:'',
     textNum: 0,
     comments: [],
+    isPlaying: false,
     placeholder: '输入评论'
   },
 
@@ -50,12 +52,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let user = app.globalData.user
-    if (!user) {
-      user = '';
+    if(app.globalData.user) {
+      this.setData({
+        user: app.globalData.user
+      })
     }
-    this.setData({
-      user: user,
+    this.audioCtx = wx.createInnerAudioContext()
+		this.audioCtx.onEnded(() => {
+			if(this.data.isPlaying) {
+				this.setData({isPlaying:false})
+			}
     })
   },
 
@@ -63,14 +69,16 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    this.audioCtx.pause()
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    if(this.data.isPlaying) {
+			this.audioCtx.stop()
+		}
   },
 
   /**
@@ -106,6 +114,26 @@ Page({
     }
   },
 
+  /**
+	 * 用户点击右上角分享至朋友圈
+	 */
+	onShareTimeline: function () {
+		return {
+			title: this.data.detail.title.rendered,
+			imageUrl: this.data.detail.meta.thumbnail
+		}
+	},
+	  
+	/**
+	 * 用户点击右上角添加到收藏
+	 */
+	onAddToFavorites: function () {
+		return {
+			title: this.data.detail.title.rendered,
+			imageUrl: this.data.detail.meta.thumbnail
+		}
+	},
+
   getPostsbyID: function(id) {
     let that = this;
     API.getPostsbyID(id).then(res => {
@@ -125,7 +153,7 @@ Page({
 
   getAdvert: function() {
     API.detailAdsense().then(res => {
-      console.log(res)
+      //console.log(res)
       if(res.status === 200) {
         this.setData({
           advert: res.data
@@ -325,7 +353,7 @@ Page({
   },
 
   replyComment: function(e) {
-    console.log(e)
+    //console.log(e)
     isFocusing = true
     let parent = e.currentTarget.dataset.parent
     let reply = e.currentTarget.dataset.reply
@@ -422,7 +450,7 @@ Page({
         focus: false
       })
     }
-    console.log(isFocusing)
+    //console.log(isFocusing)
   },
 
   bindInputContent: function(e) {
@@ -615,6 +643,209 @@ Page({
     context.fillText(excerpt.substring(45, 64), 35, 668)
     context.stroke()
     context.save()
+  },
+
+  bindCopyLink: function(link) {
+    wx.setClipboardData({
+      data: link,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: '复制链接',
+              icon: 'success',
+              duration: 2000
+            })
+          }
+        })
+      }
+    })
+  },
+
+  bindOpenDocument: function(link) {
+    wx.showLoading({
+      title: '正在下载...',
+      mask: true
+    })
+    wx.downloadFile({
+      url: link,
+      success: function (res) {
+        wx.hideLoading()
+        let filePath = res.tempFilePath
+        wx.showLoading({
+          title: '正在打开文档',
+          mask: true
+        })
+        wx.openDocument({
+          filePath: filePath,
+          success: function (res) {
+            console.log(res)
+            wx.showToast({
+              title: '打开文档成功',
+              icon: 'success',
+              duration: 2000
+            })
+          },
+          fail: function (err) {
+            console.log(err)
+            wx.showToast({
+              title: '打开文档失败',
+              icon: 'loading',
+              duration: 2000
+            })
+          },
+          complete: function () {
+            wx.hideLoading()
+          }
+        })
+      },
+      fail: function (err) {
+        console.log(err)
+        wx.hideLoading()
+        this.bindCopyLink(link)
+      }
+    })
+  },
+
+  wxParseTagATap: function(e) {
+    let that = this
+    let domain = API.getHost()
+	  let link = e.currentTarget.dataset.src
+	  let appid = e.currentTarget.dataset.appid
+	  let type = e.currentTarget.dataset.type
+    let path = e.currentTarget.dataset.path
+    if( typeof (type) != 'undefined' ) {
+      if( type == 'miniprogram' && typeof (appid) != 'undefined' && appid.length > 0  ) {
+        let app = ""
+        if( appid.indexOf('|') != -1 ) {
+          let apps = appid.split("|")
+          for (var i=0;i<apps.length;i++) {
+            if( apps[i].indexOf('wx') == 0 ) {
+              app = apps[i]
+              break
+            }
+          }
+        } else if( appid.indexOf('wx') == 0 ) {
+          app = appid
+        }
+        if( app ) {
+          if( typeof (path) != 'undefined' && path.length > 0 ) {
+            wx.navigateToMiniProgram({
+              appId: app.replace("wx-", ""),
+              path: path
+            })
+          } else {
+            wx.navigateToMiniProgram({
+              appId: app.replace("wx-", "")
+            })
+          }
+        } else {
+          that.bindCopyLink(link)
+        }
+      } else if( type == 'webview' ) {
+        wx.reLaunch({
+          url: '/pages/view/view?url=' + link
+        })
+      } else if( type == 'document' ) {
+        that.bindOpenDocument(link)
+      } else if( type == 'page' && typeof (path) != 'undefined' && path.length > 0 ) {
+        wx.reLaunch({
+					url: path
+				})
+      } else {
+        that.bindCopyLink(link)
+      }
+    } else {
+      if( /\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(link) ) {
+        wx.previewImage({
+          current: link,
+          urls: [link]
+        })
+      } else if(/\.(doc|docx|xls|xlsx|ppt|pptx|pdf)$/.test(link)) {
+        that.bindOpenDocument(link)
+      } else if( link.indexOf(domain.replace("https", "")) != -1 ) {
+        let slug = link.substring(link.lastIndexOf("/") + 1)
+        let id = slug.substring(0, slug.lastIndexOf("."))
+        if( slug.lastIndexOf(".") != -1 && /^[\d|\.]*$/.test(id) ) {
+					wx.reLaunch({
+						url: '/pages/detail/detail?id=' + id
+					})
+        } else {
+          that.bindCopyLink(link)
+        }
+      } else {
+        that.bindCopyLink(link)
+      }
+    }
+  },
+
+  bindLikeComment: function (e) {
+		let that = this
+		let id = e.currentTarget.id
+		let index = e.currentTarget.dataset.index
+		API.markComment({id:id}).then(res => {
+			if (res.status == 200) {
+				that.data.comments[index].islike = true
+				that.data.comments[index].likes += 1
+				that.setData({
+					comments: that.data.comments
+				})
+			} else if (res.status == 202) {
+				that.data.comments[index].islike = false
+				that.data.comments[index].likes -= 1
+				that.setData({
+					comments: that.data.comments
+				})
+			}
+		})
+		.catch(err => {
+			wx.showToast({
+				title: err.message,
+				duration: 1000
+			})
+		})
+	},
+
+  wxParseAudioPlay: function(e) {
+    let audio = e.currentTarget.dataset.src
+    if( !audio ) {
+      wx.showToast({
+        title: '获取音频错误',
+      })
+    } else {
+      if( this.data.isPlaying && this.data.audio ) {
+        if( this.data.audio == audio ) {
+          this.audioCtx.pause()
+          this.setData({
+            isPlaying: false
+          })
+        } else {
+          this.audioCtx.stop()
+          this.audioCtx.src = audio
+          this.audioCtx.play()
+          this.setData({
+            audio: audio,
+            isPlaying: true
+          })
+        }
+      } else {
+        this.audioCtx.src = audio
+        this.audioCtx.play()
+        this.setData({
+          audio: audio,
+          isPlaying: true
+        })
+      }
+    }
+  },
+
+  bindAudioPlay: function() {
+    if( this.data.isPlaying ) {
+      this.audioCtx.pause()
+      this.setData({
+        isPlaying: false
+      })
+    }
   }
 
 })

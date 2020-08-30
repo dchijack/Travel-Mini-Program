@@ -56,8 +56,10 @@
               <text>{{item.date}}</text>
             </view>
           </view>
-          <view class="comment-header-right">
-            <text></text>
+          <view class="comment-header-right relative">
+            <text class="{{item.islike ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate'}}"> {{item.likes ? item.likes : 0}}</text>
+            <button s-if="{{!user}}" class="userLogin" open-type="getUserInfo" bindgetuserinfo="getProfile"></button>
+            <button s-else class="userLogin" data-id="{{item.id}}" data-index="{{index}}" bindtap="bindLikeComment"></button>
           </view>
         </view>
         <view class="comment-content" bindtap="replyComment" data-id="{{item.id}}" data-reply="{{item.author.name}}" data-parent="{{item.id?item.id:0}}" data-userid="{{item.userid}}" data-formId="{{item.formId}}" data-commentdate="{{item.date}}">
@@ -101,23 +103,23 @@
     </view>
   </view>
 
-   <view class="bottom">
-    <form catchsubmit="formSubmit" report-submit="true" s-if="{{!showTextarea}}">
+   <view class="bottom" s-if="{{!showTextarea}}">
+    <form catchsubmit="formSubmit" report-submit="true">
       <view class="bottom-bar {{isIphoneX?'bottom-bar-iphonex':''}} {{newsItem.forbidcomment?'forbid-comment':''}}">
         <image bindtap="bindBack" class="bottom-btn bottom-back" src="../../images/back.png"></image>
         <view class="bottom-btn bottom-text relative" style="width:260rpx">
           <text>{{placeholder}}</text>
-          <button s-if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button s-if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
           <button s-else class="userLogin" bindtap="tapcomment"></button>
         </view>
         <view class="bottom-btn bottom-comment-container relative">
           <image class="bottom-comment" src="{{detail.isfav?'../../images/collected.png':'../../images/collect.png'}}"></image>
-          <button s-if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button s-if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
           <button s-else class="userLogin" bindtap="bindFavTap" id="{{detail.id}}" ></button>
         </view>
         <view class="bottom-btn bottom-comment-container">
           <image class="bottom-btn bottom-fav" src="{{detail.islike?'../../images/liked.png':'../../images/like.png'}}"></image>
-          <button s-if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" openType="getUserInfo"></button>
+          <button s-if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
           <button s-else class="userLogin" bindtap="bindLikeTap" id="{{detail.id}}"></button>
         </view>
         <button open-type="share" class="bottom-btn bottom-share bottom-fav btn-clear-style" plain="true">
@@ -131,8 +133,8 @@
     <form catchsubmit="addComment" report-submit="true">
         <view class="textheaders">
         <view bindtap="closeCommentary" class="cancel">取消</view>
-        <button s-if="{{!user}}" class="nopublish" bindgetuserinfo="getProfile" openType="getUserInfo">登录</button>
-        <button s-else formType="submit" class="publish">发布</button>
+        <button s-if="{{!user}}" class="{{iscanpublish?'publish':'nopublish'}}" bindgetuserinfo="getProfile" open-type="getUserInfo">登录</button>
+        <button s-else form-type="submit" class="{{iscanpublish?'publish':'nopublish'}}">发布</button>
         </view>
         <view class="textareaBox" s-if="{{showTextarea}}">
         <view class="textareaInput" s-if="{{!focus}}">{{content}}</view>
@@ -142,4 +144,15 @@
     </form>
     </view>
     <view bindtap="closeCommentary" class="pagemake" s-if="{{showTextarea}}"></view>
+</view>
+<view class="widget-bar" s-if="{{isPlaying}}">
+  <view class="widget-playing" bindtap="bindAudioPlay">
+    <view class="widget-playing-icon">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </view>
+  </view>
 </view>
