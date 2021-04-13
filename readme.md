@@ -12,6 +12,7 @@
 
 1. 分别有微信小程序前端、QQ 小程序前端和、百度智能小程序前端和字节跳动(今日头条)小程序
 2. weTravel 为微信小程序前端，qTravel 为 QQ 小程序前端， beTravel 为百度智能小程序前端，ttTravel 为字节跳动小程序(今日头条小程序)
+3. 由于 GitHub 访问受限，无法同步更新仓库版本，建议访问：[WPSTORM 网站下载](https://www.wpstorm.cn/)
 
 ## 安装指南
 
