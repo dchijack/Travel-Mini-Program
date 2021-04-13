@@ -302,8 +302,7 @@ Page({
 		})
 	},
 	
-	getProfile: function(e) {
-		//console.log(e)
+	getProfile: function() {
 		wx.showLoading({
 			title: '正在登录...',
 		})

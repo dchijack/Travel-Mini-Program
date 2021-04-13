@@ -61,7 +61,7 @@
           <view class="author-meta" bindtap="bindReplyComment" id="{{detail.id}}" data-parent="{{items.id}}" data-reply="{{items.author.name}}">{{items.author.name}}</view>
           <view class="author-meta">
             <text class="{{items.islike ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate'}}"> {{items.likes ? items.likes : 0}}</text>
-            <button wx:if="{{!user}}" class="thumbs-btn" open-type="getUserInfo" bindgetuserinfo="getProfile"></button>
+            <button wx:if="{{!user}}" class="thumbs-btn" bindtap="getProfile"></button>
             <button wx:else class="thumbs-btn" id="{{items.id}}" data-index="{{index}}" bindtap="bindLikeComment"></button>
           </view>
         </view>
@@ -85,7 +85,7 @@
     <view class="textheaders">
       <view bindtap="bindOutComment" class="cancel">取消</view>
       <button wx:if="{{user}}" class="{{iscanpublish?'publish':'nopublish'}}" bindtap="addComment">发布</button>
-      <button wx:else open-type="getUserInfo" bindgetuserinfo="getProfile" class="{{iscanpublish?'publish':'nopublish'}}">登陆</button>
+      <button wx:else bindtap="getProfile" class="{{iscanpublish?'publish':'nopublish'}}">登陆</button>
     </view>
     <view class="textareaBox" wx:if="{{showTextarea}}">
       <view class="textareaInput" wx:if="{{!isFocus}}">{{content}}</view>

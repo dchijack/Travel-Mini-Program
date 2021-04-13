@@ -88,18 +88,19 @@ API.login = function() {
 		if(Auth.check()){
 			resolve(Auth.user());
 		}else{
-			resolve(Auth.login());
+			Auth.login().then( res =>{
+				//console.log(res);
+				resolve(res);
+			}).catch( err =>{
+				reject(err);
+			})
 		}
 	});
 }
 
 API.logout = function() {
-	let logout = Auth.logout();
-	if(logout) {
+	if( Auth.logout() ) {
 		getApp().globalData.user = '';
-		tt.reLaunch({
-			url: '/pages/index/index'
-		})
 	} else {
 		tt.showToast({
 			title: '注销失败!',
@@ -142,22 +143,17 @@ API.storageUser = function(res) {
 	tt.setStorageSync('openid', res.openid);
 	if(res.access_token){
 		tt.setStorageSync('token', res.access_token);
-		tt.setStorageSync('expired_in', Date.now() + parseInt(res.expired_in, 10) * 100000 - 60000);
+		tt.setStorageSync('expired_in', new Date(res.expired_in).getTime());
 	}
 }
 
- /**
- * 需要授权的接口调用
- * @param	{Function} fn
- * @return {Promise}
- */
 API.guard = function(fn) {
 	const self = this
 	return function() {
 		if(API.getUser()) {
 			return fn.apply(self, arguments)
 		} else {
-			return API.getUserInfo().then(res => {
+			return API.getProfile().then(res => {
 				console.log('登录成功', res);
 				return fn.apply(self, arguments)
 			}, err => {

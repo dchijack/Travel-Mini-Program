@@ -96,11 +96,6 @@ const getComments = function(data) {
 	return API.get('/wp-json/mp/v1/comments', data);
 }
 
-// 授权登录
-const getProfile = function(data) {
-	return API.post('/wp-json/mp/v1/baidu/login', data, { token: false });
-}
-
 // 注销登录
 const Loginout = function() {
 	return API.logout();
@@ -199,7 +194,6 @@ API.getMostLikePosts			  	= getMostLikePosts
 API.getMostCommentPosts				= getMostCommentPosts
 API.getRecentCommentPosts			= getRecentCommentPosts
 API.getComments					    = getComments
-API.getProfile					    = getProfile
 API.fav							    = API.guard(fav)
 API.getFavPosts					    = API.guard(getFavPosts)
 API.like						    = API.guard(like)

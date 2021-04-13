@@ -1,13 +1,12 @@
 <!--pages/mine/mine.wxml-->
 <view class="user-container" style="min-height: 100vh; padding-top: {{navBarHeight}}px;">
-  <view class="user-information relative">
+  <view class="user-information relative" bindtap="getProfile">
     <view wx:if="{{user.avatarUrl}}" class="user-information_img" style="background-image: url('{{user.avatarUrl}}')"></view>
     <image wx:else class="user-information_img" src="../../images/avatar.png"></image>
     <view class="nickname">
       <view class="user-information_nickname">{{user.nickName?user.nickName:'游客'}}</view>
       <view class="user-information_introduction">{{user?'丸子小程序就是好看!':'点击这里授权登录'}}</view>
     </view>
-    <button class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
   </view>
   <view class="user-items">
     <view class="user-item relative">
@@ -16,7 +15,7 @@
         <image class="user-item_icon_img" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/my-inform.svg"></image>
         <view class="user-item_icon_sup" wx:if="{{unreadMessageCount>0}}">{{unreadMessageCount}}</view>
       </view>
-      <button wx:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
+      <button wx:if="{{!user}}" class="userLogin" bindtap="getProfile"></button>
       <button wx:else class="userLogin" data-url="/pages/posts/posts?id=1" bindtap="bindHandler"></button>
     </view>
     <view class="user-item relative">
@@ -24,7 +23,7 @@
       <view class="user-item_icon">
         <image class="user-item_icon_img" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/my-like.svg"></image>
       </view>
-      <button wx:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
+      <button wx:if="{{!user}}" class="userLogin" bindtap="getProfile"></button>
       <button wx:else class="userLogin" data-url="/pages/posts/posts?id=2" bindtap="bindHandler"></button>
     </view>
     <view class="user-item relative">
@@ -32,7 +31,7 @@
       <view class="user-item_icon">
         <image class="user-item_icon_img" src="https://cloud-minapp-16269.cloud.ifanrusercontent.com/my-dynamic.svg"></image>
       </view>
-      <button wx:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
+      <button wx:if="{{!user}}" class="userLogin" bindtap="getProfile"></button>
       <button wx:else class="userLogin" data-url="/pages/posts/posts?id=3" bindtap="bindHandler"></button>
     </view>
     <view class="user-item relative">
@@ -40,7 +39,7 @@
       <view class="user-item_icon">
         <image class="user-item_icon_img" src="../../images/subscribe.png"></image>
       </view>
-      <button wx:if="{{!user}}" class="userLogin" bindgetuserinfo="getProfile" open-type="getUserInfo"></button>
+      <button wx:if="{{!user}}" class="userLogin" bindtap="getProfile"></button>
       <button wx:else class="userLogin" bindtap="bindSubscribe"></button>
     </view>
     <view class="user-item">

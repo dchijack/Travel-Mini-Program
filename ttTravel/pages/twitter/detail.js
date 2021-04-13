@@ -262,8 +262,7 @@ Page({
 		})
 	},
 	
-	getProfile: function(e) {
-		//console.log(e)
+	getProfile: function() {
 		tt.showLoading({
 			title: '正在登录...',
 		})

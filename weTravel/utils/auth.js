@@ -6,26 +6,14 @@
 
 const Auth = {}
 
-/**
- * 获取当前登陆用户信息
- * @return {object}
- */
 Auth.user = function() {
     return wx.getStorageSync('user');
 }
 
-/**
- * 获取token
- * @return {string}
- */
 Auth.token = function() {
     return wx.getStorageSync('token');
 }
 
-/**
- * 判断是否有效期
- * @return {boolean}
- */
 Auth.check = function() {
     let user = Auth.user()
     let token = Auth.token()
@@ -37,10 +25,6 @@ Auth.check = function() {
     }
 }
 
-/**
- * 登录
- * @return {Promise} 登录信息
- */
 Auth.login = function() {
     return new Promise(function(resolve, reject) {
         wx.login({
@@ -54,10 +38,6 @@ Auth.login = function() {
     });
 }
 
-/**
- * 注销
- * @return {boolean}
- */
 Auth.logout = function() {
     wx.removeStorageSync('user')
     wx.removeStorageSync('token')
@@ -65,25 +45,40 @@ Auth.logout = function() {
     return true
 }
 
-/**
- * 获取授权登录加密数据
- */
+Auth.getUserProfile = function( ) {
+    return new Promise(function(resolve, reject) {
+        wx.getUserProfile({
+            desc: "用于完善会员基本信息",
+            success: function(res){
+                let args = {}
+                args.iv = encodeURIComponent(res.iv);
+                args.encryptedData = encodeURIComponent(res.encryptedData);
+                resolve(args);
+            },
+            fail: function(err) {
+                reject(err);
+            }
+        });
+    });
+}
+
 Auth.getUserInfo = function(){
     return new Promise(function(resolve, reject) {
-		Auth.login().then(data => {
-			let args = {}
-			args.code = data.code;
-			wx.getUserInfo({
-				success: function (res) {
-					//console.log(res);
-					args.iv = encodeURIComponent(res.iv);
-					args.encryptedData = encodeURIComponent(res.encryptedData);
-					resolve(args);
-				},
-				fail: function (err) {
-					reject(err);
-				}
-			});
+		Auth.getUserProfile().then(res => {
+            let args = {}
+            args.iv = res.iv;
+			args.encryptedData = res.encryptedData;
+            Auth.login().then(res => {
+                args.code = res.code
+                resolve(args);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+        .catch(err => {
+            console.log(err)
+			wx.hideLoading()
 		})
     });
 }

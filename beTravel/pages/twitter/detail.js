@@ -232,51 +232,23 @@ Page({
 		})
 	},
 	
-	getProfile: function(e) {
-		if(app.globalData.user){
-			this.setData({user: app.globalData.user})
-		} else {
+	getProfile: function (e) {
+		if( ! app.globalData.user ) {
 			swan.showLoading({
 				title: '正在登录!',
 				mask: true
 			})
-			if(e.detail.encryptedData) {
-				let args = {}
-				let that = this
-				args.iv = encodeURIComponent(e.detail.iv)
-				args.encryptedData = encodeURIComponent(e.detail.encryptedData)
-				swan.login({
-					success: function(res) {
-						swan.hideLoading()
-						args.code = res.code
-						API.getProfile(args).then(res => {
-							//console.log(res)
-							API.storageUser(res)
-							that.setData({user:res.user})
-						})
-						.catch(err => {
-							console.log(err)
-						})
-					},
-					fail: function(err) {
-						console.log(err)
-						swan.hideLoading()
-					}
+			API.getProfile(e).then(res => {
+				//console.log(res)
+				this.setData({
+					user: res
 				})
-			} else {
-				swan.getSystemInfo({
-					success: e => {
-						//console.log(e)
-						swan.hideLoading()
-						if(e.platform == 'devtools') {
-							swan.showModal({
-								title: '提示',
-								content: '请使用手机预览调试'
-							})
-						}
-					}
-				})
-			}
+				swan.hideLoading()
+			})
+			.catch(err => {
+				console.log( err )
+				swan.hideLoading()
+			})
 		}
 	},
 	

@@ -88,32 +88,43 @@ API.login = function() {
 		if(Auth.check()){
 			resolve(Auth.user());
 		} else {
-			swan.login({
-				success: function(res) {
-					resolve(res);
-				},
-				fail: function(err) {
-					reject(err);
-				}
+			Auth.login().then( res =>{
+				//console.log(res);
+				resolve(res);
+			}).catch( err =>{
+				reject(err);
 			})
 		}
 	});
 }
 
 API.logout = function() {
-	let logout = Auth.logout();
-	if(logout) {
+	if( Auth.logout() ) {
 		getApp().globalData.user = '';
-		swan.reLaunch({
-			url: '/pages/index/index'
-		})
 	} else {
 		swan.showToast({
 			title: '注销失败!',
-			icon: "loading",
+			icon: 'loading',
 			duration: 1000,
 		})
 	}
+}
+
+API.getProfile = function(e) {
+	return new Promise(function(resolve, reject) {
+		Auth.getUserInfo(e).then(data=>{
+			API.post('/wp-json/mp/v1/baidu/login', data, { token: false }).then(res => {
+				API.storageUser(res);
+				console.log(res);
+				resolve(res.user);
+			}, err => {
+				reject(err);
+			});
+		})
+		.catch( err =>{
+			reject(err);
+		})
+	});
 }
 
 API.token = function() {
@@ -132,15 +143,10 @@ API.storageUser = function(res) {
 	swan.setStorageSync('openid', res.openid);
 	if(res.access_token){
 		swan.setStorageSync('token', res.access_token);
-		swan.setStorageSync('expired_in', Date.now() + parseInt(res.expired_in, 10) * 100000 - 60000);
+		swan.setStorageSync('expired_in', new Date(res.expired_in).getTime());
 	}
 }
 
- /**
- * 需要授权的接口调用
- * @param	{Function} fn
- * @return {Promise}
- */
 API.guard = function(fn) {
 	const self = this
 	return function() {

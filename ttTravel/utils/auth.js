@@ -6,26 +6,14 @@
 
 const Auth = {}
 
-/**
- * 获取当前登陆用户信息
- * @return {object}
- */
 Auth.user = function() {
     return tt.getStorageSync('user');
 }
 
-/**
- * 获取token
- * @return {string}
- */
 Auth.token = function() {
     return tt.getStorageSync('token');
 }
 
-/**
- * 判断是否有效期
- * @return {boolean}
- */
 Auth.check = function() {
     let user = Auth.user()
     let token = Auth.token()
@@ -37,10 +25,6 @@ Auth.check = function() {
     }
 }
 
-/**
- * 登录
- * @return {Promise} 登录信息
- */
 Auth.login = function() {
     return new Promise(function(resolve, reject) {
         tt.login({
@@ -54,10 +38,6 @@ Auth.login = function() {
     });
 }
 
-/**
- * 注销
- * @return {boolean}
- */
 Auth.logout = function() {
     tt.removeStorageSync('user')
     tt.removeStorageSync('token')
@@ -65,9 +45,6 @@ Auth.logout = function() {
     return true
 }
 
-/**
- * 获取授权登录加密数据
- */
 Auth.getUserInfo = function(){
     return new Promise(function(resolve, reject) {
 		Auth.login().then(data => {

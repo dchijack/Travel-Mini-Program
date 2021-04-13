@@ -6,26 +6,14 @@
 
 const Auth = {}
 
-/**
- * 获取当前登陆用户信息
- * @return {object}
- */
 Auth.user = function() {
     return swan.getStorageSync('user');
 }
 
-/**
- * 获取token
- * @return {string}
- */
 Auth.token = function() {
     return swan.getStorageSync('token');
 }
 
-/**
- * 判断是否有效期
- * @return {boolean}
- */
 Auth.check = function() {
     let user = Auth.user()
     let token = Auth.token()
@@ -37,10 +25,6 @@ Auth.check = function() {
     }
 }
 
-/**
- * 登录
- * @return {Promise} 登录信息
- */
 Auth.login = function() {
     return new Promise(function(resolve, reject) {
         swan.login({
@@ -54,10 +38,6 @@ Auth.login = function() {
     });
 }
 
-/**
- * 注销
- * @return {boolean}
- */
 Auth.logout = function() {
     swan.removeStorageSync('user')
     swan.removeStorageSync('token')
@@ -65,25 +45,47 @@ Auth.logout = function() {
     return true
 }
 
-/**
- * 获取授权登录加密数据
- */
-Auth.getUserInfo = function(){
+Auth.getUserProfile = function(e) {
     return new Promise(function(resolve, reject) {
-		Auth.login().then(data => {
-			let args = {}
-			args.code = data.code;
-			swan.getUserInfo({
-				success: function (res) {
-                    //console.log(res);
-                    args.iv = encodeURIComponent(res.iv);
-					args.encryptedData = encodeURIComponent(res.data);
-					resolve(args);
-				},
-				fail: function (err) {
-					reject(err);
-				}
-			});
+        if( e.detail.encryptedData && e.detail.iv ) {
+            let args = {}
+            args.iv = encodeURIComponent( e.detail.iv )
+			args.encryptedData = encodeURIComponent( e.detail.encryptedData )
+            resolve(args);
+        } else {
+            swan.getSystemInfo({
+                success: p => {
+                    reject(e)
+                    swan.hideLoading()
+                    if( p.platform == 'devtools' ) {
+                        swan.showModal({
+                            title: '温馨提示',
+                            content: '当前为开发工具环境,请使用手机预览调试'
+                        })
+                    }
+                }
+            })
+        }
+    });
+}
+
+Auth.getUserInfo = function(e) {
+    return new Promise(function(resolve, reject) {
+		Auth.getUserProfile(e).then(ret => {
+            let args = {}
+            args.iv = ret.iv;
+			args.encryptedData = ret.encryptedData;
+            Auth.login().then(res => {
+                args.code = res.code
+                resolve(args);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+        .catch(err => {
+            console.log(err)
+			swan.hideLoading()
 		})
     });
 }

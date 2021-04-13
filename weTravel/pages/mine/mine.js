@@ -78,13 +78,12 @@ Page({
 
   },
 
-  getProfile: function (e) {
-    //console.log(e);
+  getProfile: function () {
     wx.showLoading({
       title: '正在登录...',
     })
     API.getProfile().then(res => {
-      console.log(res)
+      //console.log(res)
       this.setData({
         user: res
       })

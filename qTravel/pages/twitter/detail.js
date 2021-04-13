@@ -262,8 +262,7 @@ Page({
 		})
 	},
 	
-	getProfile: function(e) {
-		//console.log(e)
+	getProfile: function() {
 		qq.showLoading({
 			title: '正在登录...',
 		})

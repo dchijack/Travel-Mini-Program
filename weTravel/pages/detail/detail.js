@@ -278,7 +278,7 @@ Page({
   },
 
   addComment: function(e) {
-    console.log(e)
+    //console.log(e)
     let args = {}
     let that = this
     args.id = this.data.detail.id
@@ -301,7 +301,7 @@ Page({
       })
     } else {
       API.addComment(args).then(res => {
-        console.log(res)
+        //console.log(res)
         if (res.status === 200) {
           this.setData({
             page: 1,
@@ -405,13 +405,12 @@ Page({
 	  })
   },
 
-  getProfile: function(e) {
-    console.log(e)
+  getProfile: function() {
     wx.showLoading({
       title: '正在登录...',
     })
     API.getProfile().then(res => {
-        console.log(res)
+        //console.log(res)
         this.setData({
           user: res
         })
