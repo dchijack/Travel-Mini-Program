@@ -6,310 +6,175 @@
 
 const API = require('./base')
 
-/**
- * 获取站点信息
- * @param  {object} args 参数,默认为空
- * @return {promise}
- */
+// 小程序基本信息
 const getSiteInfo = function(data) {
 	return API.get('/wp-json/mp/v1/setting', data);
 }
 
-/**
- * 获取置顶文章
- * @param  {object} args 参数,默认为空
- * @return {promise}
- */
+// 置顶文章
 const getStickyPosts = function(data) {
 	return API.get('/wp-json/mp/v1/posts/sticky', data);
 }
 
-/**
- * 获取文章列表
- * @param  {object} args 参数,默认为空
- * 参数可以访问: http://v2.wp-api.org/ 了解相关参数
- * @return {promise}
- */
+// 文章列表
 const getPostsList = function(data) {
 	return API.get('/wp-json/wp/v2/posts', data, { token:true });
 }
 
-/**
- * 获取文章详情
- * @param  {int} id 文章id
- * @return {promise}
- */
+// 文章详情
 const getPostsbyID = function(id){
 	return API.get('/wp-json/wp/v2/posts/'+id, {}, { token:true });   
 }
 
-/**
- * 获取页面列表
- * @param  {object} args 参数,默认为空
- * 参数可以访问: http://v2.wp-api.org/ 了解相关参数
- * @return {promise}
- */
+// 页面列表
 const getPagesList = function(data){
 	return API.get('/wp-json/wp/v2/pages', data);   
 }
 
-/**
- * 获取页面详情
- * @param  {int} id 页面id
- * @return {promise}
- */
+// 页面详情
 const getPageByID = function(id){
 	return API.get('/wp-json/wp/v2/pages/'+id);   
 }
 
-/**
- * 获取所有分类列表
- * @param  {object} args 参数
- * 参数可以访问: http://v2.wp-api.org/ 了解相关参数
- * @return {promise}
- */
+// 分类列表
 const getCategories = function(data){
 	return API.get('/wp-json/wp/v2/categories?orderby=id&order=asc', data);
 }
 
-/**
- * 获取指定分类
- * @param {int} id 分类ID
- * @return {promise}
- */
+// 分类信息
 const getCategoryByID = function(id){
 	return API.get('/wp-json/wp/v2/categories/'+id);   
 }
 
-/**
- * 获取所有标签列表
- * @param  {object} args 参数
- * 参数可以访问: http://v2.wp-api.org/ 了解相关参数
- * @return {promise}
- */
+// 标签列表
 const getTags = function(data){
 	return API.get('/wp-json/wp/v2/tags?orderby=id&order=asc', data);   
 }
 
-/**
- * 获取指定标签
- * @param  {int} id 标签ID
- * @return {promise}
- */
+// 标签信息
 const getTagByID = function(id){
 	return API.get('/wp-json/wp/v2/tags/'+id);   
 }
 
-/**
- * 获取随机文章列表
- * @param  {object} args 参数,默认为空
- * @return {promise}
- */
+// 随机文章
 const getRandPosts = function(data){
 	return API.get('/wp-json/mp/v1/posts/rand', data);   
 }
 
-/**
- * 获取相关文章列表
- * @param  {object} data 参数
- * @return {promise}
- */
+// 相关文章
 const getRelatePosts = function(data){
 	return API.get('/wp-json/mp/v1/posts/relate', data);   
 }
 
-/**
- * 获取热门文章列表
- * @param  {object} args 参数,默认为空
- * @return {promise}
- */
+// 热门阅读
 const getMostViewsPosts = function(data){
 	return API.get('/wp-json/mp/v1/posts/most?meta=views', data);   
 }
 
-/**
- * 获取热门收藏文章列表
- * @param  {object} args 参数
- * @return {promise}
- */
+// 热门收藏
 const getMostFavPosts = function(data){
 	return API.get('/wp-json/mp/v2/posts/most?meta=favs', data);   
 }
 
-/**
- * 获取热门点赞文章列表
- * @param  {object} args 参数
- * @return {promise}
- */
+// 热门点赞
 const getMostLikePosts = function(data){
 	return API.get('/wp-json/mp/v2/posts/most?meta=likes', data);   
 }
 
-/**
- * 获取热评文章列表
- * @param  {object} args 参数,默认为空
- * @return {promise}
- */
+// 热门评论
 const getMostCommentPosts = function(data){
 	return API.get('/wp-json/mp/v2/posts/most?meta=comments', data);   
 }
 
-/**
- * 获取近期评论文章
- * @param  {object} args 参数,默认为空
- * @return {promise}
- */
+// 最新评论
 const getRecentCommentPosts = function(data){
 	return API.get('/wp-json/mp/v1/posts/comment', data);   
 }
 
-/**
- * 文章评论列表
- * @param  {object} args 参数,默认为空
- * @return {promise}
- */
+// 文章评论
 const getComments = function(data) {
 	return API.get('/wp-json/mp/v1/comments', data);
 }
 
-/**
- * 获取用户信息
- * @param  {object} args 参数
- * @return {promise}
- */
+// 授权登录
 const getProfile = function(data) {
-	return API.post('/wp-json/mp/v1/baidu/login', data, {
-		token: false
-	});
+	return API.post('/wp-json/mp/v1/baidu/login', data, { token: false });
 }
 
-/**
- * 注销用户登录
- * @param  {object} args 参数
- * @return {promise}
- */
+// 注销登录
 const Loginout = function() {
 	return API.logout();
 }
 
-/**
- * 收藏文章
- * @param  {object} args 参数,POST 文章id
- * TOKEN 参数为 true ,需要用户授权使用
- * @return {promise}
- */
+// 收藏文章
 const fav = function(data) {
 	return API.post('/wp-json/mp/v1/comments?type=fav', data, { token: true });
 }
 
-/**
- * 点赞文章
- * @param  {object} args 参数,POST 文章id
- * TOKEN 参数为 true ,需要用户授权使用
- * @return {promise}
- */
+// 点赞文章
 const like = function(data) {
 	return API.post('/wp-json/mp/v1/comments?type=like', data, { token: true });
 }
 
-/**
- * 我的收藏文章列表
- * @param  {object} args 参数
- * TOKEN 参数为 true ,需要用户授权使用
- * @return {promise}
- */
+// 收藏列表
 const getFavPosts = function(data) {
 	return API.get('/wp-json/mp/v1/posts/comment?type=fav', data, { token: true });
 }
 
-/**
- * 我的点赞文章列表
- * @param  {object} args 参数
- * TOKEN 参数为 true ,需要用户授权使用
- * @return {promise}
- */
+// 点赞列表
 const getLikePosts = function(data) {
 	return API.get('/wp-json/mp/v1/posts/comment?type=like', data, { token: true });
 }
 
-/**
- * 我的评论文章列表
- * @param  {object} args 参数
- * TOKEN 参数为 true ,需要用户授权使用
- * @return {promise}
- */
+// 评论列表
 const getCommentsPosts = function(data) {
 	return API.get('/wp-json/mp/v1/posts/comment?type=comment', data, { token: true });
 }
 
-/**
- * 发表评论
- * @param  {object} args 参数, POST 评论内容及文章id
- * TOKEN 参数为 true ,需要用户授权使用
- * @return {promise}
- */
+// 发布评论
 const addComment = function(data) {
 	return API.post('/wp-json/mp/v1/comments?type=comment', data, { token: true });
 }
 
-/**
- * 导航数据
- */
+// 导航菜单
 const getMenuSetting = function(data) {
 	return API.get('/wp-json/mp/v1/menu', data);
 }
 
-/**
- * 首页广告数据
- */
+// 首页广告
 const indexAdsense = function(data) {
 	return API.get('/wp-json/mp/v1/advert/baidu?type=index', data);
 }
 
-/**
- * 列表广告数据
- */
+// 列表广告
 const listAdsense = function(data) {
 	return API.get('/wp-json/mp/v1/advert/baidu?type=list', data);
 }
 
-/**
- * 详情广告数据
- */
+// 详情广告
 const detailAdsense = function(data) {
 	return API.get('/wp-json/mp/v1/advert/baidu?type=detail', data);
 }
 
-/**
- * 页面广告数据
- */
+
+// 页面广告
 const pageAdsense = function(data) {
 	return API.get('/wp-json/mp/v1/advert/baidu?type=page', data);
 }
 
-/**
- * 获取公众号推文
- * @param  {object} args 参数,默认为空
- * @return {promise}
- */
+// 推文列表(需要安装小艾公众号插件)
 const getTwitterPosts = function(data) {
 	return API.get('/wp-json/wp/v2/tweets', data);
 }
   
-/**
- * 获取推文详情
- * @param  {int} id 文章id
- * @return {promise}
- */
+// 推文详情(需要安装小艾公众号插件)
 const getTwitterDetail = function(id) {
 	return API.get('/wp-json/wp/v2/tweets/' + id, {}, {
 		token: true
 	});
 }
   
-/**
- * 推文评论点赞
- */
+// 评论点赞
 const markComment = function (args) {
 	return API.post('/wp-json/mp/v1/comments/mark', args, {
 		token: true,

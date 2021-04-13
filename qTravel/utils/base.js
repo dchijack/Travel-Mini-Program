@@ -108,7 +108,7 @@ API.logout = function() {
 	}
 }
 
-API.getUserInfo = function() {
+API.getProfile = function() {
 	return new Promise(function(resolve, reject) {
 		Auth.getUserInfo().then(data=>{
 			API.post('/wp-json/mp/v1/tencent/login', data, { token: false }).then(res => {
