@@ -16,7 +16,7 @@
 
 ## 安装指南
 
-1. 点击 Clone or download 下拉选择 Download ZIP 或者[点击这里](https://github.com/dchijack/Travel-Mini-Program/releases)下载源码包
+1. 点击 Clone or download 下拉选择 Download ZIP 下载源码包
 
 2. 解压压缩包后, 打开 weTravel / qTravel / beTravel / ttTravel 文件夹 utils 目录下的 base.js
 
