@@ -15,13 +15,15 @@ Page({
    * 页面的初始数据
    */
   data: {
+    id: 0,
     page: 1,
     audio: '',
     detail:'',
     textNum: 0,
     comments: [],
     isPlaying: false,
-    placeholder: '输入评论'
+    placeholder: '输入评论',
+    user: app.globalData.user
   },
 
   /**
@@ -36,8 +38,12 @@ Page({
         })
       }
     })
-    this.setData({options:options})
-    this.getPostsbyID(options.id)
+    if( options.id ) {
+      this.setData({
+        id: options.id
+      })
+      this.getPostsbyID(options.id)
+    }
     this.getAdvert()
   },
 
@@ -52,11 +58,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if(app.globalData.user) {
-      this.setData({
-        user: app.globalData.user
-      })
-    }
+    let user = API.getUser()
+		if( user ) {
+			this.setData({
+				user: user
+			})
+		}
     this.audioCtx = swan.createInnerAudioContext()
 		this.audioCtx.onEnded(() => {
 			if(this.data.isPlaying) {
@@ -90,7 +97,7 @@ Page({
       detail: '',
       comments: []
     })
-    this.getPostsbyID(this.data.options.id)
+    this.getPostsbyID(this.data.id)
     this.getComments()
   },
 
@@ -163,7 +170,7 @@ Page({
 
   getComments: function() {
     API.getComments({
-      id: this.data.options.id,
+      id: this.data.id,
       page: this.data.page
     }).then(res => {
       let data = {}

@@ -20,18 +20,21 @@ Page({
 		detail: '',
 		textCount: 0,
 		comments: [],
-		placeholder: '输入评论'
+		placeholder: '输入评论',
+		user: app.globalData.user
 	},
 
 	/**
 	* 生命周期函数--监听页面加载
 	*/
 	onLoad: function (options) {
-		this.setData({
-			id: options.id
-		})
+		if( options.id ) {
+			this.setData({
+				id: options.id
+			})
+			this.getTwitterDetail(options.id)
+		}
 		this.getAdvert()
-		this.getTwitterDetail(options.id)
 	},
 
 	/**
@@ -45,9 +48,10 @@ Page({
 	* 生命周期函数--监听页面显示
 	*/
 	onShow: function () {
-		if (app.globalData.user) {
+		let user = API.getUser()
+		if( user ) {
 			this.setData({
-				user: app.globalData.user
+				user: user
 			})
 		}
 	},
