@@ -143,7 +143,7 @@ API.storageUser = function(res) {
 	swan.setStorageSync('openid', res.openid);
 	if(res.access_token){
 		swan.setStorageSync('token', res.access_token);
-		swan.setStorageSync('expired_in', new Date(res.expired_in).getTime());
+		swan.setStorageSync('expired_in', res.expired_in);
 	}
 }
 

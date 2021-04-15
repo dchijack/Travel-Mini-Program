@@ -151,7 +151,7 @@ API.storageUser = function(res) {
 	wx.setStorageSync('openid', res.openid);
 	if(res.access_token){
 		wx.setStorageSync('token', res.access_token);
-		wx.setStorageSync('expired_in', new Date(res.expired_in).getTime());
+		wx.setStorageSync('expired_in', res.expired_in);
 	}
 }
 

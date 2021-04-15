@@ -142,7 +142,7 @@ API.storageUser = function(res) {
 	qq.setStorageSync('openid', res.openid);
 	if(res.access_token){
 		qq.setStorageSync('token', res.access_token);
-		qq.setStorageSync('expired_in', new Date(res.expired_in).getTime());
+		qq.setStorageSync('expired_in', res.expired_in);
 	}
 }
 

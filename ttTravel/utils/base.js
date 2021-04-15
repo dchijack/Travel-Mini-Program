@@ -143,7 +143,7 @@ API.storageUser = function(res) {
 	tt.setStorageSync('openid', res.openid);
 	if(res.access_token){
 		tt.setStorageSync('token', res.access_token);
-		tt.setStorageSync('expired_in', new Date(res.expired_in).getTime());
+		tt.setStorageSync('expired_in', res.expired_in);
 	}
 }
 
