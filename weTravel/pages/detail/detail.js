@@ -197,7 +197,7 @@ Page({
   },
 
   bindFavTap: function(e) {
-    console.log(e)
+    //console.log(e)
     let args = {}
     let detail = this.data.detail
     args.id = detail.id
@@ -241,7 +241,7 @@ Page({
   },
 
   bindLikeTap: function(e) {
-    console.log(e)
+    //console.log(e)
     let args = {}
     let detail = this.data.detail
     args.id = detail.id
@@ -310,7 +310,7 @@ Page({
       API.addComment(args).then(res => {
         //console.log(res)
         if (res.status === 200) {
-          this.setData({
+          that.setData({
             page: 1,
             showTextarea: false,
             content: "",
@@ -324,14 +324,14 @@ Page({
               content: res.message
             })
           }, 900)
-          if (!this.data.isComments) {
-            this.setData({
+          if (!that.data.isComments) {
+            that.setData({
               isComments: true,
               placeholder: ''
             })
           }
-          this.bindSubscribe()
-          this.getComments()
+          that.bindSubscribe()
+          that.getComments()
         } else if (res.status === 500) {
           wx.showModal({
             title: '提示',

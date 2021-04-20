@@ -27,14 +27,25 @@ Auth.check = function() {
 
 Auth.login = function() {
     return new Promise(function(resolve, reject) {
-        swan.login({
-            success: function(res) {
-                resolve(res);
-            },
-            fail: function(err) {
-                reject(err);
-            }
-        });
+        if( swan.canIUse('getLoginCode') ) {
+            swan.getLoginCode({
+                success: function(res){
+                    resolve(res);
+                },
+                fail: function(err) {
+                    reject(err);
+                }
+            });
+        } else {
+            swan.login({
+                success: function(res) {
+                    resolve(res);
+                },
+                fail: function(err) {
+                    reject(err);
+                }
+            });
+        }
     });
 }
 

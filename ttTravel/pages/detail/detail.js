@@ -289,9 +289,9 @@ Page({
       })
     } else {
       API.addComment(args).then(res => {
-        console.log(res)
+        //console.log(res)
         if (res.status === 200) {
-          this.setData({
+          that.setData({
             page: 1,
             showTextarea: false,
             content: "",
@@ -305,13 +305,13 @@ Page({
               content: res.message
             })
           }, 900)
-          if (!this.data.isComments) {
-            this.setData({
+          if (!that.data.isComments) {
+            that.setData({
               isComments: true,
               placeholder: ''
             })
           }
-          this.getComments()
+          that.getComments()
         } else if (res.status === 500) {
           tt.showModal({
             title: '提示',
